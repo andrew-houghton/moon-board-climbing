@@ -2,7 +2,7 @@
 
 Using Neural Networks to generate new rock climbs for the moon board.
 
-##Details
+## Details
 
 An [LSTM](https://github.com/karpathy/char-rnn) and [HyperGAN](https://github.com/255BITS/HyperGAN) were used to generate new climbs.
 
