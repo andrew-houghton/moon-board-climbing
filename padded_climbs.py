@@ -1,9 +1,9 @@
 import pickle
-all_data = pickle.load( open('crop_data.pickle', 'rb'))
+all_data = pickle.load( open('pickles/crop_data.pickle', 'rb'))
 
 # Encoding constants
 padding_character='_'
-climb_seperator='\n'
+climb_seperator='|'
 max_moves=13
 num_base=96
 grade_base=44
@@ -62,7 +62,7 @@ def character_decode(climb_chars):
 # TEXT FILE SAVING
 climb_strings = [character_represet(all_data[i]) for i in all_data]
 
-filename='padded_climbs.txt'
+filename='climb_text/padded_climbs.txt'
 f=open(filename,'w')
 f.write(climb_seperator.join(climb_strings))
 f.close()

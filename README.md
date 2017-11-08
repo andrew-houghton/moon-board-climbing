@@ -24,8 +24,14 @@ To train the model run the command
 
 ```python train.py --data_dir data/climbs/```
 
+You can view training progress by launching tensorboard and visiting the [TensorBoard Dashboard](http://localhost:6006/).
+
+```tensorboard --logdir=./logs/```
+
 **Sampling;**
 
-To get new climbs from the model run the command
+To get new climbs from the model run the command.
 
-```python sample.py```
+```python sample.py -n 2000 --prime '0'```
+
+This example gets 2800 characters worth of climbs, which is 100 climbs.
