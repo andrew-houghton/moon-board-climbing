@@ -12,7 +12,7 @@ These were processed and converted into .png files and strings before they were 
 
 **Example Climb:**
 
-G2,J7,J8,D8,D10,A5,A13,F6,D16,C18_13
+```KeGhFjIlHpKr______________2```
 
 ## Training Models
 
