@@ -32,6 +32,6 @@ You can view training progress by launching tensorboard and visiting the [Tensor
 
 To get new climbs from the model run the command.
 
-```python sample.py -n 2000 --prime '0'```
+```python sample.py -n 2000 --prime '|' > ../climb_text/climbs_out.txt```
 
-This example gets 2800 characters worth of climbs, which is 100 climbs.
+This example gets 2800 characters worth of climbs, which is 100 climbs. They are saved to the file climbs_out.txt
