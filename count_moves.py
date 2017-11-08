@@ -1,7 +1,7 @@
 import pickle
 from collections import Counter
 
-all_data = pickle.load( open('mod_data.pickle', 'rb'))
+all_data = pickle.load( open('crop_data.pickle', 'rb'))
 
 # print(all_data[0])
 
@@ -28,6 +28,5 @@ for i in all_data:
 print('Grades')
 print(Counter(grades))
 
-print(sorted(move_count))
 for i in sorted(move_count):
 	print('{} climbs with {} moves'.format(move_count[i],i))

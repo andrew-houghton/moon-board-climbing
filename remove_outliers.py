@@ -7,8 +7,8 @@ valid,invalid = 0,0
 
 for i in all_data:
 	grade=int(all_data[i]['Grade'])
-	if grade >= 4 and grade <= 14:
-		if len(all_data[i]['Moves'])<=12 and len(all_data[i]['Moves'])>=5:
+	if grade >= 4 and grade <= 13:
+		if len(all_data[i]['Moves'])<=13 and len(all_data[i]['Moves'])>=4:
 			valid+=1
 			new_data[i]=all_data[i]
 		else:

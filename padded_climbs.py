@@ -1,12 +1,12 @@
 import pickle
-all_data = pickle.load( open('mod_data.pickle', 'rb'))
+all_data = pickle.load( open('crop_data.pickle', 'rb'))
 
 # Encoding constants
 padding_character='_'
 climb_seperator='\n'
-max_moves=12
+max_moves=13
 num_base=96
-grade_base=47
+grade_base=44
 
 def encode_move(move_str):
 	# Turns a move from readable format to LSTM format.
@@ -57,7 +57,10 @@ def character_decode(climb_chars):
 
 climb_strings = [character_represet(all_data[i]) for i in all_data]
 
-filename='padded_climbs.txt'
-f=open(filename,'w')
-f.write(climb_seperator.join(climb_strings))
-f.close()
+first= climb_strings[0]
+print(first)
+print(character_decode(first))
+# filename='padded_climbs.txt'
+# f=open(filename,'w')
+# f.write(climb_seperator.join(climb_strings))
+# f.close()
