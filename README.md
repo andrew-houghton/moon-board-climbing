@@ -13,3 +13,19 @@ These were processed and converted into .png files and strings before they were 
 **Example Climb:**
 
 G2,J7,J8,D8,D10,A5,A13,F6,D16,C18_13
+
+## Training Models
+
+### Character based LSTM
+
+**Training;**
+
+To train the model run the command
+
+```python train.py --data_dir data/climbs/```
+
+**Sampling;**
+
+To get new climbs from the model run the command
+
+```python sample.py```
