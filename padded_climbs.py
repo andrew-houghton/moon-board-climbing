@@ -20,7 +20,7 @@ def encode_grade(grade_str):
 def decode_move(move_str):
 	return move_str[0]+str(ord(move_str[1])-num_base)
 
-def decode_move(grade_str):
+def decode_grade(grade_str):
 	return str(ord(grade_str)-grade_base)
 
 def character_represet(climb):
@@ -43,9 +43,15 @@ def character_represet(climb):
 
 def character_decode(climb_chars):
 	# turns a climb formated for LSTM into a dictionary format
+	moves=climb_chars[:max_moves*2] #moves section of string
+	grade=climb_chars[max_moves*2] #last character of string
 
-	moves,grade=climb_chars.split('_')
-	move_list=moves.split(',')
+	move_list=[]
+	for i in range(0,max_moves*2,2): #go through the string in steps of 2
+		current_move=climb_chars[i:i+2] #look at a pair of characters (a move)
+		if current_move != '__': #don't process padding characters
+			move_list.append(current_move)
+	print(move_list)
 	move_list=[decode_move(i) for i in move_list]
 
 	return {
@@ -54,13 +60,9 @@ def character_decode(climb_chars):
 	}
 
 # TEXT FILE SAVING
-
 climb_strings = [character_represet(all_data[i]) for i in all_data]
 
-first= climb_strings[0]
-print(first)
-print(character_decode(first))
-# filename='padded_climbs.txt'
-# f=open(filename,'w')
-# f.write(climb_seperator.join(climb_strings))
-# f.close()
+filename='padded_climbs.txt'
+f=open(filename,'w')
+f.write(climb_seperator.join(climb_strings))
+f.close()
