@@ -1,4 +1,6 @@
 from PIL import Image
+import utilities
+import send_climb_data
 
 file_path='./hypergan/samples/'
 image_name = '002054.png'
@@ -10,8 +12,8 @@ image = image.convert('L')
 image = image.point(lambda x: 0 if x<black_threshold else 255, '1')
 # image.show()
 
-num_sample_cols=5
-num_sample_rows=2
+num_sample_cols=8
+num_sample_rows=3
 image_size=18
 
 def process_img(im):
@@ -50,7 +52,8 @@ for row in range(num_sample_rows):
 			'Moves':moves
 			}
 
-		climb_save_name = 'HyperGAN_Gen0_Climb{}'.format(climb_num)
-		print('saving climb {} with name {}'.format(climb_num,climb_save_name))
-		print(climb)
-		climb_num+=1
+		if utilities.is_valid_climb(climb):
+			climb_save_name = 'HyperGAN_Gen0_Climb{}'.format(climb_num)
+			print('saving climb {} with name {}'.format(climb_num,climb_save_name))
+			send_climb_data.send_climb(climb,climb_save_name)
+			climb_num+=1
