@@ -34,6 +34,6 @@ def send_climb(climbinfo, name):
 		'_MoonBoard':'KMA6YxmO8Kxd3FmnNm4uIM1GX20c1T-yP2SkEwArWTja_ocXYkEL2mEwGAwP4_9oTDUl9L0t4gnfpSv-2An2ZZXPKJshWqv6kCxCPuPcosbeQmFdTzd4FLsNb9Qx8spkv6i7SplF7aB-g-dDu2J3gs3bt6KzffLQqVEH9ca5Fs7R2Z471vTpCMqvVxoLiB8qjiS3zQji2WlPzhNE4uix-NVXV5qoMQw4jRLWhwv94gUsDJsPjEIqF3U0xPDsoZiCd-OotM_-WasYKpjjBqPuIpA3jLlPzO6XYIclvKnsrshu9KqWiTAlsyJhp93WnjCkTne9u8-tL1apxXK7SD0RuT8BUSjSFFtZZ53QCEGSu9FrKMVinF8ksu_CBInPe3RK2UYPPzo7QIElcYgUHUy2ruvzMO-kzjzD7F7d3r9p27JWZ04B172qTxO9dmkG7p4g2KF8FDP3MqNoHWwV8wyCeDpmbRKoyC6dca5wCP_kmtwoUzPrXSfvOfJhvXYdtufS'
 	}
 	
-	r=requests.post(post_url,data=data,cookies=Cookie)
-	print(r.status_code, r.reason)
-	print(r.text)
+	# r=requests.post(post_url,data=data,cookies=Cookie)
+	# print(r.status_code, r.reason)
+	# print(r.text)
