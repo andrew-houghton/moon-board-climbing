@@ -91,4 +91,9 @@ def is_valid_climb(climb):
 	if top_row_holds < 1 or top_row_holds > 2:
 		return False
 
+	# i don't allow holds under row 4 I think
+	for move in climb['Moves']:
+		if move[1:] in ['1','2','3']:
+			return False
+
 	return True
