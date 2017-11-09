@@ -43,3 +43,16 @@ Use mod.py, then remove_outliers.py, then padded_climbs.py to get dataset.
 Then process in the LSTM to get climbs_out.txt.
 
 Use decode_all_climbs.py to decode the climbs. Select the climb you want and use sendClimbData.py to send it to the server.
+
+## Image Upload
+
+### LSTM
+
+To upload a set of LSTM samples which have been saved in the climb_text folder run 
+
+```python decode_all_climbs.py```
+
+This script loads the climbs, converts them from neural network format to moon board format and sends them to the moonboard site using a POST request.
+Please make sure that you are careful not to upload too much because you cannot delete climbs once they are uploaded.
+
+It is a good idea to **check the climbs are valid before you send them and check how many you will send first**.
