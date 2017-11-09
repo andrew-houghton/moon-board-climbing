@@ -15,7 +15,6 @@ def send_climb(climbinfo, name):
 	'Problem.Moves[0].Description':'F5',
 	'Problem.Moves[1].Description':'F10',
 	'Problem.Moves[2].Description':'G18',
-	'Problem.Moves[2].IsEnd':'true',
 	'Problem.Moves[3].Description':'G16'
 	}
 
