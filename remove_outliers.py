@@ -1,5 +1,5 @@
 import pickle
-all_data = pickle.load( open('mod_data.pickle', 'rb'))
+all_data = pickle.load( open('pickles/mod_data.pickle', 'rb'))
 
 new_data={}
 
@@ -18,4 +18,4 @@ for i in all_data:
 
 print('{} valid climbs\n{} invalid climbs'.format(valid,invalid))
 
-pickle.dump(new_data, open('crop_data.pickle','wb'))
+pickle.dump(new_data, open('pickles/crop_data.pickle','wb'))

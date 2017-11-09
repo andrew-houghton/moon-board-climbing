@@ -52,25 +52,43 @@ def character_decode(climb_chars):
 	move_list=[decode_move(i) for i in move_list]
 
 	return {
-		'Grade':grade,
+		'Grade':nn_grade_to_british(grade),
 		'Moves':move_list
 	}
 
 def nn_grade_to_british(grade):
 	#Must write +'s first'
 	GradeConv = {
-	'8B+': '16',
-	'8B': '15',
-	'8A+': '14',
-	'8A': '13',
-	'7C+': '12',
-	'7C': '11',
-	'7B+': '10',
-	'7B': '9',
-	'7A+': '8',
-	'7A': '7',
-	'6C+': '6',
-	'6C': '5',
-	'6B+': '4',
-	'6A+': '2',
-	'6A': '1'}
+	'9':'8A',
+	'8':'7C+',
+	'7':'7C',
+	'6':'7B+',
+	'5':'7B',
+	'4':'7A+',
+	'3':'7A',
+	'2':'6C+',
+	'1':'6C',
+	'0':'6B+',
+	}
+	
+	return GradeConv[grade]
+
+def is_valid_climb(climb):
+	first_hold=climb['Moves'][0]
+	last_hold=climb['Moves'][-1]
+	
+	#valid finish hold
+	if last_hold[1:] != '18':
+		return False
+	#valid start hold
+	if not first_hold[1:] in ['4','5','6']:
+		return False
+	# that at most 2 holds are in the top row.
+	top_row_holds=0
+	for move in climb['Moves']:
+		if move[1:] == '18':
+			top_row_holds += 1
+	if top_row_holds < 1 or top_row_holds > 2:
+		return False
+
+	return True
