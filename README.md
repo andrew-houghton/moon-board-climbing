@@ -56,3 +56,12 @@ This script loads the climbs, converts them from neural network format to moon b
 Please make sure that you are careful not to upload too much because you cannot delete climbs once they are uploaded.
 
 It is a good idea to **check the climbs are valid before you send them and check how many you will send first**.
+
+### HyperGAN
+
+To upload a sample to the server look for the sample you want to upload in the hypergan/samples folder.
+When you have found a file you want to upload open the file upload_hypergan_sample.py and change line 4 to point to your sample. Also consider incrementing the generation.
+
+Run the upload_hypergan_sample.py file. This will upload every climb from the sample which was valid.
+
+It is a good idea to **check the climbs are valid before you send them and check how many you will send first**.
