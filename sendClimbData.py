@@ -20,7 +20,8 @@ data = {
 'Problem.Moves[3].Description':'G16'
 }
 
-post_url='https://www.moonboard.com/Problems/Create' 
+post_url='https://www.moonboard.com/Problems/Create'
+
 Cookie= {
 	'__RequestVerificationToken':'pyZsWOXYthUrg8Z9sOPZnfO2HsKGcVrPiAVGg8o3B5-vB66DSkw5zIPwnWI6nQMR_QCq_9_f0v1JnABI7Xi-kY_uGSB_-h05N_ENXZVr3aw1',
 	'.AspNet.TwoFactorRememberBrowser':'y3p1cw0BbS-Vy-bFCBC1PtH3dsTnMucxcJC16JmUrZaC5J1eKPh_jNIO2dsKAx_TXKPifphzh1_JRXPn7IWYsxC2DxHb2RKXga568FtLbLctJXGOsYpC3BBx3fNbp6AL03M9jav7fmArLJqUcTmtrPwsDtGfPdMWbzns7W5LeX6yQ1m5CQza64GaGpByBBFLGarRUhl3HUs79qehRWc6SkHBYNN4y8S8RA9Zilmtm9fy5q792pJI8BKG_GQdE5zKmgOfCqHPCoFJRUmcveBMwtUZsGLfzfZY9tAcufwHPGi0wEcO208p6tZaxivM2BZ8TA2QYSoyO31a6xdDMBLRVfT3_QFewJMUMgx-vrULTds',

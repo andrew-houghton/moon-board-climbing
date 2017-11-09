@@ -49,10 +49,28 @@ def character_decode(climb_chars):
 		current_move=climb_chars[i:i+2] #look at a pair of characters (a move)
 		if current_move != '__': #don't process padding characters
 			move_list.append(current_move)
-	print(move_list)
 	move_list=[decode_move(i) for i in move_list]
 
 	return {
 		'Grade':grade,
 		'Moves':move_list
 	}
+
+def nn_grade_to_british(grade):
+	#Must write +'s first'
+	GradeConv = {
+	'8B+': '16',
+	'8B': '15',
+	'8A+': '14',
+	'8A': '13',
+	'7C+': '12',
+	'7C': '11',
+	'7B+': '10',
+	'7B': '9',
+	'7A+': '8',
+	'7A': '7',
+	'6C+': '6',
+	'6C': '5',
+	'6B+': '4',
+	'6A+': '2',
+	'6A': '1'}

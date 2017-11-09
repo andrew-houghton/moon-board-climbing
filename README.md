@@ -35,3 +35,11 @@ To get new climbs from the model run the command.
 ```python sample.py -n 2000 --prime '|' > ../climb_text/climbs_out.txt```
 
 This example gets 2800 characters worth of climbs, which is 100 climbs. They are saved to the file climbs_out.txt
+
+## Processing Data
+
+Use mod.py, then remove_outliers.py, then padded_climbs.py to get dataset.
+
+Then process in the LSTM to get climbs_out.txt.
+
+Use decode_all_climbs.py to decode the climbs. Select the climb you want and use sendClimbData.py to send it to the server.
