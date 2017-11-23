@@ -18,8 +18,8 @@ for i in range(len(climbs)):
 climb_num=0
 for i in range(len(valid_climbs)):
 	climb = valid_climbs[i]
-	if i%4==0:
-		climb_save_name = 'Lstm_Gen0_Climb{}'.format(climb_num)
+	if i%4==1 and climb_num<10:
+		climb_save_name = 'Lstm_Gen1_Climb{}'.format(climb_num)
 		print('saving climb {} with name {}'.format(climb_num,climb_save_name))
 		send_climb_data.send_climb(climb,climb_save_name)
 		climb_num+=1
