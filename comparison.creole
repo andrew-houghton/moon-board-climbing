@@ -1,0 +1,33 @@
+== Comparison of IO to samples ==
+
+=== My RNN ===
+**Input:**
+
+Single Holds (3 float values)
+
+**Output:**
+
+3 float values
+
+=== Keras test ===
+**Input:**
+
+8 pairs of floats
+
+**Output:**
+
+10 different floats
+
+=== IMDB ===
+**Input:**
+
+500 characters all at once
+
+**Output:**
+
+1 boolean value
+
+== Problems ==
+I didn't understand how the IMDB sample was seperating out the reviews.
+I thought it was learning the sequential nature of text, but it seems like it is learning that the previous review influcences the current?
+I am still not 100% sure which way the sequential stuff is working. It seems like it should be across trained examples, but that's not useful for the imdb example.
