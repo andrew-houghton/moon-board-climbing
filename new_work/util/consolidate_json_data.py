@@ -1,3 +1,5 @@
+# This file loads in the data which was scraped and puts it into one clean json file.
+
 import json
 from pathlib import Path
 from pprint import pprint
@@ -24,10 +26,12 @@ for json_line in lines: #loop through all the different json strings
         #Collect all the relevant info for the current climb
         saved_obj={}
         saved_obj['Grade'] = climb_obj['Grade']
-        saved_obj['Moves'] = climb_obj['Moves']
         saved_obj['Method'] = climb_obj['Method']
         saved_obj['Rating'] = climb_obj['Rating']
         saved_obj['UserRating'] = climb_obj['UserRating']
+        #Keep only the data in momes which is needed
+        saved_obj['Moves'] = [move['Description'] for move in climb_obj['Moves']]
+
         all_climbs.append(saved_obj)
 
 #Write the collected data to a file in json format
