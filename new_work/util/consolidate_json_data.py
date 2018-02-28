@@ -25,10 +25,10 @@ for json_line in lines: #loop through all the different json strings
     for climb_obj in json_data['Data']:
         #Collect all the relevant info for the current climb
         saved_obj={}
+
         saved_obj['Grade'] = climb_obj['Grade']
-        saved_obj['Method'] = climb_obj['Method']
-        saved_obj['Rating'] = climb_obj['Rating']
         saved_obj['UserRating'] = climb_obj['UserRating']
+        
         #Keep only the data in momes which is needed
         saved_obj['Moves'] = [move['Description'] for move in climb_obj['Moves']]
 

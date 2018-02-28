@@ -8,3 +8,4 @@ script_parent_directory = Path().resolve().parent
 with open(str(script_parent_directory)+'/data/json/combined.json') as handle:
 	loaded_data = json.load(handle)
 
+pprint(loaded_data[0])
