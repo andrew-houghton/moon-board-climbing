@@ -32,5 +32,12 @@ class TestHoldType(unittest.TestCase):
 			example_hold = Hold('website_format',holdname)
 			self.assertEqual(example_hold.as_nn_format(),formatted)
 
+	def test_invalid_input(self):
+		self.assertRaises(ValueError, Hold, 'website_format','A0')
+		self.assertRaises(ValueError, Hold,'website_format','A99')
+		self.assertRaises(ValueError, Hold,'website_format','A')
+		self.assertRaises(IndexError, Hold,'website_format','')
+		self.assertRaises(ValueError, Hold,'website_format',1)
+
 if __name__ == '__main__':
-	unittest.main(verbosity = 2)
+	unittest.main(verbosity = 1)
