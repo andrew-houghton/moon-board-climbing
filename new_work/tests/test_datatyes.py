@@ -2,6 +2,7 @@ import unittest
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from hold import Hold
 import hold
 
@@ -33,11 +34,26 @@ class TestHoldType(unittest.TestCase):
 			self.assertEqual(example_hold.as_nn_format(),formatted)
 
 	def test_invalid_input(self):
-		self.assertRaises(ValueError, Hold, 'website_format','A0')
-		self.assertRaises(ValueError, Hold,'website_format','A99')
-		self.assertRaises(ValueError, Hold,'website_format','A')
-		self.assertRaises(IndexError, Hold,'website_format','')
-		self.assertRaises(ValueError, Hold,'website_format',1)
+		self.assertRaises(ValueError,Hold,'website_format','A0')
+		self.assertRaises(ValueError,Hold,'website_format','A99')
+		self.assertRaises(ValueError,Hold,'website_format','A')
+		self.assertRaises(IndexError,Hold,'website_format','')
+		self.assertRaises(ValueError,Hold,'website_format',1)
+
+from climb import Climb
+
+class TestClimbType(unittest.TestCase):
+
+	def test_load_data(self):
+		example_climb_info = {'Grade': '8A', 'UserRating': 0, 'Moves': ['G2', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}
+		example_climb = Climb('json',example_climb_info)
+		self.assertEqual(example_climb.grade,'8A')
+		self.assertEqual(example_climb.rating,0)
+
+		# Check that the first hold was input properly
+		self.assertEqual(example_climb.holds[0].row,2)
+		self.assertEqual(example_climb.holds[0].col,7)
+		self.assertEqual(len(example_climb.holds),10)
 
 if __name__ == '__main__':
-	unittest.main(verbosity = 1)
+	unittest.main(verbosity = 2)

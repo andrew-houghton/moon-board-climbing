@@ -1,7 +1,7 @@
 _lower_chr_base = 64
 _upper_chr_base = 96
 _max_row = 18
-_max_col = 12
+_max_col = 11
 
 def _character_to_int(character):
     # Eg;
@@ -24,9 +24,9 @@ class Hold():
             raise ValueError('Invalid input type. input_type argument should be a value like "website_format"')
 
         # Check that the row and column number is in a valid range
-        if not self.row in range(1,_max_row,1):
+        if not self.row in range(1,_max_row+1,1):
             raise ValueError('Row number invalid.')
-        if not self.col in range(1,_max_col,1):
+        if not self.col in range(1,_max_col+1,1):
             raise ValueError('Column invalid.')
 
     def as_nn_format(self):
