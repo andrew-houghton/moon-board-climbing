@@ -30,8 +30,8 @@ class Hold():
             raise ValueError('Column invalid.')
 
     def as_nn_format(self):
-        row_char=chr(_lower_chr_base+self.row)
-        col_char=chr(_upper_chr_base+self.col)
+        row_char=chr(_upper_chr_base+self.row)
+        col_char=chr(_lower_chr_base+self.col)
         return col_char+row_char
 
     def as_website_format(self):
