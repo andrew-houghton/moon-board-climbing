@@ -92,17 +92,21 @@ class TestClimbsetType(unittest.TestCase):
 		self.assertEqual(example_climbset.climbs[1].grade.as_font_grade(),'7A')
 		self.assertEqual(example_climbset.climbs[2].grade.as_font_grade(),'6C')
 
+	# Test string generatino stuff
 	def test_pre_format(self):
 		example_climbset = new_climbset()
-
 		self.assertEqual(
 			example_climbset.pre_grade_string(),
 			'11GbJgJhDhDjAeAmFfDpCr5GcJgJhDhDjAeAmFfDpCr3GdJgJhDhDjAeAmFfDpCr')
 
+	def test_post_format(self):
+		example_climbset = new_climbset()
 		self.assertEqual(
 			example_climbset.post_grade_string(),
 			'GbJgJhDhDjAeAmFfDpCr11GcJgJhDhDjAeAmFfDpCr5GdJgJhDhDjAeAmFfDpCr3')
 
+	def test_no_format(self):
+		example_climbset = new_climbset()
 		self.assertEqual(
 			example_climbset.no_grade_string(),
 			'GbJgJhDhDjAeAmFfDpCrGcJgJhDhDjAeAmFfDpCrGdJgJhDhDjAeAmFfDpCr')
