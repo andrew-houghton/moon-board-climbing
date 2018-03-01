@@ -18,5 +18,18 @@ class Climbset():
 			output_str+=climb.moves_nn_string()
 		return output_str
 		
-	# def post_grade_string(self):
-	# def no_grade_string()
+
+	def post_grade_string(self):
+		output_str = ''
+		for climb in self.climbs:
+			output_str+=climb.moves_nn_string()
+			output_str+=climb.grade.as_nn_grade()
+		return output_str
+		
+
+	def no_grade_string(self):
+		output_str = ''
+		for climb in self.climbs:
+			output_str+=climb.moves_nn_string()
+		return output_str
+		

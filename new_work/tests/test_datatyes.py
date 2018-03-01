@@ -65,18 +65,20 @@ class TestClimbType(unittest.TestCase):
 
 from climbset import Climbset
 
+def new_climbset():
+	example_climb_info = {'Grade': '8A', 'UserRating': 0, 'Moves': ['G2', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}
+	example_climb = Climb('json',example_climb_info)
+	example_climb_info2 = {'Grade': '7A', 'UserRating': 0, 'Moves': ['G3', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}
+	example_climb2 = Climb('json',example_climb_info2)
+	example_climb_info3 = {'Grade': '6C', 'UserRating': 0, 'Moves': ['G4', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}
+	example_climb3 = Climb('json',example_climb_info3)
+	example_climb_list = [example_climb,example_climb2,example_climb3]
+	return Climbset(example_climb_list)
+
 class TestClimbsetType(unittest.TestCase):
 
 	def test_load_data(self):
-		example_climb_info = {'Grade': '8A', 'UserRating': 0, 'Moves': ['G2', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}
-		example_climb = Climb('json',example_climb_info)
-		example_climb_info2 = {'Grade': '7A', 'UserRating': 0, 'Moves': ['G3', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}
-		example_climb2 = Climb('json',example_climb_info)
-		example_climb_info3 = {'Grade': '6C', 'UserRating': 0, 'Moves': ['G4', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}
-		example_climb3 = Climb('json',example_climb_info)
-		example_climb_list = [example_climb,example_climb2,example_climb3]
-
-		example_climbset = Climbset(example_climb_list)
+		example_climbset = new_climbset()
 
 		# Check all 3 climbs were imported
 		self.assertEqual(len(example_climbset.climbs),3)
@@ -84,6 +86,26 @@ class TestClimbsetType(unittest.TestCase):
 		# Check that the first move of the first climb was imported correctly
 		first_move = example_climbset.climbs[0].holds[0].as_website_format()
 		self.assertEqual(first_move,'G2')
+
+		# Check all the grades were input right
+		self.assertEqual(example_climbset.climbs[0].grade.as_font_grade(),'8A')
+		self.assertEqual(example_climbset.climbs[1].grade.as_font_grade(),'7A')
+		self.assertEqual(example_climbset.climbs[2].grade.as_font_grade(),'6C')
+
+	def test_pre_format(self):
+		example_climbset = new_climbset()
+
+		self.assertEqual(
+			example_climbset.pre_grade_string(),
+			'11GbJgJhDhDjAeAmFfDpCr5GcJgJhDhDjAeAmFfDpCr3GdJgJhDhDjAeAmFfDpCr')
+
+		self.assertEqual(
+			example_climbset.post_grade_string(),
+			'GbJgJhDhDjAeAmFfDpCr11GcJgJhDhDjAeAmFfDpCr5GdJgJhDhDjAeAmFfDpCr3')
+
+		self.assertEqual(
+			example_climbset.no_grade_string(),
+			'GbJgJhDhDjAeAmFfDpCrGcJgJhDhDjAeAmFfDpCrGdJgJhDhDjAeAmFfDpCr')
 
 
 if __name__ == '__main__':
