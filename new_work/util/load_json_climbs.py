@@ -1,5 +1,4 @@
 # This function loads all the climbs and converts them to climb objects
-
 import json
 from pathlib import Path
 from pprint import pprint
@@ -11,13 +10,19 @@ sys.path.append(import_path)
 from climbset import Climbset
 from climb import Climb
 
-script_parent_directory = Path().resolve().parent
-with open(str(script_parent_directory)+'/data/json/combined.json') as handle:
-	loaded_data = json.load(handle)
+def load_all_as_climbset():
+	json_data = load_all_as_json()
+	all_climbs = json_to_climbset(json_data)
+	return all_climbs
 
-all_climbs = Climbset()
+def load_all_as_json():
+	script_parent_directory = Path().resolve().parent
+	with open(str(script_parent_directory)+'/data/json/combined.json') as handle:
+		loaded_data = json.load(handle)
+	return loaded_data
 
-for cur_climb_json in loaded_data:
-	cur_climb = all_climbs.add(Climb('json',cur_climb_json))
-
-print(all_climbs.pre_grade_string())
+def json_to_climbset(data):
+	all_climbs = Climbset()
+	for cur_climb_json in data:
+		cur_climb = all_climbs.add(Climb('json',cur_climb_json))
+	return all_climbs
