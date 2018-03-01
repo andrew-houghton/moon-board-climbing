@@ -1,6 +1,6 @@
 from climb import Climb
 
-class ClimbSet():
+class Climbset():
 	def __init__(self, climbs):
 		if not type(climbs)==list:
 				raise ValueError('Input must be a list of climb objects. Please input a list.')
@@ -12,5 +12,11 @@ class ClimbSet():
 		self.climbs = climbs
 
 	def pre_grade_string(self):
-	def post_grade_string(self):
-	def no_grade_string()
+		output_str = ''
+		for climb in self.climbs:
+			output_str+=climb.grade.as_nn_grade()
+			output_str+=climb.moves_nn_string()
+		return output_str
+		
+	# def post_grade_string(self):
+	# def no_grade_string()

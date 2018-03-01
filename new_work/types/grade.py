@@ -31,3 +31,5 @@ class Grade():
 				return grd
 		raise Exception('Invalid grade number. Font grade not found.')
 
+	def as_nn_grade():
+		return self.grade_number

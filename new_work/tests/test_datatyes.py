@@ -63,5 +63,28 @@ class TestClimbType(unittest.TestCase):
 			example_climb.moves_nn_string(),
 			'GbJgJhDhDjAeAmFfDpCr')
 
+from climbset import Climbset
+
+class TestClimbsetType(unittest.TestCase):
+
+	def test_load_data(self):
+		example_climb_info = {'Grade': '8A', 'UserRating': 0, 'Moves': ['G2', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}
+		example_climb = Climb('json',example_climb_info)
+		example_climb_info2 = {'Grade': '7A', 'UserRating': 0, 'Moves': ['G3', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}
+		example_climb2 = Climb('json',example_climb_info)
+		example_climb_info3 = {'Grade': '6C', 'UserRating': 0, 'Moves': ['G4', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}
+		example_climb3 = Climb('json',example_climb_info)
+		example_climb_list = [example_climb,example_climb2,example_climb3]
+
+		example_climbset = Climbset(example_climb_list)
+
+		# Check all 3 climbs were imported
+		self.assertEqual(len(example_climbset.climbs),3)
+
+		# Check that the first move of the first climb was imported correctly
+		first_move = example_climbset.climbs[0].holds[0].as_website_format()
+		self.assertEqual(first_move,'G2')
+
+
 if __name__ == '__main__':
 	unittest.main(verbosity = 2)
