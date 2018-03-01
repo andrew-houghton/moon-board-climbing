@@ -20,8 +20,9 @@ class Climbset():
 
 	def pre_grade_string(self):
 		output_str = ''
+		format_str='{grade}{moves}{terminator}'
 		for climb in self.climbs:
-			output_str+='{grade}{moves}{terminator}'.format(
+			output_str+=format_str.format(
 				grade=climb.grade.as_nn_grade(),
 				moves=climb.moves_nn_string(),
 				terminator=terminator_character)
@@ -30,8 +31,9 @@ class Climbset():
 
 	def post_grade_string(self):
 		output_str = ''
+		format_str='{moves}{grade}{terminator}'
 		for climb in self.climbs:
-			output_str+='{moves}{grade}{terminator}'.format(
+			output_str+=format_str.format(
 				grade=climb.grade.as_nn_grade(),
 				moves=climb.moves_nn_string(),
 				terminator=terminator_character)
