@@ -32,4 +32,5 @@ class Grade():
 		raise Exception('Invalid grade number. Font grade not found.')
 
 	def as_nn_grade(self):
-		return str(self.grade_number)
+		asci_grade_base_num = 200
+		return chr(asci_grade_base_num + self.grade_number)

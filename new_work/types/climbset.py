@@ -1,5 +1,7 @@
 from climb import Climb
 
+terminator_character = '_'
+
 class Climbset():
 	def __init__(self, climbs):
 		if not type(climbs)==list:
@@ -31,5 +33,6 @@ class Climbset():
 		output_str = ''
 		for climb in self.climbs:
 			output_str+=climb.moves_nn_string()
+			output_str+=terminator_character
 		return output_str
 		
