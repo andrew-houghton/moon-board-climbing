@@ -13,6 +13,14 @@ class Climbset():
 
 		self.climbs = climbs
 
+	def __init__(self):
+		self.climbs = []
+
+	def add(self,climb):
+		if type(climb) != Climb:
+			raise ValueError('Objects in climbset must be of type climb.')
+		self.climbs.append(climb)
+
 	def pre_grade_string(self):
 		output_str = ''
 		for climb in self.climbs:
