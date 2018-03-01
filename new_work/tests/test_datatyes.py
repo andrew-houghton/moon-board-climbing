@@ -97,13 +97,13 @@ class TestClimbsetType(unittest.TestCase):
 		example_climbset = new_climbset()
 		self.assertEqual(
 			example_climbset.pre_grade_string(),
-			'ÓGbJgJhDhDjAeAmFfDpCrÍGcJgJhDhDjAeAmFfDpCrËGdJgJhDhDjAeAmFfDpCr')
+			'ÓGbJgJhDhDjAeAmFfDpCr_ÍGcJgJhDhDjAeAmFfDpCr_ËGdJgJhDhDjAeAmFfDpCr_')
 
 	def test_post_format(self):
 		example_climbset = new_climbset()
 		self.assertEqual(
 			example_climbset.post_grade_string(),
-			'GbJgJhDhDjAeAmFfDpCrÓGcJgJhDhDjAeAmFfDpCrÍGdJgJhDhDjAeAmFfDpCrË')
+			'GbJgJhDhDjAeAmFfDpCrÓ_GcJgJhDhDjAeAmFfDpCrÍ_GdJgJhDhDjAeAmFfDpCrË_')
 
 	def test_no_format(self):
 		example_climbset = new_climbset()

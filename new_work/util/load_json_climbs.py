@@ -26,3 +26,7 @@ def json_to_climbset(data):
 	for cur_climb_json in data:
 		cur_climb = all_climbs.add(Climb('json',cur_climb_json))
 	return all_climbs
+
+if __name__ == '__main__':
+	all_climbs=load_all_as_climbset()
+	print(all_climbs.pre_grade_string())
