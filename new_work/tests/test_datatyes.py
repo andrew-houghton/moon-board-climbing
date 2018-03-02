@@ -7,6 +7,9 @@ sys.path.append(import_path)
 from hold import Hold
 import hold
 
+
+from PIL import Image
+
 class TestHoldType(unittest.TestCase):
 
 	def test_load_data(self):
@@ -64,21 +67,30 @@ class TestClimbType(unittest.TestCase):
 			'GbJgJhDhDjAeAmFfDpCr')
 
 	def test_image_creation(self):
+		# Bottom row (non symmetrical image test)
 		example_climb_info1 = {'Grade': '8A', 'UserRating': 0, 'Moves': ['A1','B1','C1']}
 		example_climb1 = Climb('json',example_climb_info1)
 		example_image1 = example_climb1.as_image()
 
+		stored_sample1 = Image.open('test_image1.png')
+		self.assertEqual(stored_sample1.tobytes(),example_image1.tobytes())
+		
+		# 4 corners test
 		example_climb_info2 = {'Grade': '8A', 'UserRating': 0, 'Moves': ['A1','K1','A18','K18']}
 		example_climb2 = Climb('json',example_climb_info2)
 		example_image2 = example_climb2.as_image()
 
-		from PIL import Image
-
-		stored_sample1 = Image.open('test_image1.png')
 		stored_sample2 = Image.open('test_image2.png')	
-
-		self.assertEqual(stored_sample1.tobytes(),example_image1.tobytes())
 		self.assertEqual(stored_sample2.tobytes(),example_image2.tobytes())
+
+	def test_image_loading(self):
+		stored_sample1 = Image.open('test_image1.png')
+		example_climb1 = Climb('image',stored_sample1)
+		self.assertEqual(example_climb1.moves_nn_string(),'AaBaCa')
+
+		stored_sample2 = Image.open('test_image2.png')	
+		example_climb2 = Climb('image',stored_sample2)
+		self.assertEqual(example_climb2.moves_nn_string(),'AaKaArKr')
 
 
 from climbset import Climbset
