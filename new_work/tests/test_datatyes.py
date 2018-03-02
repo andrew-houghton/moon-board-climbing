@@ -63,6 +63,24 @@ class TestClimbType(unittest.TestCase):
 			example_climb.moves_nn_string(),
 			'GbJgJhDhDjAeAmFfDpCr')
 
+	def test_image_creation(self):
+		example_climb_info1 = {'Grade': '8A', 'UserRating': 0, 'Moves': ['A1','B1','C1']}
+		example_climb1 = Climb('json',example_climb_info1)
+		example_image1 = example_climb1.as_image()
+
+		example_climb_info2 = {'Grade': '8A', 'UserRating': 0, 'Moves': ['A1','K1','A18','K18']}
+		example_climb2 = Climb('json',example_climb_info2)
+		example_image2 = example_climb2.as_image()
+
+		from PIL import Image
+
+		stored_sample1 = Image.open('test_image1.png')
+		stored_sample2 = Image.open('test_image2.png')	
+
+		self.assertEqual(stored_sample1.tobytes(),example_image1.tobytes())
+		self.assertEqual(stored_sample2.tobytes(),example_image2.tobytes())
+
+
 from climbset import Climbset
 
 def new_climbset():
