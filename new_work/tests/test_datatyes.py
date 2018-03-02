@@ -86,7 +86,10 @@ class TestClimbType(unittest.TestCase):
 	def test_image_loading(self):
 		stored_sample1 = Image.open('test_image1.png')
 		example_climb1 = Climb('image',stored_sample1)
+
 		self.assertEqual(example_climb1.moves_nn_string(),'AaBaCa')
+		self.assertEqual(example_climb1.grade,None)
+		self.assertEqual(example_climb1.rating,None)
 
 		stored_sample2 = Image.open('test_image2.png')	
 		example_climb2 = Climb('image',stored_sample2)

@@ -1,12 +1,10 @@
 from hold import Hold
 from grade import Grade
-
-def _process_grade(grade):
-	return
+from PIL.PngImagePlugin import PngImageFile
 
 class Climb():
 	def __init__(self,input_type,input_data):
-		if input_type == 'json':
+		if input_type == 'json' and type(input_data) == dict:
 			self.holds = []
 			for hold_text in input_data['Moves']:
 				next_hold = Hold('website_format',hold_text)
@@ -14,6 +12,24 @@ class Climb():
 
 			self.rating = input_data['UserRating']
 			self.grade = Grade(input_data['Grade'])
+		elif input_type == 'image' and type(input_data) == PngImageFile:
+			# Catch invalid image sizes
+			if input_data.size != (18,18):
+				print(input_data.size)
+
+			# Not encoded in image sadly
+			self.grade = None
+			self.rating = None
+			self.holds = []
+
+			pixels = input_data.load()
+			for x in range(18):
+				for y in range(18):
+					if pixels[x,y] != 0:
+						print('x{}y{}'.format(x,y))
+						next_hold = Hold('tuple',(y+1,x+1))
+						self.holds.append(Hold)
+
 		else:
 			raise ValueError('Invalid input type.')
 
