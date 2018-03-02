@@ -20,14 +20,15 @@ class Hold():
             
             self.col=_character_to_int(hold_input[0])
             self.row=int(hold_input[1:])
+
         elif input_type == 'tuple':
             if type(hold_input) != tuple:
                 raise ValueError('Invalid data type. hold_input should be tuple.')
             elif len(hold_input) != 2:
                 raise ValueError('Invalid tuple length. hold_input should have length of 2.')
 
-            self.row = hold_input[0]
-            self.col = hold_input[1]
+            self.row = int(hold_input[0])
+            self.col = int(hold_input[1])
         else:
             raise ValueError('Invalid input type. input_type argument should be a value like "website_format"')
 
@@ -37,6 +38,9 @@ class Hold():
         if not self.col in range(1,_max_col+1,1):
             raise ValueError('Column invalid.')
 
+    def __repr__(self):
+        return self.as_website_format()
+    
     def as_nn_format(self):
         row_char=chr(_upper_chr_base+self.row)
         col_char=chr(_lower_chr_base+self.col)
@@ -45,5 +49,3 @@ class Hold():
     def as_website_format(self):
         return _int_to_char(self.col) + str(self.row)
 
-    def __repr__(self):
-        return self.as_website_format()

@@ -46,4 +46,8 @@ class Climbset():
 			output_str+=climb.moves_nn_string()
 			output_str+=terminator_character
 		return output_str
-		
+
+	def __repr__(self):
+		return 'Climbset of length {} with climbs;\n{}'.format(
+			len(self.climbs),
+			'\n'.join([str(i) for i in self.climbs]))

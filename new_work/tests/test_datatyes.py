@@ -87,6 +87,8 @@ class TestClimbType(unittest.TestCase):
 		stored_sample1 = Image.open('test_image1.png')
 		example_climb1 = Climb('image',stored_sample1)
 
+		print(example_climb1)
+
 		self.assertEqual(example_climb1.moves_nn_string(),'AaBaCa')
 		self.assertEqual(example_climb1.grade,None)
 		self.assertEqual(example_climb1.rating,None)
@@ -99,6 +101,8 @@ class TestClimbType(unittest.TestCase):
 from climbset import Climbset
 
 def new_climbset():
+    # def __repr__(self):
+    #     return self.as_website_format()
 	example_climb_info = {'Grade': '8A', 'UserRating': 0, 'Moves': ['G2', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}
 	example_climb = Climb('json',example_climb_info)
 	example_climb_info2 = {'Grade': '7A', 'UserRating': 0, 'Moves': ['G3', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}

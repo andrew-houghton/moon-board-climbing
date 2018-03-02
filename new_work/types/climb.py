@@ -23,12 +23,11 @@ class Climb():
 			self.holds = []
 
 			pixels = input_data.load()
-			for x in range(18):
-				for y in range(18):
+			for y in range(17,-1,-1):
+				for x in range(18):
 					if pixels[x,y] != 0:
-						print('x{}y{}'.format(x,y))
-						next_hold = Hold('tuple',(y+1,x+1))
-						self.holds.append(Hold)
+						next_hold = Hold('tuple',(18-y,x+1))
+						self.holds.append(next_hold)
 
 		else:
 			raise ValueError('Invalid input type.')
@@ -54,3 +53,9 @@ class Climb():
 
 		# Note: use .save to save the image.
 		return image
+
+	def __repr__(self):
+		return 'Moves:{}\nGrade:{}\nRating:{}'.format(
+			' '.join([i.as_website_format() for i in self.holds]),
+			self.grade,
+			self.rating)
