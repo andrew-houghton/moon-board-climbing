@@ -9,3 +9,4 @@ for counter, climb in enumerate(base_climbset.climbs):
 	climb.as_image().save(image_folder+str(counter)+'.png')
 	if counter%50==0:
 		print('Created {} images.'.format(counter))
+
