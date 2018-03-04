@@ -4,6 +4,8 @@ terminator_character = '_'
 
 
 class Climbset():
+    # Holds many climbs
+    # Used to manage entire strings of climbs such as LSTM input and output
 
     def __init__(self, climbs=[]):
         if not type(climbs) == list:

@@ -6,6 +6,8 @@ from PIL.PngImagePlugin import PngImageFile
 class Climb():
 
     def __init__(self, input_type, input_data):
+        # You can either input in json (dictionary) format or in image format.
+        # Both of these types can be used to create a new instance.
         if input_type == 'json' and type(input_data) == dict:
             self.holds = []
             for hold_text in input_data['Moves']:
@@ -35,6 +37,7 @@ class Climb():
             raise ValueError('Invalid input type.')
 
     def moves_nn_string(self):
+        # Turn the moves into a string for use as LSTM input
         return ''.join([hold.as_nn_format() for hold in self.holds])
 
     def as_image(self):
@@ -57,6 +60,7 @@ class Climb():
         return image
 
     def __repr__(self):
+        # Create a string representing the class
         return 'Moves:{}\nGrade:{}\nRating:{}'.format(
             ' '.join([i.as_website_format() for i in self.holds]),
             self.grade,
