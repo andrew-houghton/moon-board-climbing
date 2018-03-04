@@ -15,7 +15,8 @@ network_folder = '{}/networks/char-rnn-tensorflow/'.format(script_parent_directo
 model_filename = data_filename.replace('.txt', '.ckpt')
 model_dir = '{}/data/models/{}'.format(script_parent_directory, model_filename)
 
-train.test(
+# Train the model
+train.build_model(
 	data_folder,
 	data_filename,
 	model_dir,
