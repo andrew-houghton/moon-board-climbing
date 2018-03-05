@@ -1,21 +1,39 @@
 from climb import Climb
 
+
 class Climbset():
     # Holds many climbs
     # Used to manage entire strings of climbs such as LSTM input and output
 
-    def __init__(self, climbs=[]):
+    def __init__(self, climbs=[], input_type='list'):
         # Create a climbset starting from a list.
         # If no climbs are supplied then an empty list is used.
+        if input_type == 'list':
+            if not type(climbs) == list:
+                raise ValueError('Input must be a list of climb objects. Please input a list.')
 
-        if not type(climbs) == list:
-            raise ValueError('Input must be a list of climb objects. Please input a list.')
+            for climb in climbs:
+                if type(climb) != Climb:
+                    raise ValueError('Objects in climbset must be of type climb.')
+            self.climbs = climbs
+        
+        elif input_type == 'sample':
+            # Check input type
+            if not type(climbs) == list:
+                raise ValueError('Input must be a list of strings. Please input a list.')
 
-        for climb in climbs:
-            if type(climb) != Climb:
-                raise ValueError('Objects in climbset must be of type climb.')
+            # Check input type
+            for climb in climbs:
+                if type(climb) != str:
+                    raise ValueError('Input object from sample must be of type str.')
 
-        self.climbs = climbs
+            # Process each climb one by one and add them to the climbset
+            self.climbs = []
+            for climb in climbs:
+                cur_climb = Climb('sample',climb)
+                self.climbs.append(cur_climb)
+        else:
+            raise ValueError('Invalid input_type argument.')
 
     @classmethod
     def get_terminator(cls):

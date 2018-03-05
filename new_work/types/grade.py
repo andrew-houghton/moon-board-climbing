@@ -15,14 +15,34 @@ _valid_grades = {
     '8B': 13,
     '8B+': 14}
 
+_valid_nn_grades = {
+    'È':'6A',
+    'É':'6A+',
+    'Ê':'6B+',
+    'Ë':'6C',
+    'Ì':'6C+',
+    'Í':'7A',
+    'Î':'7A+',
+    'Ï':'7B',
+    'Ð':'7B+',
+    'Ñ':'7C',
+    'Ò':'7C+',
+    'Ó':'8A',
+    'Ô':'8A+',
+    'Õ':'8B',
+    'Ö':'8B+'}
 
 class Grade():
 
     def __init__(self, grade):
         # Initialize a new grade object starting with a font format grade.
         if not grade in _valid_grades.keys():
-            raise ValueError('Invalid grade. Not in grade list. Grade should be something like 7C.')
-        self.grade_number = _valid_grades[grade]
+            if not grade in _valid_nn_grades.keys():
+                raise ValueError('Invalid grade. Not in grade list. Grade should be something like 7C.')
+            else:
+                self.grade_number=_valid_nn_grades[grade]
+        else:
+            self.grade_number = _valid_grades[grade]
 
     def as_v_grade(self):
         # Convert the grade of a climb to V grade format

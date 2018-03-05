@@ -21,13 +21,14 @@ def sample_model(grade_mode):
 	# Find directories
 	base_save_dir = '{}/data/lstm_files/{}/'.format(script_parent_directory,grade_mode)
 
+	# Start the sample with an the seed_str
+	# (ie the network will start generating characters that come after the seed.)
 	seed_str='_'
+	# Number of characters in the generated sample
 	sample_length=500
+	
 	return sample.get_sample(base_save_dir,sample_length,seed_str)
 
-# if __name__ == '__main__':
-# 	grade_mode = 'post_grade'
-# 	print(sample_model(grade_mode).replace('_','\n'))
 
 def clean_sample(sample):
 	terminator_char = climbset.Climbset.get_terminator()
@@ -39,7 +40,9 @@ def clean_sample(sample):
 		split_sample.pop(0)
 	split_sample.pop(len(split_sample)-1)
 
-	print('\n'.join(split_sample))
 	return split_sample
 
-clean_sample(sample_model('no_grade'))
+
+if __name__ == '__main__':
+	grade_mode = 'post_grade'
+	print(clean_sample(sample_model(grade_mode)))

@@ -8,7 +8,7 @@ class Climb():
     def __init__(self, input_type, input_data):
         # You can either input in json (dictionary) format or in image format.
         # Both of these types can be used to create a new instance.
-        
+
         if input_type == 'json' and type(input_data) == dict:
 
             # Loop through all the holds in the input and store them as Hold type objects in a list.
@@ -18,7 +18,7 @@ class Climb():
                 self.holds.append(next_hold)
 
             self.rating = input_data['UserRating']
-            self.grade = Grade(input_data['Grade']) # store the grade as type grade
+            self.grade = Grade(input_data['Grade'])  # store the grade as type grade
 
         elif input_type == 'image' and type(input_data) == PngImageFile:
             # Catch invalid image sizes
@@ -34,12 +34,33 @@ class Climb():
             # Preserver order of moves if possible
             self.holds = []
             pixels = input_data.load()
-            for y in range(17, -1, -1): # loop over rows
-                for x in range(11): # loop over columns (but not columns outside the moon board)
-                    if pixels[x, y] != 0: # select only non black pixels
+            for y in range(17, -1, -1):  # loop over rows
+                for x in range(11):  # loop over columns (but not columns outside the moon board)
+                    if pixels[x, y] != 0:  # select only non black pixels
                         # Add a new hold using the co-ordinates of the pixel
                         next_hold = Hold('tuple', (18 - y, x + 1))
                         self.holds.append(next_hold)
+        elif input_type == 'sample' and type(input_data) == str and len(input_data) > 1:
+            self.rating = None
+
+            # find out if there is a grade character
+            nn_grade_chars = ['È','É','Ê','Ë','Ì','Í','Î','Ï','Ð','Ñ','Ò','Ó','Ô','Õ','Ö']
+            if input_data[0] in nn_grade_chars:
+                # pre grade climb
+                grade_char = input_data[0]
+                input_data = input_data[1:]
+                self.grade = Grade(grade_char)
+
+            elif input_data[-1] in nn_grade_chars:
+                # post grade climb
+                grade_char = input_data[len(input_data)-1]
+                input_data = input_data[:len(input_data)-1]
+                self.grade = Grade(grade_char)
+            
+            else:
+                self.grade = None
+
+            self.holds = []
         else:
             raise ValueError('Invalid input type.')
 
