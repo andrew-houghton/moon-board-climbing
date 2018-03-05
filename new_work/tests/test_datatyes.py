@@ -12,6 +12,7 @@ from PIL import Image
 
 class TestHoldType(unittest.TestCase):
 
+	# This class tests all the functions of the Hold type.
 	def test_load_data(self):
 		example_hold = Hold('website_format','A12')
 		self.assertEqual(example_hold.row,12)
@@ -48,6 +49,7 @@ from climb import Climb
 
 class TestClimbType(unittest.TestCase):
 
+	# This class tests all the functions of the Climb type.
 	def test_load_data(self):
 		example_climb_info = {'Grade': '8A', 'UserRating': 0, 'Moves': ['G2', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}
 		example_climb = Climb('json',example_climb_info)
@@ -87,8 +89,6 @@ class TestClimbType(unittest.TestCase):
 		stored_sample1 = Image.open('test_image1.png')
 		example_climb1 = Climb('image',stored_sample1)
 
-		print(example_climb1)
-
 		self.assertEqual(example_climb1.moves_nn_string(),'AaBaCa')
 		self.assertEqual(example_climb1.grade,None)
 		self.assertEqual(example_climb1.rating,None)
@@ -97,12 +97,18 @@ class TestClimbType(unittest.TestCase):
 		example_climb2 = Climb('image',stored_sample2)
 		self.assertEqual(example_climb2.moves_nn_string(),'AaKaArKr')
 
+	def test_image_loading_invalid(self):
+		# Pixels outside of range in image
+		# They should not be loaded and the climb should not have any holds
+		stored_sample = Image.open('test_image3.png')
+		example_climb = Climb('image',stored_sample)
+		self.assertEqual(example_climb.moves_nn_string(),'')
+
+
 
 from climbset import Climbset
 
 def new_climbset():
-    # def __repr__(self):
-    #     return self.as_website_format()
 	example_climb_info = {'Grade': '8A', 'UserRating': 0, 'Moves': ['G2', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}
 	example_climb = Climb('json',example_climb_info)
 	example_climb_info2 = {'Grade': '7A', 'UserRating': 0, 'Moves': ['G3', 'J7', 'J8', 'D8', 'D10', 'A5', 'A13', 'F6', 'D16', 'C18']}
@@ -114,6 +120,7 @@ def new_climbset():
 
 class TestClimbsetType(unittest.TestCase):
 
+	# This class tests all the functions of the Climbset type.
 	def test_load_data(self):
 		example_climbset = new_climbset()
 

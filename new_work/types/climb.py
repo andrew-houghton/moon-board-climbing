@@ -8,31 +8,38 @@ class Climb():
     def __init__(self, input_type, input_data):
         # You can either input in json (dictionary) format or in image format.
         # Both of these types can be used to create a new instance.
+        
         if input_type == 'json' and type(input_data) == dict:
+
+            # Loop through all the holds in the input and store them as Hold type objects in a list.
             self.holds = []
             for hold_text in input_data['Moves']:
                 next_hold = Hold('website_format', hold_text)
                 self.holds.append(next_hold)
 
             self.rating = input_data['UserRating']
-            self.grade = Grade(input_data['Grade'])
+            self.grade = Grade(input_data['Grade']) # store the grade as type grade
+
         elif input_type == 'image' and type(input_data) == PngImageFile:
             # Catch invalid image sizes
             if input_data.size != (18, 18):
                 print(input_data.size)
 
-            # Not encoded in image sadly
+            # These fields are not stored with the images so they cannot be restored/initialized.
             self.grade = None
             self.rating = None
-            self.holds = []
 
+            # Loop through every pixel on the image
+            # Store all the pixels which are not black as holds
+            # Preserver order of moves if possible
+            self.holds = []
             pixels = input_data.load()
-            for y in range(17, -1, -1):
-                for x in range(18):
-                    if pixels[x, y] != 0:
+            for y in range(17, -1, -1): # loop over rows
+                for x in range(11): # loop over columns (but not columns outside the moon board)
+                    if pixels[x, y] != 0: # select only non black pixels
+                        # Add a new hold using the co-ordinates of the pixel
                         next_hold = Hold('tuple', (18 - y, x + 1))
                         self.holds.append(next_hold)
-
         else:
             raise ValueError('Invalid input type.')
 
