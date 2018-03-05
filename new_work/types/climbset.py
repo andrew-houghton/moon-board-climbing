@@ -1,8 +1,5 @@
 from climb import Climb
 
-terminator_character = '_'
-
-
 class Climbset():
     # Holds many climbs
     # Used to manage entire strings of climbs such as LSTM input and output
@@ -20,6 +17,10 @@ class Climbset():
 
         self.climbs = climbs
 
+    @classmethod
+    def get_terminator(cls):
+        return '_'
+
     def add(self, climb):
         # Add a new climb into the climbset (at the end)
         if type(climb) != Climb:
@@ -36,7 +37,7 @@ class Climbset():
             output_str += format_str.format(
                 grade=climb.grade.as_nn_grade(),
                 moves=climb.moves_nn_string(),
-                terminator=terminator_character)
+                terminator=self.get_terminator())
         return output_str
 
     def post_grade_string(self):
@@ -49,7 +50,7 @@ class Climbset():
             output_str += format_str.format(
                 grade=climb.grade.as_nn_grade(),
                 moves=climb.moves_nn_string(),
-                terminator=terminator_character)
+                terminator=self.get_terminator())
         return output_str
 
     def no_grade_string(self):
@@ -59,7 +60,7 @@ class Climbset():
         output_str = ''
         for climb in self.climbs:
             output_str += climb.moves_nn_string()
-            output_str += terminator_character
+            output_str += self.get_terminator()
         return output_str
 
     def __repr__(self):

@@ -8,6 +8,8 @@ import sys
 script_parent_directory = Path().resolve().parent
 network_folder = '{}/networks/char-rnn-tensorflow/'.format(script_parent_directory)
 sys.path.append(network_folder)
+sys.path.append('{}/types/'.format(script_parent_directory))
+import climbset
 import sample
 
 def sample_model(grade_mode):
@@ -23,6 +25,21 @@ def sample_model(grade_mode):
 	sample_length=500
 	return sample.get_sample(base_save_dir,sample_length,seed_str)
 
-if __name__ == '__main__':
-	grade_mode = 'post_grade'
-	sample_model(grade_mode)
+# if __name__ == '__main__':
+# 	grade_mode = 'post_grade'
+# 	print(sample_model(grade_mode).replace('_','\n'))
+
+def clean_sample(sample):
+	terminator_char = climbset.Climbset.get_terminator()
+	split_sample = sample.split(terminator_char)
+
+	# Clean up items at the end
+	if len(split_sample[0])<=1:
+		#remove first item if it is too short to be a climb
+		split_sample.pop(0)
+	split_sample.pop(len(split_sample)-1)
+
+	print('\n'.join(split_sample))
+	return split_sample
+
+clean_sample(sample_model('no_grade'))
