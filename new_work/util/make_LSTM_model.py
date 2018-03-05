@@ -21,5 +21,5 @@ train.build_model(
 	data_filename,
 	model_dir,
 	model_filename,
-	network_folder
+	network_folder,
 	)
