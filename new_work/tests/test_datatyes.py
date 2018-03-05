@@ -167,22 +167,37 @@ class TestClimbsetType(unittest.TestCase):
     def test_load_from_sample(self):
         example_post_string = ['ChDlHnGjErÊ', 'JbIeDhDjCmEoBrÊ', 'FeHhJhHkEjEmEnIhEoDqErÌ']
         loaded_climbset = Climbset(example_post_string, 'sample')
-        
+
         # Check all climbs were added
-        self.assertEqual(len(loaded_climbset.climbs),3)
+        self.assertEqual(len(loaded_climbset.climbs), 3)
+
+        first_climb = loaded_climbset.climbs[0]
+
+        # Check climb 0 grade
+        self.assertEqual(first_climb.grade.as_font_grade(), '6B+')
+        # Check climb 0 number of holds
+        self.assertEqual(len(first_climb.holds), 5)
+        # Check climb 0 first hold
+        self.assertEqual(first_climb.holds[0].as_website_format(), 'Ch')
 
 
 from grade import Grade
 
+
 class TestGradeType(unittest.TestCase):
 
-	def test_grade_input(self):
-		grades = ['6A','6A+','6B+','6C','6C+','7A','7A+','7B','7B+','7C','7C+','8A','8A+','8B','8B+']
-		nn_grade_chars = ['È','É','Ê','Ë','Ì','Í','Î','Ï','Ð','Ñ','Ò','Ó','Ô','Õ','Ö']
+    def test_grade_input(self):
+        grades = ['6A', '6A+', '6B+', '6C', '6C+', '7A', '7A+',
+                  '7B', '7B+', '7C', '7C+', '8A', '8A+', '8B', '8B+']
+        nn_grade_chars = ['È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö']
 
-		for grd, nn_grd in zip(grades,nn_grade_chars):
-			grd_obj = Grade(grd)
-			self.assertEqual(grd_obj.as_nn_grade(),nn_grd)
+        for grd, nn_grd in zip(grades, nn_grade_chars):
+            grd_obj = Grade(grd)
+            self.assertEqual(grd_obj.as_nn_grade(), nn_grd)
+
+    def test_nn_grade_input(self):
+        example_grade = Grade('È')
+        self.assertEqual(example_grade.grade_number, 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

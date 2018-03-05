@@ -44,7 +44,7 @@ class Climb():
             self.rating = None
 
             # find out if there is a grade character
-            nn_grade_chars = ['È','É','Ê','Ë','Ì','Í','Î','Ï','Ð','Ñ','Ò','Ó','Ô','Õ','Ö']
+            nn_grade_chars = ['È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö']
             if input_data[0] in nn_grade_chars:
                 # pre grade climb
                 grade_char = input_data[0]
@@ -53,10 +53,10 @@ class Climb():
 
             elif input_data[-1] in nn_grade_chars:
                 # post grade climb
-                grade_char = input_data[len(input_data)-1]
-                input_data = input_data[:len(input_data)-1]
+                grade_char = input_data[len(input_data) - 1]
+                input_data = input_data[:len(input_data) - 1]
                 self.grade = Grade(grade_char)
-            
+
             else:
                 self.grade = None
 
