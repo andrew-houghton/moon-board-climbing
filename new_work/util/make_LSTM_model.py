@@ -1,25 +1,22 @@
 import os
 from pathlib import Path
-script_parent_directory = Path().resolve().parent
+import sys
 
 #import LSTM model
-import sys
-import_path = str(script_parent_directory) + '/networks/char-rnn-tensorflow'
-sys.path.append(import_path)
+script_parent_directory = Path().resolve().parent
+network_folder = '{}/networks/char-rnn-tensorflow/'.format(script_parent_directory)
+sys.path.append(network_folder)
 import train
 
-# Set up command arguments
-data_filename = 'allclimbs_nograde.txt'
-data_folder = '{}/data/strings/'.format(script_parent_directory)
-network_folder = '{}/networks/char-rnn-tensorflow/'.format(script_parent_directory)
-model_filename = data_filename.replace('.txt', '.ckpt')
-model_dir = '{}/data/models/{}'.format(script_parent_directory, model_filename)
+def train_model(grade_mode):
+	# Check that function parameters are valid
+	if not grade_mode in ['no_grade','post_grade','pre_grade']:
+		raise ValueError('Invalid grade_mode for model training. Use no_grade, post_grade or pre_grade as the grade_mode parameter.')
 
-# Train the model
-train.build_model(
-	data_folder,
-	data_filename,
-	model_dir,
-	model_filename,
-	network_folder,
-	)
+	# Find directories
+	base_save_dir = '{}/data/lstm_files/{}/'.format(script_parent_directory,grade_mode)
+
+	# Train the model
+	train.build_model(base_save_dir)
+
+train_model('no_grade')
