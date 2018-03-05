@@ -36,4 +36,6 @@ def sample_model(grade_mode):
 	return sample.get_sample(base_save_dir,sample_length,seed_str)
 
 if __name__ == '__main__':
-	print(sample_model('no_grade'))
+	grade_mode = 'post_grade'
+	train_model(grade_mode)
+	print(sample_model(grade_mode))
