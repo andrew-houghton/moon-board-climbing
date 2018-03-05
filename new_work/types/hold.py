@@ -18,7 +18,12 @@ def _int_to_char(integer):
 class Hold():
 
     def __init__(self, input_type, hold_input):
+        # Initialize a Hold object
+        # Use either the A3 kind of format that the website provides
+        # Or use the (row, column) format that comes from image input
+
         if input_type == 'website_format':
+            #Check the type/format of the input first
             if type(hold_input) != str:
                 raise ValueError('Invalid data type. hold_input should be str.')
 
@@ -26,6 +31,7 @@ class Hold():
             self.row = int(hold_input[1:])
 
         elif input_type == 'tuple':
+            #Check the type/format of the input first
             if type(hold_input) != tuple:
                 raise ValueError('Invalid data type. hold_input should be tuple.')
             elif len(hold_input) != 2:
@@ -44,12 +50,15 @@ class Hold():
             raise ValueError('Column invalid.')
 
     def __repr__(self):
+        # Use the website format to create human readable string representing the object.
         return self.as_website_format()
 
     def as_nn_format(self):
+        # Convert the hold to 2 characters representing the row and column.
         row_char = chr(_upper_chr_base + self.row)
         col_char = chr(_lower_chr_base + self.col)
         return col_char + row_char
 
     def as_website_format(self):
+        # Output Hold as A12 kind of format
         return _int_to_char(self.col) + str(self.row)

@@ -19,11 +19,13 @@ _valid_grades = {
 class Grade():
 
     def __init__(self, grade):
+        # Initialize a new grade object starting with a font format grade.
         if not grade in _valid_grades.keys():
             raise ValueError('Invalid grade. Not in grade list. Grade should be something like 7C.')
         self.grade_number = _valid_grades[grade]
 
     def as_v_grade(self):
+        # Convert the grade of a climb to V grade format
         return 'Not implemented'
 
     def as_font_grade(self):
@@ -33,5 +35,8 @@ class Grade():
         raise Exception('Invalid grade number. Font grade not found.')
 
     def as_nn_grade(self):
+        # Convert the grade of the climb to a single ascii character
+        # (most grades look like E with an accent or something like that)
+        
         asci_grade_base_num = 200
         return chr(asci_grade_base_num + self.grade_number)
