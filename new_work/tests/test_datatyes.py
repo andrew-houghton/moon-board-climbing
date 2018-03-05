@@ -204,7 +204,6 @@ class TestClimbsetType(unittest.TestCase):
         self.assertEqual(first_climb.holds[3].as_nn_format(), 'Gj')
         self.assertEqual(first_climb.holds[4].as_nn_format(), 'Er')
 
-
     def test_no_grade_sample(self):
         example_no_string = ['ChDlHnGjEr', 'JbIeDhDjCmEoBr', 'FeHhJhHkEjEmEnIhEoDqEr']
         loaded_climbset = Climbset(example_no_string, 'sample')
@@ -216,7 +215,7 @@ class TestClimbsetType(unittest.TestCase):
 
         # Check climb 0 grade
         self.assertEqual(first_climb.grade, None)
-        
+
         # Check climb 0 number of holds
         self.assertEqual(len(first_climb.holds), 5)
         # Check climb 0 holds
@@ -246,4 +245,5 @@ class TestGradeType(unittest.TestCase):
         self.assertEqual(example_grade.grade_number, 0)
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    # unittest.main(verbosity=2)
+    unittest.main(verbosity=1)

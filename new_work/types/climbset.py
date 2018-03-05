@@ -30,8 +30,11 @@ class Climbset():
             # Process each climb one by one and add them to the climbset
             self.climbs = []
             for climb in climbs:
-                cur_climb = Climb('sample',climb)
-                self.climbs.append(cur_climb)
+                try:
+                    cur_climb = Climb('sample',climb)
+                    self.climbs.append(cur_climb)
+                except ValueError:
+                    pass
         else:
             raise ValueError('Invalid input_type argument.')
 
