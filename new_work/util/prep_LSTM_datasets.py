@@ -1,6 +1,7 @@
 import load_json_climbs
 from pathlib import Path
 
+# This creates a climbset and saves it in various formats ready for the LSTM to train on.
 
 def create_lstm_strings():
     base_climbset = load_json_climbs.load_all_as_climbset()
