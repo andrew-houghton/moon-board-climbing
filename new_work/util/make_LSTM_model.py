@@ -1,4 +1,6 @@
 import os
+#surpress tesnsorflow warning
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from pathlib import Path
 import sys
 
@@ -20,8 +22,6 @@ def train_model(grade_mode):
 	# Train the model
 	train.build_model(base_save_dir)
 
-train_model('no_grade')
-
 def sample_model(grade_mode):
 	# Check that function parameters are valid
 	if not grade_mode in ['no_grade','post_grade','pre_grade']:
@@ -33,5 +33,7 @@ def sample_model(grade_mode):
 
 	seed_str='_'
 	sample_length=500
-	sample.get_sample(base_save_dir,sample_length,seed_str):
+	return sample.get_sample(base_save_dir,sample_length,seed_str)
 
+if __name__ == '__main__':
+	print(sample_model('no_grade'))
