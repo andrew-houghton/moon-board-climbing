@@ -164,7 +164,7 @@ class TestClimbsetType(unittest.TestCase):
             example_climbset.no_grade_string(),
             'GbJgJhDhDjAeAmFfDpCr_GcJgJhDhDjAeAmFfDpCr_GdJgJhDhDjAeAmFfDpCr_')
 
-    def test_load_from_sample(self):
+    def test_post_grade_sample(self):
         example_post_string = ['ChDlHnGjErÊ', 'JbIeDhDjCmEoBrÊ', 'FeHhJhHkEjEmEnIhEoDqErÌ']
         loaded_climbset = Climbset(example_post_string, 'sample')
 
@@ -177,8 +177,54 @@ class TestClimbsetType(unittest.TestCase):
         self.assertEqual(first_climb.grade.as_font_grade(), '6B+')
         # Check climb 0 number of holds
         self.assertEqual(len(first_climb.holds), 5)
-        # Check climb 0 first hold
-        self.assertEqual(first_climb.holds[0].as_website_format(), 'Ch')
+        # Check climb 0 holds
+        self.assertEqual(first_climb.holds[0].as_nn_format(), 'Ch')
+        self.assertEqual(first_climb.holds[1].as_nn_format(), 'Dl')
+        self.assertEqual(first_climb.holds[2].as_nn_format(), 'Hn')
+        self.assertEqual(first_climb.holds[3].as_nn_format(), 'Gj')
+        self.assertEqual(first_climb.holds[4].as_nn_format(), 'Er')
+
+    def test_pre_grade_sample(self):
+        example_pre_string = ['ÊChDlHnGjEr', 'ÊJbIeDhDjCmEoBr', 'ÌFeHhJhHkEjEmEnIhEoDqEr']
+        loaded_climbset = Climbset(example_pre_string, 'sample')
+
+        # Check all climbs were added
+        self.assertEqual(len(loaded_climbset.climbs), 3)
+
+        first_climb = loaded_climbset.climbs[0]
+
+        # Check climb 0 grade
+        self.assertEqual(first_climb.grade.as_font_grade(), '6B+')
+        # Check climb 0 number of holds
+        self.assertEqual(len(first_climb.holds), 5)
+        # Check climb 0 holds
+        self.assertEqual(first_climb.holds[0].as_nn_format(), 'Ch')
+        self.assertEqual(first_climb.holds[1].as_nn_format(), 'Dl')
+        self.assertEqual(first_climb.holds[2].as_nn_format(), 'Hn')
+        self.assertEqual(first_climb.holds[3].as_nn_format(), 'Gj')
+        self.assertEqual(first_climb.holds[4].as_nn_format(), 'Er')
+
+
+    def test_no_grade_sample(self):
+        example_no_string = ['ChDlHnGjEr', 'JbIeDhDjCmEoBr', 'FeHhJhHkEjEmEnIhEoDqEr']
+        loaded_climbset = Climbset(example_no_string, 'sample')
+
+        # Check all climbs were added
+        self.assertEqual(len(loaded_climbset.climbs), 3)
+
+        first_climb = loaded_climbset.climbs[0]
+
+        # Check climb 0 grade
+        self.assertEqual(first_climb.grade, None)
+        
+        # Check climb 0 number of holds
+        self.assertEqual(len(first_climb.holds), 5)
+        # Check climb 0 holds
+        self.assertEqual(first_climb.holds[0].as_nn_format(), 'Ch')
+        self.assertEqual(first_climb.holds[1].as_nn_format(), 'Dl')
+        self.assertEqual(first_climb.holds[2].as_nn_format(), 'Hn')
+        self.assertEqual(first_climb.holds[3].as_nn_format(), 'Gj')
+        self.assertEqual(first_climb.holds[4].as_nn_format(), 'Er')
 
 
 from grade import Grade

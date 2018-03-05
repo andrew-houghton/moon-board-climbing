@@ -39,15 +39,25 @@ class Hold():
 
             self.row = int(hold_input[0])
             self.col = int(hold_input[1])
+        elif input_type == 'nn':
+            #Check the type/format of the input first
+            if type(hold_input) != str:
+                raise ValueError('Invalid data type. hold_input should be str.')
+            elif len(hold_input) != 2:
+                raise ValueError('Invalid string length. hold_input should have length of 2.')
+            
+            self.row = ord(hold_input[1])-_upper_chr_base
+            self.col = ord(hold_input[0])-_lower_chr_base
+
         else:
             raise ValueError(
                 'Invalid input type. input_type argument should be a value like "website_format"')
 
         # Check that the row and column number is in a valid range
         if not self.row in range(1, _max_row + 1, 1):
-            raise ValueError('Row number invalid.')
+            raise ValueError('Row number {} invalid.'.format(self.row))
         if not self.col in range(1, _max_col + 1, 1):
-            raise ValueError('Column invalid.')
+            raise ValueError('Column number {} invalid.'.format(self.col))
 
     def __repr__(self):
         # Use the website format to create human readable string representing the object.

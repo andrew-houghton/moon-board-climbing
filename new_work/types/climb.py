@@ -60,7 +60,17 @@ class Climb():
             else:
                 self.grade = None
 
+            # Check that the climb move string is in pairs
+            if len(input_data)%2!=0:
+                raise ValueError('Invalid climb string length, moves should be a pair of holds.')
+
             self.holds = []
+
+            # Work through the string converting pairs of characters into Holds
+            for i in range(0,len(input_data),2):
+                cur_hold = Hold('nn',input_data[i:i+2])
+                self.holds.append(cur_hold)
+
         else:
             raise ValueError('Invalid input type.')
 
