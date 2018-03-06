@@ -18,8 +18,6 @@ climb_image = climb_image.crop((0,0,11,18))
 
 basewidth = 300
 wpercent = (basewidth/float(climb_image.size[0]))
-print(wpercent)
-print(h)
 hsize = int((float(climb_image.size[1])*float(wpercent)))
 climb_image = climb_image.resize((basewidth,hsize), Image.ANTIALIAS)
 climb_image.save('temp.png')
