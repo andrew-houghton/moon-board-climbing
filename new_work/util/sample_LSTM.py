@@ -44,6 +44,10 @@ def clean_sample(sample):
 
     output_list = []
 
+
+    # TODO
+    # MOVE THE VALIDATION OF CLIMBS IN A SAMPLE INTO THE CLIMB CLASS!
+
     # Check all the moves have valid characters
     for climb in split_sample:
         if climb[0] in nn_grade_chars:
