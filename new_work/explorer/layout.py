@@ -32,15 +32,20 @@ class ClimbsetNavigator:
         self.right_button = tk.Button(self.app_root, text="->", command=self.next_image)
         self.toggle_button = tk.Button(self.app_root, text="Toggle", command=self.toggle_overlay)
         self.delete_button = tk.Button(self.app_root, text="Delete", command=self.delete_current)
+        self.save_button = tk.Button(self.app_root, text="Save Climbs", command=self.save_all)
         self.main_image = tk.Label(self.app_root)
 
         # Manage the layout
-        self.top_label.grid(column=1, columnspan=2, padx=10, pady=10)
-        self.left_button.grid(row=1, padx=10, pady=10)
-        self.right_button.grid(column=3, row=1, padx=10, pady=10)
+        self.top_label.grid(column=0, row=0,columnspan=5, padx=10, pady=10)
+
+        self.left_button.grid(column=0, row=1, padx=10, pady=10)
+        self.right_button.grid(column=4, row=1, padx=10, pady=10)
+
         self.toggle_button.grid(column=0, row=2, columnspan=2, padx=10, pady=10)
-        self.delete_button.grid(column=2, row=2, columnspan=2, padx=10, pady=10)
-        self.main_image.grid(column=1, row=1, columnspan=2, padx=10, pady=10)
+        self.delete_button.grid(column=2, row=2, padx=10, pady=10)
+        self.save_button.grid(column=3, row=2, columnspan=2, padx=10, pady=10)
+
+        self.main_image.grid(column=1, row=1, columnspan=3, padx=10, pady=10)
 
         # Manage the initial state of buttons
         self.left_button.config(state=tk.DISABLED)
@@ -48,8 +53,10 @@ class ClimbsetNavigator:
             self.right_button.config(state=tk.DISABLED)
             self.delete_button.config(state=tk.DISABLED)
 
-
         self.set_image_from_index()
+
+    def save_all(self):
+        print('save')
 
     def delete_current(self):
         if len(self.climbset.climbs) > 1:
@@ -95,7 +102,7 @@ class ClimbsetNavigator:
 
     def update_view_state(self):
         # Check that the title at the top and the left and right buttons are in the correct state
-        self.top_label.configure(text='Image {} of {}'.format(self.climb_num+1, len(self.climbset.climbs)))
+        self.top_label.configure(text='Image {} of {}'.format(self.climb_num + 1, len(self.climbset.climbs)))
 
         if self.climb_num == 0:
             self.left_button.config(state=tk.DISABLED)
