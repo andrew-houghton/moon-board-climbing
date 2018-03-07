@@ -26,6 +26,10 @@ class ClimbsetNavigator:
         self.overlay_visible = True
         self.climbset = climbset
 
+        # Bind keypress events
+        self.app_root.bind('<Left>', self.left_event)
+        self.app_root.bind('<Right>', self.right_event)
+
         # Create the display elements
         self.top_label = tk.Label(self.app_root, text="Image 1 of {}".format(len(self.climbset.climbs)))
         self.left_button = tk.Button(self.app_root, text="<-", command=self.last_image)
@@ -36,7 +40,7 @@ class ClimbsetNavigator:
         self.main_image = tk.Label(self.app_root)
 
         # Manage the layout
-        self.top_label.grid(column=0, row=0,columnspan=5, padx=10, pady=10)
+        self.top_label.grid(column=0, row=0, columnspan=5, padx=10, pady=10)
 
         self.left_button.grid(column=0, row=1, padx=10, pady=10)
         self.right_button.grid(column=4, row=1, padx=10, pady=10)
@@ -55,8 +59,19 @@ class ClimbsetNavigator:
 
         self.set_image_from_index()
 
+    def left_event(self, event):
+        self.last_image()
+
+    def right_event(self, event):
+        self.next_image()
+
     def save_all(self):
-        print('save')
+        from pathlib import Path
+        import pickle
+        save_dir = str(Path().resolve().parent) + '/data/climbsets/'
+        save_name = 'climbs.pkl'
+        with open(save_dir + save_name, 'wb') as handle:
+            pickle.dump(self.climbset, handle)
 
     def delete_current(self):
         if len(self.climbset.climbs) > 1:

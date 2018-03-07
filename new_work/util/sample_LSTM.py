@@ -82,7 +82,7 @@ def is_valid_move(move_str):
     return False
 
 if __name__ == '__main__':
-    grade_mode = 'post_grade'
+    grade_mode = 'no_grade'
     climbs = clean_sample(sample_model(grade_mode))
     climbset = climbset.Climbset(climbs, 'sample')
 
