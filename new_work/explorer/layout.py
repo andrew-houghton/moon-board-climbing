@@ -31,7 +31,7 @@ class ClimbsetNavigator:
         self.left_button = tk.Button(self.app_root, text="<-", command=self.last_image)
         self.right_button = tk.Button(self.app_root, text="->", command=self.next_image)
         self.toggle_button = tk.Button(self.app_root, text="Toggle", command=self.toggle_overlay)
-        self.delete_button = tk.Button(self.app_root, text="Delete")
+        self.delete_button = tk.Button(self.app_root, text="Delete", command=self.delete_current)
         self.main_image = tk.Label(self.app_root)
 
         # Manage the layout
@@ -42,9 +42,21 @@ class ClimbsetNavigator:
         self.delete_button.grid(column=2, row=2, columnspan=2, padx=10, pady=10)
         self.main_image.grid(column=1, row=1, columnspan=2, padx=10, pady=10)
 
+        # Manage the initial state of buttons
         self.left_button.config(state=tk.DISABLED)
+        if len(self.climbset.climbs) == 1:
+            self.right_button.config(state=tk.DISABLED)
+            self.delete_button.config(state=tk.DISABLED)
+
 
         self.set_image_from_index()
+
+    def delete_current(self):
+        if len(self.climbset.climbs) > 1:
+            print('delete')
+
+        if len(self.climbset.climbs) <= 1:
+            self.delete_button.config(state=tk.DISABLED)
 
     def toggle_overlay(self):
         self.overlay_visible = not self.overlay_visible
@@ -77,7 +89,7 @@ class ClimbsetNavigator:
 
     def update_view_state(self):
         # Check that the title at the top and the left and right buttons are in the correct state
-        self.top_label.configure(text='Image {}'.format(self.climb_num))
+        self.top_label.configure(text='Image {} of {}'.format(self.climb_num, len(self.climbset.climbs)))
 
         if self.climb_num == 0:
             self.left_button.config(state=tk.DISABLED)
