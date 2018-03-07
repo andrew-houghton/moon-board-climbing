@@ -26,16 +26,20 @@ class ClimbsetNavigator:
         self.climbset = climbset
 
         self.top_label = tk.Label(self.app_root, text="ClimbNum")
-        self.left_button = tk.Button(self.app_root, text="<-")
+        self.left_button = tk.Button(self.app_root, text="<-",command=self.last_image)
         self.right_button = tk.Button(self.app_root, text="->", command=self.next_image)
-        self.toggle_button = tk.Button(self.app_root, text="Toggle", command=self.last_image)
+        self.toggle_button = tk.Button(self.app_root, text="Toggle")
         self.delete_button = tk.Button(self.app_root, text="Delete")
+        self.main_image = tk.Label(self.app_root)
 
         self.top_label.grid(column=1, columnspan=2, padx=10, pady=10)
         self.left_button.grid(row=1, padx=10, pady=10)
         self.right_button.grid(column=3, row=1, padx=10, pady=10)
         self.toggle_button.grid(column=0, row=2, columnspan=2, padx=10, pady=10)
         self.delete_button.grid(column=2, row=2, columnspan=2, padx=10, pady=10)
+        self.main_image.grid(column=1, row=1, columnspan=2, padx=10, pady=10)
+
+        self.left_button.config(state=tk.DISABLED)
 
         self.set_image_from_index()
 
@@ -47,8 +51,7 @@ class ClimbsetNavigator:
         self.update_img()
 
     def update_img(self):
-        self.main_image = tk.Label(self.app_root, image=self.img).grid(
-            column=1, row=1, columnspan=2, padx=10, pady=10)
+        self.main_image.configure(image = self.img)
 
     def run(self):
         self.app_root.mainloop()
@@ -57,15 +60,24 @@ class ClimbsetNavigator:
         if self.climb_num < len(self.climbset.climbs) - 1:
             self.climb_num += 1
             self.set_image_from_index()
-        if self.climb_num == len(self.climbset.climbs)-1:
-            self.right_button.config(state=tk.DISABLED)
+        self.buttons_enabled_update()
 
     def last_image(self):
         if self.climb_num > 0:
             self.climb_num += -1
             self.set_image_from_index()
+        self.buttons_enabled_update()
+
+    def buttons_enabled_update(self):
         if self.climb_num == 0:
-            self.left_button.config(state=ENABLED)
+            self.left_button.config(state=tk.DISABLED)
+        elif self.climb_num >= 1:
+            self.left_button.config(state=tk.NORMAL)
+
+        if self.climb_num == len(self.climbset.climbs)-1:
+            self.right_button.config(state=tk.DISABLED)
+        elif self.climb_num <= len(self.climbset.climbs):
+            self.right_button.config(state=tk.NORMAL)
 
 
 example_no_string = ['ChDlHnGjEr', 'JbIeDhDjCmEoBr', 'FeHhJhHkEjEmEnIhEoDqEr']
