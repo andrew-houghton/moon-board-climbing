@@ -30,6 +30,7 @@ class ClimbsetNavigator:
         self.app_root.bind('<Left>', self.left_event)
         self.app_root.bind('<Right>', self.right_event)
         self.app_root.bind('<Escape>', self.close_window)
+        self.app_root.bind('<Delete>', self.delete_event)
 
         # Create the display elements
         self.top_label = tk.Label(self.app_root, text="Image 1 of {}".format(len(self.climbset.climbs)))
@@ -68,6 +69,9 @@ class ClimbsetNavigator:
 
     def close_window(self,event):
         self.app_root.withdraw()
+
+    def delete_event(self,event):
+        self.delete_current()
 
     def save_all(self):
         from pathlib import Path
