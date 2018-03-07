@@ -72,3 +72,11 @@ class Hold():
     def as_website_format(self):
         # Output Hold as A12 kind of format
         return _int_to_char(self.col) + str(self.row)
+
+    @classmethod
+    def is_valid_hold(cls,move_str):
+        if len(move_str) == 2:
+            if move_str[0] in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']:
+                if move_str[1] in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r']:
+                    return True
+        return False

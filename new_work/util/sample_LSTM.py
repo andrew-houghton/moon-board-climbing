@@ -11,6 +11,7 @@ sys.path.append(network_folder)
 sys.path.append('{}/types/'.format(script_parent_directory))
 sys.path.append('{}/explorer/'.format(script_parent_directory))
 import climbset
+from climb import Climb
 import sample
 
 import layout
@@ -46,40 +47,13 @@ def clean_sample(sample):
 
     output_list = []
 
-    # TODO
-    # MOVE THE VALIDATION OF CLIMBS IN A SAMPLE INTO THE CLIMB CLASS!
-
-    # Check all the moves have valid characters
-    for climb in split_sample:
-        if climb[0] in nn_grade_chars:
-            # pre grade climb
-            climb = climb[1:]
-        elif climb[-1] in nn_grade_chars:
-            # post grade climb
-            climb = climb[:len(climb) - 1]
-
-        if len(climb) % 2 != 0:
-            print('Weird climb length error in clean_sample:{}'.format(climb))
-            continue
-
-        valid_moves = True
-        for i in range(0, len(climb), 2):
-            if not is_valid_move(climb[i:i + 2]):
-                valid_moves = False
-                break
-
-        if valid_moves:
-            output_list.append(climb)
+    # Check all the climbs are valid
+    for climb_str in split_sample:
+        if Climb.valid_input_sample(climb_str):
+            output_list.append(climb_str)
 
     return output_list
 
-
-def is_valid_move(move_str):
-    if len(move_str) == 2:
-        if move_str[0] in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']:
-            if move_str[1] in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r']:
-                return True
-    return False
 
 if __name__ == '__main__':
     grade_mode = 'no_grade'

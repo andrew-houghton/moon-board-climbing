@@ -103,3 +103,27 @@ class Climb():
             ' '.join([i.as_website_format() for i in self.holds]),
             self.grade,
             self.rating)
+
+    @classmethod
+    def valid_input_sample(cls,sample):
+        nn_grade_chars = ['È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö']
+        # First check that it is in a valid length range
+        if len(sample)<2:
+            return False
+
+        # Remove the grade character from the sample if it exists
+        if sample[0] in nn_grade_chars:
+            # pre grade climb
+            sample = sample[1:]
+        elif sample[-1] in nn_grade_chars:
+            # post grade climb
+            sample = sample[:len(sample) - 1]
+
+        # Check remaining moves/ holds are pairs of characters
+        if len(sample) % 2 != 0:
+            return False
+
+        for i in range(0, len(sample), 2):
+            if not Hold.is_valid_hold(sample[i:i + 2]):
+                return False
+        return True
