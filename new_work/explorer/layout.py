@@ -8,19 +8,22 @@ import_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/ty
 sys.path.append(import_path)
 from climbset import Climbset
 
-base_image = Image.open('cleaned.png')
+base_image = Image.open(os.path.dirname(os.path.realpath(__file__))+'/cleaned.png')
 
 
 def fix_transparency(climb_image):
     climb_image = climb_image.convert("RGBA")
     datas = climb_image.getdata()
 
+    # Deals one by one with pixels
+    # Black goes to transparent
+    # White goes to semi transparent black
     newData = []
     for item in datas:
         if item[0] == 255 and item[1] == 255 and item[2] == 255:
             newData.append((0, 0, 0, 100))
         else:
-            newData.append((255, 255, 255, 0))
+            newData.append((0, 0, 0, 0))
     climb_image.putdata(newData)
     return climb_image
 
@@ -36,7 +39,11 @@ def format_image(climb_image):
     blank = Image.new('RGBA',(650, 1000))
     blank.paste(climb_image,(75,65))
     # Paste transparent holds onto background
-    return Image.alpha_composite(base_image, blank)
+    joined_image = Image.alpha_composite(base_image, blank)
+
+    # return joined_image
+    # Finally scale for display
+    return joined_image.resize((400,615),Image.ANTIALIAS)
 
 
 class ClimbsetNavigator:
