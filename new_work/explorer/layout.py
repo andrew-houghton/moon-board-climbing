@@ -8,13 +8,35 @@ import_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/ty
 sys.path.append(import_path)
 from climbset import Climbset
 
+base_image = Image.open('cleaned.png')
+
+
+def fix_transparency(climb_image):
+    climb_image = climb_image.convert("RGBA")
+    datas = climb_image.getdata()
+
+    newData = []
+    for item in datas:
+        if item[0] == 255 and item[1] == 255 and item[2] == 255:
+            newData.append((0, 0, 0, 100))
+        else:
+            newData.append((255, 255, 255, 0))
+    climb_image.putdata(newData)
+    return climb_image
+
 
 def format_image(climb_image):
+    # Crop the climb
     climb_image = climb_image.crop((0, 0, 11, 18))
-    wpercent = (300 / float(climb_image.size[0]))
-    hsize = int((float(climb_image.size[1]) * float(wpercent)))
-    climb_image = climb_image.resize((300, hsize), Image.ANTIALIAS)
-    return climb_image
+    # Resize to match background
+    climb_image = climb_image.resize((540, 900), Image.ANTIALIAS)
+    # Convert holds to transparent regions
+    climb_image = fix_transparency(climb_image)
+    # Paste holds onto large transparent canvas (which matches the background size)
+    blank = Image.new('RGBA',(650, 1000))
+    blank.paste(climb_image,(75,65))
+    # Paste transparent holds onto background
+    return Image.alpha_composite(base_image, blank)
 
 
 class ClimbsetNavigator:
@@ -67,10 +89,10 @@ class ClimbsetNavigator:
     def right_event(self, event):
         self.next_image()
 
-    def close_window(self,event):
+    def close_window(self, event):
         self.app_root.withdraw()
 
-    def delete_event(self,event):
+    def delete_event(self, event):
         self.delete_current()
 
     def save_all(self):
