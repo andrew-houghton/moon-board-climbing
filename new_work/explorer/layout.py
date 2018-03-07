@@ -27,7 +27,7 @@ class ClimbsetNavigator:
         self.climbset = climbset
 
         # Create the display elements
-        self.top_label = tk.Label(self.app_root, text="Image 0")
+        self.top_label = tk.Label(self.app_root, text="Image 1 of {}".format(len(self.climbset.climbs)))
         self.left_button = tk.Button(self.app_root, text="<-", command=self.last_image)
         self.right_button = tk.Button(self.app_root, text="->", command=self.next_image)
         self.toggle_button = tk.Button(self.app_root, text="Toggle", command=self.toggle_overlay)
@@ -53,7 +53,11 @@ class ClimbsetNavigator:
 
     def delete_current(self):
         if len(self.climbset.climbs) > 1:
-            print('delete')
+            self.climbset.climbs.pop(self.climb_num)
+            if self.climb_num == 0:
+                self.process_image_change()
+            else:
+                self.last_image()
 
         if len(self.climbset.climbs) <= 1:
             self.delete_button.config(state=tk.DISABLED)
@@ -77,19 +81,21 @@ class ClimbsetNavigator:
         # Move to next image
         if self.climb_num < len(self.climbset.climbs) - 1:
             self.climb_num += 1
-            self.set_image_from_index()
-            self.update_view_state()
+            self.process_image_change()
 
     def last_image(self):
         # Move to previous image
         if self.climb_num > 0:
             self.climb_num += -1
-            self.set_image_from_index()
-            self.update_view_state()
+            self.process_image_change()
+
+    def process_image_change(self):
+        self.set_image_from_index()
+        self.update_view_state()
 
     def update_view_state(self):
         # Check that the title at the top and the left and right buttons are in the correct state
-        self.top_label.configure(text='Image {} of {}'.format(self.climb_num, len(self.climbset.climbs)))
+        self.top_label.configure(text='Image {} of {}'.format(self.climb_num+1, len(self.climbset.climbs)))
 
         if self.climb_num == 0:
             self.left_button.config(state=tk.DISABLED)
