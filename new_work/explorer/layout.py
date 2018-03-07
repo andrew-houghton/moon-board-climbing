@@ -107,9 +107,9 @@ class ClimbsetNavigator:
         elif self.climb_num <= len(self.climbset.climbs):
             self.right_button.config(state=tk.NORMAL)
 
+if __name__ == '__main__':
+    example_no_string = ['ChDlHnGjEr', 'JbIeDhDjCmEoBr', 'FeHhJhHkEjEmEnIhEoDqEr']
+    loaded_climbset = Climbset(example_no_string, 'sample')
 
-example_no_string = ['ChDlHnGjEr', 'JbIeDhDjCmEoBr', 'FeHhJhHkEjEmEnIhEoDqEr']
-loaded_climbset = Climbset(example_no_string, 'sample')
-
-app = ClimbsetNavigator(loaded_climbset)
-app.run()
+    app = ClimbsetNavigator(loaded_climbset)
+    app.run()

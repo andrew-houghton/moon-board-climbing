@@ -9,9 +9,11 @@ script_parent_directory = Path().resolve().parent
 network_folder = '{}/networks/char-rnn-tensorflow/'.format(script_parent_directory)
 sys.path.append(network_folder)
 sys.path.append('{}/types/'.format(script_parent_directory))
+sys.path.append('{}/explorer/'.format(script_parent_directory))
 import climbset
 import sample
 
+import layout
 
 def sample_model(grade_mode):
     # Check that function parameters are valid
@@ -26,7 +28,7 @@ def sample_model(grade_mode):
     # (ie the network will start generating characters that come after the seed.)
     seed_str = '_'
     # Number of characters in the generated sample
-    sample_length = 500
+    sample_length = 5000
 
     return sample.get_sample(base_save_dir, sample_length, seed_str)
 
@@ -43,7 +45,6 @@ def clean_sample(sample):
     split_sample.pop(len(split_sample) - 1)
 
     output_list = []
-
 
     # TODO
     # MOVE THE VALIDATION OF CLIMBS IN A SAMPLE INTO THE CLIMB CLASS!
@@ -70,7 +71,7 @@ def clean_sample(sample):
         if valid_moves:
             output_list.append(climb)
 
-    return split_sample
+    return output_list
 
 
 def is_valid_move(move_str):
@@ -82,4 +83,8 @@ def is_valid_move(move_str):
 
 if __name__ == '__main__':
     grade_mode = 'post_grade'
-    print(clean_sample(sample_model(grade_mode)))
+    climbs = clean_sample(sample_model(grade_mode))
+    climbset = climbset.Climbset(climbs, 'sample')
+
+    app = layout.ClimbsetNavigator(climbset)
+    app.run()
