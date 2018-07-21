@@ -16,6 +16,7 @@ from climb import Climb
 def load_all_as_climbset():
     # Get all of the json climbs as a big climbset
     json_data = load_all_as_json()
+    pprint(json_data[0])
     all_climbs = json_to_climbset(json_data)
     return all_climbs
 

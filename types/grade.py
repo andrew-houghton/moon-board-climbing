@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 _valid_grades = {
     '6A': 0,
     '6A+': 1,

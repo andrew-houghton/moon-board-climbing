@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from hold import Hold
 from grade import Grade
 from PIL.PngImagePlugin import PngImageFile
@@ -61,14 +64,14 @@ class Climb():
                 self.grade = None
 
             # Check that the climb move string is in pairs
-            if len(input_data)%2!=0:
+            if len(input_data) % 2 != 0:
                 raise ValueError('Invalid climb string length, moves should be a pair of holds.')
 
             self.holds = []
 
             # Work through the string converting pairs of characters into Holds
-            for i in range(0,len(input_data),2):
-                cur_hold = Hold('nn',input_data[i:i+2])
+            for i in range(0, len(input_data), 2):
+                cur_hold = Hold('nn', input_data[i:i + 2])
                 self.holds.append(cur_hold)
 
         else:
@@ -105,10 +108,10 @@ class Climb():
             self.rating)
 
     @classmethod
-    def valid_input_sample(cls,sample):
+    def valid_input_sample(cls, sample):
         nn_grade_chars = ['È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö']
         # First check that it is in a valid length range
-        if len(sample)<2:
+        if len(sample) < 2:
             return False
 
         # Remove the grade character from the sample if it exists

@@ -9,7 +9,7 @@ script_parent_directory = Path().resolve().parent
 
 # Load all unprocessed json data
 with open(str(script_parent_directory) + '/data/json/all.json') as handle:
-    lines = handle.read().split('\n\n\n')
+    lines = handle.read().split('\n')
 
 # Data is stored on seperate lines which all contain json objects
 
