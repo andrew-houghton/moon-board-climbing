@@ -3,3 +3,4 @@ __pycache__
 current.png
 venv/
 data/json
+data/lstm_files

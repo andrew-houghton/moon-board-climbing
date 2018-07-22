@@ -6,15 +6,16 @@ import sys
 
 # import LSTM model
 script_parent_directory = Path().resolve().parent
-network_folder = '{}/networks/char-rnn-tensorflow/'.format(script_parent_directory)
+network_folder = '{}/models/char-rnn-tensorflow/'.format(script_parent_directory)
 sys.path.append(network_folder)
 sys.path.append('{}/types/'.format(script_parent_directory))
-sys.path.append('{}/explorer/'.format(script_parent_directory))
+sys.path.append('{}/climb_viewer/'.format(script_parent_directory))
 import climbset
 from climb import Climb
 import sample
 
 import layout
+
 
 def sample_model(grade_mode):
     # Check that function parameters are valid
