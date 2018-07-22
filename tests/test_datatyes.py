@@ -1,5 +1,7 @@
-import unittest
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
+import unittest
 import os
 import sys
 import_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/types'
@@ -7,8 +9,6 @@ sys.path.append(import_path)
 
 from hold import Hold
 import hold
-
-
 from PIL import Image
 
 

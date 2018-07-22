@@ -16,7 +16,6 @@ from climb import Climb
 def load_all_as_climbset():
     # Get all of the json climbs as a big climbset
     json_data = load_all_as_json()
-    pprint(json_data[0])
     all_climbs = json_to_climbset(json_data)
     return all_climbs
 
@@ -40,4 +39,16 @@ def json_to_climbset(data):
 
 if __name__ == '__main__':
     all_climbs = load_all_as_climbset()
-    print(all_climbs.pre_grade_string())
+    data_directory = str(Path().resolve().parent) + '/data/lstm_files/'
+    save_data = [
+        ['post_grade', all_climbs.post_grade_string()],
+        ['no_grade', all_climbs.no_grade_string()],
+        ['pre_grade', all_climbs.pre_grade_string()],
+    ]
+    for data in save_data:
+        folder_name, climb_text = data
+        write_path = data_directory + folder_name
+        print(write_path)
+        os.makedirs(write_path)
+        with open(write_path + '/input.txt', 'w') as handle:
+            handle.write(climb_text)

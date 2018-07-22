@@ -16,7 +16,7 @@ class Climbset():
                 if type(climb) != Climb:
                     raise ValueError('Objects in climbset must be of type climb.')
             self.climbs = climbs
-        
+
         elif input_type == 'sample':
             # Check input type
             if not type(climbs) == list:
@@ -31,7 +31,7 @@ class Climbset():
             self.climbs = []
             for climb in climbs:
                 try:
-                    cur_climb = Climb('sample',climb)
+                    cur_climb = Climb('sample', climb)
                     self.climbs.append(cur_climb)
                 except ValueError:
                     pass
@@ -44,7 +44,7 @@ class Climbset():
 
     def add(self, climb):
         # Add a new climb into the climbset (at the end)
-        if type(climb) != Climb:
+        if climb.__class__ != Climb:
             raise ValueError('Objects in climbset must be of type climb.')
         self.climbs.append(climb)
 
@@ -72,6 +72,7 @@ class Climbset():
                 grade=climb.grade.as_nn_grade(),
                 moves=climb.moves_nn_string(),
                 terminator=self.get_terminator())
+        print(len(output_str))
         return output_str
 
     def no_grade_string(self):
