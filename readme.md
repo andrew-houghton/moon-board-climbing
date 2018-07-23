@@ -1,11 +1,12 @@
 ## How to generate climbs
 
 1. Clone the repo
-2. Install python dependencies.
+2. Install python dependencies by running:
 
-    Run:
     `virtualenv -p python3 venv`
+
     `source venv/bin/activate`
+
     `pip install -r requirements.txt`
 
 3. Run setup script
