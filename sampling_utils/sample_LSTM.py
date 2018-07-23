@@ -1,15 +1,15 @@
 import os
 # surpress tesnsorflow warning
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-from pathlib import Path
 import sys
 
 # import LSTM model
-script_parent_directory = Path().resolve().parent
-network_folder = '{}/models/char-rnn-tensorflow/'.format(script_parent_directory)
+base_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+network_folder = '{}/models/char-rnn-tensorflow/'.format(base_directory)
 sys.path.append(network_folder)
-sys.path.append('{}/types/'.format(script_parent_directory))
-sys.path.append('{}/climb_viewer/'.format(script_parent_directory))
+sys.path.append('{}/types/'.format(base_directory))
+sys.path.append('{}/climb_viewer/'.format(base_directory))
 import climbset
 from climb import Climb
 import sample
@@ -24,7 +24,7 @@ def sample_model(grade_mode):
             'Invalid grade_mode for model training. Use no_grade, post_grade or pre_grade as the grade_mode parameter.')
 
     # Find directories
-    base_save_dir = '{}/data/lstm_files/{}/'.format(script_parent_directory, grade_mode)
+    base_save_dir = '{}/data/lstm_files/{}/'.format(base_directory, grade_mode)
 
     # Start the sample with an the seed_str
     # (ie the network will start generating characters that come after the seed.)
