@@ -2,7 +2,6 @@
 
 import json
 from pathlib import Path
-from pprint import pprint
 
 # Find parent directory to access raw data
 script_parent_directory = Path().resolve().parent

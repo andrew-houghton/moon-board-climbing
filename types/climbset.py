@@ -72,7 +72,6 @@ class Climbset():
                 grade=climb.grade.as_nn_grade(),
                 moves=climb.moves_nn_string(),
                 terminator=self.get_terminator())
-        print(len(output_str))
         return output_str
 
     def no_grade_string(self):

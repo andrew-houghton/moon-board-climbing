@@ -4,3 +4,4 @@ current.png
 venv/
 data/json
 data/lstm_files
+data/images
