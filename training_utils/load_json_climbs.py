@@ -1,13 +1,11 @@
 # This function loads all the climbs and converts them to climb objects
 import json
-from pathlib import Path
-from pprint import pprint
 
-# Allow importing of the types
+# Allow importing of the custom climb types
 import os
 import sys
-import_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/types'
-sys.path.append(import_path)
+base_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(base_directory + '/types')
 
 from climbset import Climbset
 from climb import Climb
@@ -22,8 +20,8 @@ def load_all_as_climbset():
 
 def load_all_as_json():
     # Open all json data stored in the data directory.
-    script_parent_directory = Path().resolve().parent
-    with open(str(script_parent_directory) + '/data/json/combined.json') as handle:
+    script_parent_directory = Path().resolve()
+    with open(base_directory + '/data/json/combined.json') as handle:
         loaded_data = json.load(handle)
     return loaded_data
 
@@ -37,18 +35,27 @@ def json_to_climbset(data):
         cur_climb = all_climbs.add(Climb('json', cur_climb_json))
     return all_climbs
 
-if __name__ == '__main__':
+
+def main():
+    # Get all the climbs
     all_climbs = load_all_as_climbset()
-    data_directory = str(Path().resolve().parent) + '/data/lstm_files/'
+
+    # Save them in different formats
+    data_directory = base_directory + '/data/lstm_files/'
     save_data = [
         ['post_grade', all_climbs.post_grade_string()],
         ['no_grade', all_climbs.no_grade_string()],
         ['pre_grade', all_climbs.pre_grade_string()],
     ]
+
+    # File writing
     for data in save_data:
         folder_name, climb_text = data
         write_path = data_directory + folder_name
-        print(write_path)
         os.makedirs(write_path)
         with open(write_path + '/input.txt', 'w') as handle:
             handle.write(climb_text)
+
+
+if __name__ == '__main__':
+    main()
