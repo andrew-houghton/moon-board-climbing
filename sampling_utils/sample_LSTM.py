@@ -1,11 +1,10 @@
 import os
 # surpress tesnsorflow warning
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-from pathlib import Path
 import sys
 
 # import LSTM model
-script_parent_directory = Path().resolve().parent
+script_parent_directory = os.path.abspath(__file__+"/../../")
 network_folder = '{}/models/char-rnn-tensorflow/'.format(script_parent_directory)
 sys.path.append(network_folder)
 sys.path.append('{}/types/'.format(script_parent_directory))
