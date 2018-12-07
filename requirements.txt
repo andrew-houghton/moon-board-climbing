@@ -1,4 +1,8 @@
 tensorflow
 pillow
 pprint
-pathlib
+hypergan
+hyperchamber
+numpy
+pillow
+pygame
