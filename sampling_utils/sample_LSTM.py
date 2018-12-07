@@ -4,9 +4,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import sys
 
 # import LSTM model
-base_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-network_folder = '{}/models/char-rnn-tensorflow/'.format(base_directory)
+script_parent_directory = os.path.abspath(__file__ + "/../../")
+network_folder = '{}/models/char-rnn-tensorflow/'.format(script_parent_directory)
 sys.path.append(network_folder)
 sys.path.append('{}/types/'.format(base_directory))
 sys.path.append('{}/climb_viewer/'.format(base_directory))
