@@ -29,20 +29,18 @@
 ### HyperGAN
 
 1. Compete setup.
-2. `hypergan new mymodel`
-3. Start the model training. Ideally use a GPU for this. I don't have one so I just used my laptop cpu for a couple of hours.
+2. Install the hypergan package (https://github.com/255BITS/HyperGAN)
+3. `hypergan new mymodel`
+4. Start the model training. Ideally use a GPU for this. I don't have one so I just used my laptop cpu for a couple of hours.
 
 `hypergan train data/images/ -s 18x18 -f png -c mymodel`
 
-4. 
+5.
 
-<!-- ### File system description.
+`TODO insert sampling command here` 
 
-* The data for training the models
-* The tests folder holds unit tests which are used the check the qulity of code written.
-* The types folder holds the files which define the types used in this project. Climbs are stored as instances of the 'Climb' class within the project.
-* The util folder holds files which can be run to perform changes and data processing tasks mostly.
- -->
+### File system description.
+
 * The training_utils, and sampling_utils folder holds files which can be run to perform changes and data processing tasks mostly, and call for the model to be trained.
 * The models folder holds the code for the neural nets which I use. They've just been tweaked so they can be called by my methods buy I haven't changed them too much.
 
