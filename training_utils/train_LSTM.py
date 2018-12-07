@@ -17,7 +17,7 @@ def train_model(grade_mode):
             'Invalid grade_mode for model training. Use no_grade, post_grade or pre_grade as the grade_mode parameter.')
 
     # Find directories
-    base_save_dir = '{}/data/lstm_files/{}/'.format(base_directory, grade_mode)
+    base_save_dir = '{}/data/lstm_files/{}/'.format(script_parent_directory, grade_mode)
 
     # Train the model
     train.build_model(base_save_dir)
