@@ -1,3 +1,7 @@
+## What is it?
+
+It's a way to make new climbs for the [moon board](https://www.moonboard.com/) using machine learning!
+
 ## Setup
 
 1. Clone the repo
@@ -6,6 +10,9 @@
 `virtualenv -p python3 venv`
 
 `source venv/bin/activate`
+
+If running on Mac run
+`pip install https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.12.0-py3-none-any.whl`
 
 `pip install -r requirements.txt`
 
@@ -26,6 +33,10 @@
 
 `python sampling_utils/sample_LSTM.py`
 
+A new window will open up. Play around and look at the climbs.
+
+![UI screenshot](https://github.com/ahou8288/moon-board-climbing/blob/master/climb_viewer/Ui.png)
+
 ### HyperGAN
 
 1. Compete setup.
@@ -35,9 +46,11 @@
 
 `hypergan train data/images/ -s 18x18 -f png -c mymodel`
 
-5.
+5. `TODO insert sampling command here` 
 
-`TODO insert sampling command here` 
+Hypergn will generate new samples. Eg.
+
+![Hypergan sample](https://github.com/ahou8288/moon-board-climbing/blob/master/climb_viewer/temp.png)
 
 ### File system description.
 
@@ -46,4 +59,4 @@
 
 ## Models used
 
-I've used `https://github.com/sherjilozair/char-rnn-tensorflow` and `https://github.com/255BITS/HyperGAN` for the models.
+I've used https://github.com/sherjilozair/char-rnn-tensorflow and https://github.com/255BITS/HyperGAN for the models.

@@ -1,5 +1,4 @@
 tensorflow
-pillow
 pprint
 hypergan
 hyperchamber
