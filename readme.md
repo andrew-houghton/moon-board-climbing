@@ -35,7 +35,7 @@ If running on Mac run
 
 A new window will open up. Play around and look at the climbs.
 
-<img src="climb_viewer/Ui.png" width="200px">
+<img src="climb_viewer/Ui.png" width="400">
 
 ### HyperGAN
 
