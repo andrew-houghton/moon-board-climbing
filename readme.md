@@ -50,7 +50,7 @@ A new window will open up. Play around and look at the climbs.
 
 Hypergn will generate new samples. Eg.
 
-![Hypergan sample](https://github.com/ahou8288/moon-board-climbing/blob/master/climb_viewer/temp.png)
+![Hypergan sample](https://github.com/andrew-houghton/moon-board-climbing/blob/master/climb_viewer/temp.png)
 
 ### File system description.
 
