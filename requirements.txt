@@ -1,7 +1,7 @@
 tensorflow
-pprint
 hypergan
 hyperchamber
 numpy
 pillow
 pygame
+keras
