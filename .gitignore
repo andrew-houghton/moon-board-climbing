@@ -7,3 +7,4 @@ data/lstm_files
 data/images
 mymodel.json
 numpy.pkl
+data/numpy
