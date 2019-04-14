@@ -16,7 +16,7 @@ import sample
 import layout
 
 
-def sample_model(grade_mode):
+def sample_model(grade_mode, sample_length=5000, seed_str='_'):
     # Check that function parameters are valid
     if not grade_mode in ['no_grade', 'post_grade', 'pre_grade']:
         raise ValueError(
@@ -27,10 +27,6 @@ def sample_model(grade_mode):
 
     # Start the sample with an the seed_str
     # (ie the network will start generating characters that come after the seed.)
-    seed_str = '_'
-    # Number of characters in the generated sample
-    sample_length = 5000
-
     return sample.get_sample(base_save_dir, sample_length, seed_str)
 
 
@@ -56,7 +52,7 @@ def clean_sample(sample):
 
 
 if __name__ == '__main__':
-    grade_mode = 'no_grade'
+    grade_mode = 'post_grade'
     climbs = clean_sample(sample_model(grade_mode))
     climbset = climbset.Climbset(climbs, 'sample')
 

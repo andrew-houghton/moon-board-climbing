@@ -23,5 +23,5 @@ def train_model(grade_mode):
     train.build_model(base_save_dir)
 
 if __name__ == '__main__':
-    grade_mode = 'no_grade'
+    grade_mode = 'post_grade'
     train_model(grade_mode)

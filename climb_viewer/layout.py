@@ -4,9 +4,11 @@ from PIL import Image
 
 import os
 import sys
+
 import_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/types'
 sys.path.append(import_path)
 from climbset import Climbset
+
 
 base_image = Image.open(os.path.dirname(os.path.realpath(__file__))+'/cleaned.png')
 
@@ -63,6 +65,7 @@ class ClimbsetNavigator:
 
         # Create the display elements
         self.top_label = tk.Label(self.app_root, text="Image 1 of {}".format(len(self.climbset.climbs)))
+        self.grade_label = tk.Label(self.app_root, text="Grade: ")
         self.left_button = tk.Button(self.app_root, text="<-", command=self.last_image)
         self.right_button = tk.Button(self.app_root, text="->", command=self.next_image)
         self.toggle_button = tk.Button(self.app_root, text="Toggle", command=self.toggle_overlay)
@@ -71,7 +74,9 @@ class ClimbsetNavigator:
         self.main_image = tk.Label(self.app_root)
 
         # Manage the layout
-        self.top_label.grid(column=0, row=0, columnspan=5, padx=10, pady=10)
+        self.top_label.grid(column=0, row=0, columnspan=3, padx=10, pady=10)
+
+        self.grade_label.grid(column=3, row=0, columnspan=2, padx=10, pady=10)
 
         self.left_button.grid(column=0, row=1, padx=10, pady=10)
         self.right_button.grid(column=4, row=1, padx=10, pady=10)
@@ -131,6 +136,9 @@ class ClimbsetNavigator:
         image.save('current.png')
         self.img = ImageTk.PhotoImage(file='current.png')
         self.main_image.configure(image=self.img)
+
+        climb = self.climbset.climbs[self.climb_num]
+        self.grade_label.configure(text=f'Grade: {climb.grade} - {climb.grade.grade_number}')
 
     def run(self):
         # Show the app
