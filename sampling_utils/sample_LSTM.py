@@ -30,10 +30,10 @@ def sample_model(grade_mode, sample_length=5000, seed_str='_'):
     return sample.get_sample(base_save_dir, sample_length, seed_str)
 
 
-def clean_sample(sample):
+def clean_sample(sample, grade_mode):
     terminator_char = climbset.Climbset.get_terminator()
     split_sample = sample.split(terminator_char)
-    nn_grade_chars = ['È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö']
+    nn_grade_chars = ['z', 'x', 'y', 'w', 'u', 'v', 't', 's', 'Z', 'X', 'Y', 'W', 'U', 'V', 'T']
 
     # Clean up items at the end
     if len(split_sample[0]) <= 1:
@@ -53,7 +53,8 @@ def clean_sample(sample):
 
 if __name__ == '__main__':
     grade_mode = 'post_grade'
-    climbs = clean_sample(sample_model(grade_mode))
+    sample = sample_model(grade_mode)
+    climbs = clean_sample(sample, grade_mode)
     climbset = climbset.Climbset(climbs, 'sample')
 
     app = layout.ClimbsetNavigator(climbset)

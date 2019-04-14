@@ -47,7 +47,7 @@ class Climb():
             self.rating = None
 
             # find out if there is a grade character
-            nn_grade_chars = ['È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö']
+            nn_grade_chars = ['z', 'x', 'y', 'w', 'u', 'v', 't', 's', 'Z', 'X', 'Y', 'W', 'U', 'V', 'T']
             if input_data[0] in nn_grade_chars:
                 # pre grade climb
                 grade_char = input_data[0]
@@ -109,7 +109,7 @@ class Climb():
 
     @classmethod
     def valid_input_sample(cls, sample):
-        nn_grade_chars = ['È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö']
+        nn_grade_chars = ['z', 'x', 'y', 'w', 'u', 'v', 't', 's', 'Z', 'X', 'Y', 'W', 'U', 'V', 'T']
         # First check that it is in a valid length range
         if len(sample) < 2:
             return False

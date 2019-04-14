@@ -19,21 +19,24 @@ _valid_grades = {
     '8B+': 14}
 
 _valid_nn_grades = {
-    'È': 0,
-    'É': 1,
-    'Ê': 2,
-    'Ë': 3,
-    'Ì': 4,
-    'Í': 5,
-    'Î': 6,
-    'Ï': 7,
-    'Ð': 8,
-    'Ñ': 9,
-    'Ò': 10,
-    'Ó': 11,
-    'Ô': 12,
-    'Õ': 13,
-    'Ö': 14}
+    'z': 0,
+    'x': 1,
+    'y': 2,
+    'w': 3,
+    'u': 4,
+    'v': 5,
+    't': 6,
+    's': 7,
+    'Z': 8,
+    'X': 9,
+    'Y': 10,
+    'W': 11,
+    'U': 12,
+    'V': 13,
+    'T': 14
+}
+
+_nn_grades_inverse = ['z', 'x', 'y', 'w', 'u', 'v', 't', 's', 'Z', 'X', 'Y', 'W', 'U', 'V', 'T']
 
 
 class Grade():
@@ -61,9 +64,7 @@ class Grade():
     def as_nn_grade(self):
         # Convert the grade of the climb to a single ascii character
         # (most grades look like E with an accent or something like that)
-
-        asci_grade_base_num = 200
-        return chr(asci_grade_base_num + self.grade_number)
+        return _nn_grades_inverse[self.grade_number]
 
     def __repr__(self):
         return self.as_font_grade()
