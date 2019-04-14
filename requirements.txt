@@ -5,3 +5,4 @@ hyperchamber
 numpy
 pillow
 pygame
+keras
