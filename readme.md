@@ -60,3 +60,13 @@ Hypergn will generate new samples. Eg.
 ## Models used
 
 I've used https://github.com/sherjilozair/char-rnn-tensorflow and https://github.com/255BITS/HyperGAN for the models.
+
+## Grading climbs
+
+1. Train the LSTM as above.
+2. Run `python sampling_utils/grade_climbset.py`
+3. You should a few warnings and see output like
+```
+Managed to grade 33%
+Managed to correctly grade 12%
+```
