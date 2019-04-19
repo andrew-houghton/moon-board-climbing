@@ -42,6 +42,10 @@ class Climbset():
     def get_terminator(cls):
         return '_'
 
+    @classmethod
+    def get_grade_seperator(cls):
+        return '='
+
     def add(self, climb):
         # Add a new climb into the climbset (at the end)
         if climb.__class__ != Climb:
@@ -53,10 +57,11 @@ class Climbset():
         # Put the grade before the moves of the each climb
 
         output_str = ''
-        format_str = '{grade}{moves}{terminator}'
+        format_str = '{grade}{grade_seperator}{moves}{terminator}'
         for climb in self.climbs:
             output_str += format_str.format(
                 grade=climb.grade.as_nn_grade(),
+                grade_seperator=self.get_grade_seperator(),
                 moves=climb.moves_nn_string(),
                 terminator=self.get_terminator())
         return output_str
@@ -64,12 +69,13 @@ class Climbset():
     def post_grade_string(self):
         # Create a string containing all the climbs in the climbset
         # Put the grade after the moves of the each climb
-
         output_str = ''
-        format_str = '{moves}{grade}{terminator}'
+        format_str = '{moves}{grade_seperator}{grade}{terminator}'
         for climb in self.climbs:
+
             output_str += format_str.format(
                 grade=climb.grade.as_nn_grade(),
+                grade_seperator=self.get_grade_seperator(),
                 moves=climb.moves_nn_string(),
                 terminator=self.get_terminator())
         return output_str

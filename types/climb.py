@@ -56,8 +56,8 @@ class Climb():
 
             elif input_data[-1] in nn_grade_chars:
                 # post grade climb
-                grade_char = input_data[len(input_data) - 1]
-                input_data = input_data[:len(input_data) - 1]
+                grade_char = input_data[-1]
+                input_data = input_data[:len(input_data) - 3]
                 self.grade = Grade(grade_char)
 
             else:

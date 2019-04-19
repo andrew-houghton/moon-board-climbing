@@ -5,3 +5,4 @@ numpy
 pillow
 pygame
 keras
+tqdm

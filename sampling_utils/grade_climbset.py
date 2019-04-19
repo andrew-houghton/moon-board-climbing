@@ -11,6 +11,7 @@ from pprint import pprint
 import climb_loader
 import sample
 import grade
+from climbset import Climbset
 
 
 def grade_output(score):
@@ -24,13 +25,15 @@ def grade_output(score):
 
 def grade_everything(climbs):
     # Convert each climb from the data type Climb, to a string without the grade on the end
-    seed_strings = [climb.moves_nn_string() for climb in climbs]
+    seed_strings = [climb.moves_nn_string()+Climbset.get_grade_seperator() for climb in climbs]
 
     # Generate the grade character for every climb in the list
     model_output = sample.sample_many(base_save_dir, 1, seed_strings)
 
     # Convert the network output into the Grade type
     model_grades = list(map(grade_output, model_output))
+
+    pprint(list(zip(model_output, model_grades)))
 
     # Update the climbs with the grade value
     for climb, nn_grade in zip(climbs, model_grades):
@@ -46,7 +49,7 @@ if __name__ == '__main__':
     num = 100
     all_climbs.climbs = grade_everything(all_climbs.climbs[0:num])
 
-    num_graded = sum([i.nn_grade is None for i in all_climbs.climbs])
+    num_graded = sum([i.nn_grade is not None for i in all_climbs.climbs])
     print(f'Managed to grade {num_graded/num:.0%}')
     
     num_correct = sum([i.nn_grade is not None and i.grade.grade_number == i.nn_grade.grade_number for i in all_climbs.climbs])

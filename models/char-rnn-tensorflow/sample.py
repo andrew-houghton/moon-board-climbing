@@ -1,13 +1,10 @@
 from __future__ import print_function
-
 import tensorflow as tf
-
 import argparse
 import os
 from six.moves import cPickle
-
+import tqdm
 from model import Model
-
 from six import text_type
 
 def get_default_args():
@@ -76,7 +73,10 @@ def sample_many(base_save_dir, sample_length, seed_str):
         ckpt = tf.train.get_checkpoint_state(args.save_dir+'save/')
         if ckpt and ckpt.model_checkpoint_path:
             saver.restore(sess, ckpt.model_checkpoint_path)
-            return [model.sample(sess, chars, vocab, args.n, i, args.sample) for i in seed_str]
+            scores = []
+            for i in tqdm.tqdm(seed_str):
+                scores.append(model.sample(sess, chars, vocab, args.n, i, args.sample))
+            return scores
 
 
 if __name__ == '__main__':
