@@ -28,7 +28,9 @@ def grade_everything(climbs):
     seed_strings = [climb.moves_nn_string()+Climbset.get_grade_seperator() for climb in climbs]
 
     # Generate the grade character for every climb in the list
+    print(f"Grading {len(climbs)} climbs")
     model_output = sample.sample_many(base_save_dir, 1, seed_strings)
+    print(f"Finished grading")
 
     # Convert the network output into the Grade type
     model_grades = list(map(grade_output, model_output))
@@ -45,8 +47,8 @@ if __name__ == '__main__':
     # Load all the climbs
     all_climbs = climb_loader.load_all_as_climbset()
 
-    # Grade and keep the first 100 climbs
-    num = 100
+    # Grade and keep the first few climbs
+    num = 500
     all_climbs.climbs = grade_everything(all_climbs.climbs[0:num])
 
     num_graded = sum([i.nn_grade is not None for i in all_climbs.climbs])
