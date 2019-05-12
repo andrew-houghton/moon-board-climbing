@@ -1,7 +1,6 @@
-from moon.models.auto_ml_grading.model import Model
+import pickle
 
-
-test_data, score_data = Model().sample()
+test_data, score_data = pickle.load(open('scores.pickle', 'rb'))
 correct = 0
 for i in range(len(test_data)):
 	if test_data[i] == score_data[i]:
