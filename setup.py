@@ -1,12 +1,23 @@
-from training_utils import decompress, prep_lstm, prep_hypergan
+from setuptools import setup, find_packages
 
-print('Decompressing climb data.')
-decompress.main()
 
-print('Converting climb data to LSTM input format.')
-prep_lstm.main()
+requirements = [
+    'tensorflow',
+    'hypergan',
+    'hyperchamber',
+    'numpy',
+    'pillow',
+    'pygame',
+    'keras',
+    'tqdm',
+]
 
-print('Creating images for the hypergan to train on.')
-prep_hypergan.main()
 
-print('Finished preparing datasets for training.')
+setup(
+    name='moon',
+    version='0.1',
+    description='moon board climb generation and grading',
+    packages=find_packages(),
+    install_requires=requirements,
+    include_package_data=True
+)

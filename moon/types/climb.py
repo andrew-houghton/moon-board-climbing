@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from hold import Hold
-from grade import Grade
+from moon.types.hold import Hold
+from moon.types.grade import Grade
 from PIL.PngImagePlugin import PngImageFile
 
 

@@ -1,4 +1,4 @@
-from climb import Climb
+from moon.types.climb import Climb
 
 
 class Climbset():
