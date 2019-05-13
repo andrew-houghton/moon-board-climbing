@@ -1,22 +1,19 @@
-import moon
 import argparse
-from typing import Tuple, Union, List
+from typing import List, Tuple, Union
+
+import moon
 from moon.types.climbset import Climbset
 
 
 class BaseModel:
     def parse(self):
-        function_map = {
-            'prep': self.prep,
-            'train': self.train,
-            'sample': self.sample,
-        }
+        function_map = {"prep": self.prep, "train": self.train, "sample": self.sample}
 
         parser = argparse.ArgumentParser()
         group = parser.add_mutually_exclusive_group(required=True)
-        group.add_argument('prep', nargs='?')
-        group.add_argument('train', nargs='?')
-        group.add_argument('sample', nargs='?')
+        group.add_argument("prep", nargs="?")
+        group.add_argument("train", nargs="?")
+        group.add_argument("sample", nargs="?")
         args = [i for i in parser.parse_args().__dict__.values()][0]
 
         function_map[args]()

@@ -1,16 +1,16 @@
-import tkinter as tk
-from PIL import ImageTk
-from PIL import Image
-
 import os
 import sys
+import tkinter as tk
 
-import_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/types'
-sys.path.append(import_path)
+from PIL import Image, ImageTk
+
 from climbset import Climbset
 
+import_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/types"
+sys.path.append(import_path)
 
-base_image = Image.open(os.path.dirname(os.path.realpath(__file__))+'/cleaned.png')
+
+base_image = Image.open(os.path.dirname(os.path.realpath(__file__)) + "/cleaned.png")
 
 
 def fix_transparency(climb_image):
@@ -38,18 +38,17 @@ def format_image(climb_image):
     # Convert holds to transparent regions
     climb_image = fix_transparency(climb_image)
     # Paste holds onto large transparent canvas (which matches the background size)
-    blank = Image.new('RGBA',(650, 1000))
-    blank.paste(climb_image,(75,65))
+    blank = Image.new("RGBA", (650, 1000))
+    blank.paste(climb_image, (75, 65))
     # Paste transparent holds onto background
     joined_image = Image.alpha_composite(base_image, blank)
 
     # return joined_image
     # Finally scale for display
-    return joined_image.resize((400,615),Image.ANTIALIAS)
+    return joined_image.resize((400, 615), Image.ANTIALIAS)
 
 
 class ClimbsetNavigator:
-
     def __init__(self, climbset):
         self.app_root = tk.Tk()
         # Create the variables for managing the display
@@ -58,10 +57,10 @@ class ClimbsetNavigator:
         self.climbset = climbset
 
         # Bind keypress events
-        self.app_root.bind('<Left>', self.left_event)
-        self.app_root.bind('<Right>', self.right_event)
-        self.app_root.bind('<Escape>', self.close_window)
-        self.app_root.bind('<Delete>', self.delete_event)
+        self.app_root.bind("<Left>", self.left_event)
+        self.app_root.bind("<Right>", self.right_event)
+        self.app_root.bind("<Escape>", self.close_window)
+        self.app_root.bind("<Delete>", self.delete_event)
 
         # Create the display elements
         self.top_label = tk.Label(self.app_root, text="Image 1 of {}".format(len(self.climbset.climbs)))
@@ -110,9 +109,10 @@ class ClimbsetNavigator:
     def save_all(self):
         from pathlib import Path
         import pickle
-        save_dir = str(Path().resolve().parent) + '/data/climbsets/'
-        save_name = 'climbs.pkl'
-        with open(save_dir + save_name, 'wb') as handle:
+
+        save_dir = str(Path().resolve().parent) + "/data/climbsets/"
+        save_name = "climbs.pkl"
+        with open(save_dir + save_name, "wb") as handle:
             pickle.dump(self.climbset, handle)
 
     def delete_current(self):
@@ -133,12 +133,12 @@ class ClimbsetNavigator:
         # Change the image which is displayed to match the index
         image = self.climbset.climbs[self.climb_num].as_image()
         image = format_image(image)
-        image.save('current.png')
-        self.img = ImageTk.PhotoImage(file='current.png')
+        image.save("current.png")
+        self.img = ImageTk.PhotoImage(file="current.png")
         self.main_image.configure(image=self.img)
 
         climb = self.climbset.climbs[self.climb_num]
-        self.grade_label.configure(text=f'Grade: {climb.grade} - {climb.grade.grade_number}')
+        self.grade_label.configure(text=f"Grade: {climb.grade} - {climb.grade.grade_number}")
 
     def run(self):
         # Show the app
@@ -162,7 +162,7 @@ class ClimbsetNavigator:
 
     def update_view_state(self):
         # Check that the title at the top and the left and right buttons are in the correct state
-        self.top_label.configure(text='Image {} of {}'.format(self.climb_num + 1, len(self.climbset.climbs)))
+        self.top_label.configure(text="Image {} of {}".format(self.climb_num + 1, len(self.climbset.climbs)))
 
         if self.climb_num == 0:
             self.left_button.config(state=tk.DISABLED)
@@ -174,9 +174,10 @@ class ClimbsetNavigator:
         elif self.climb_num <= len(self.climbset.climbs):
             self.right_button.config(state=tk.NORMAL)
 
-if __name__ == '__main__':
-    example_no_string = ['ChDlHnGjEr', 'JbIeDhDjCmEoBr', 'FeHhJhHkEjEmEnIhEoDqEr']
-    loaded_climbset = Climbset(example_no_string, 'sample')
+
+if __name__ == "__main__":
+    example_no_string = ["ChDlHnGjEr", "JbIeDhDjCmEoBr", "FeHhJhHkEjEmEnIhEoDqEr"]
+    loaded_climbset = Climbset(example_no_string, "sample")
 
     app = ClimbsetNavigator(loaded_climbset)
     app.run()
