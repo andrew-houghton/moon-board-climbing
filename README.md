@@ -1,26 +1,19 @@
 ## What is it?
 
-It's a way to make new climbs for the [moon board](https://www.moonboard.com/) using machine learning!
+It's a way to create new climbs for the [moon board](https://www.moonboard.com/) and grade climbs using machine learning!
 
 ## Setup
 
 1. Clone the repo
 2. Install python dependencies by running:
 
-`virtualenv -p python3 venv`
+```sh
+virtualenv -p python3 venv
+source venv/bin/activate
+pip install .
+```
 
-`source venv/bin/activate`
-
-If running on Mac run
-`pip install https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.12.0-py3-none-any.whl`
-
-`pip install -r requirements.txt`
-
-3. Run setup script
-
-`python setup.py`
-
-## Model Training
+## Climb Generation Models
 
 ### LSTM
 
@@ -37,6 +30,8 @@ A new window will open up. Play around and look at the climbs.
 
 <img src="climb_viewer/Ui.png" width="400">
 
+https://github.com/sherjilozair/char-rnn-tensorflow
+
 ### HyperGAN
 
 1. Compete setup.
@@ -52,21 +47,8 @@ Hypergn will generate new samples. Eg.
 
 ![Hypergan sample](https://github.com/andrew-houghton/moon-board-climbing/blob/master/climb_viewer/temp.png)
 
-### File system description.
+https://github.com/255BITS/HyperGAN
 
-* The training_utils, and sampling_utils folder holds files which can be run to perform changes and data processing tasks mostly, and call for the model to be trained.
-* The models folder holds the code for the neural nets which I use. They've just been tweaked so they can be called by my methods buy I haven't changed them too much.
+## Climb Grading Models
 
-## Models used
-
-I've used https://github.com/sherjilozair/char-rnn-tensorflow and https://github.com/255BITS/HyperGAN for the models.
-
-## Grading climbs
-
-1. Train the LSTM as above.
-2. Run `python sampling_utils/grade_climbset.py`
-3. You should a few warnings and see output like
-```
-Managed to grade 97%
-Managed to correctly grade 26%
-```
+todo

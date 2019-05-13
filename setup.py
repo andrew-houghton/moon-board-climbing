@@ -10,6 +10,7 @@ requirements = [
     'pygame',
     'keras',
     'tqdm',
+    'autokeras',
 ]
 
 
