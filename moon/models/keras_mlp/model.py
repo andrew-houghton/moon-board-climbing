@@ -1,5 +1,5 @@
 # Create your first MLP in Keras
-import moon.utils.load_data as load_data
+from moon.utils.load_data import load_numpy
 import numpy as np
 from keras.layers import Dense, Dropout
 from keras.models import Sequential, load_model
@@ -15,10 +15,10 @@ np.random.seed(0)
 
 class Model(BaseModel):
     def split_data(self):
-        data = load_data.numpy()
+        climbs, grades = load_numpy()
         return train_test_split(
-            np.reshape(data["climbs"], (len(data["climbs"]), 18 * 18)).astype(int),
-            data["grades"],
+            np.reshape(climbs, (len(climbs), 18 * 18)).astype(int),
+            grades,
             test_size=0.2,
             random_state=42,
         )

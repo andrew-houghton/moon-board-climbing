@@ -14,7 +14,7 @@ def local_file_path(filename):
 
 
 def get_or_generate(filename, generator_function):
-    filepath = filelocal_file_path(filename)
+    filepath = local_file_path(filename)
     if os.path.isfile(filepath):
         generator_function()
     return filepath
@@ -28,7 +28,8 @@ def load_numpy():
 def gen_numpy():
     base_climbset = json_to_climbset(load_json())
     climbs = np.asarray([np.asarray(climb.as_image()) for climb in base_climbset.climbs])
-    pickle.dump(climbs, open(local_file_path("numpy.pkl", "wb")))
+    grades = np.asarray([climb.grade.grade_number for climb in base_climbset.climbs])
+    pickle.dump((climbs, grades), open(local_file_path("numpy.pkl"), "wb"))
 
 
 def load_json():
@@ -53,4 +54,4 @@ def json_to_climbset(data):
 
 
 if __name__ == "__main__":
-    load_numpy()
+    gen_numpy()
