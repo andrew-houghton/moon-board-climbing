@@ -1,6 +1,6 @@
 import numpy as np
 from moon.analytics.metrics import expected_diff
-from moon.models import keras_mlp, random_forest
+from moon.models import keras_mlp, xgboost
 from sklearn.metrics import accuracy_score, mean_squared_error
 
 
@@ -15,11 +15,15 @@ def evaluate(model_name, values):
     mse = mean_squared_error(y_test, predictions)
 
     print(
-        f"""Scores for {model_name}\nAccuracy            {accuracy}\nExpected Diff       {diff}\nMean Squared Error  {mse}"""
+        f"""
+Scores for {model_name}:
+Accuracy            {100*accuracy:.2f}%
+Expected Diff       {diff:.3f}
+Mean Squared Error  {mse:.3f}"""
     )
 
 
-models = {"keras multi layer percepetron": keras_mlp.Model(), "random forest": random_forest.Model()}
+models = {"keras multi layer percepetron": keras_mlp.Model(), "random forest": xgboost.Model()}
 
 samples = {k: v.load_sample() for k, v in models.items()}
 for model_name, values in samples.items():

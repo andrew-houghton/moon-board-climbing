@@ -12,7 +12,7 @@ class Model(GradingModel):
         x_train, x_test, y_train, y_test = self.preprocess()
 
         xgb_model = self.xgb()
-        print('Training xgboost')
+        print("Training xgboost")
 
         xgb_model.fit(x_train, y_train)
         pickle.dump(xgb_model, open(local_file_path(__file__, "model.pickle"), "wb"))
