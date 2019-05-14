@@ -1,23 +1,38 @@
-import moon.utils.load_data as load_data
-import numpy as np
-from moon.models.base_model import BaseModel
-from sklearn.metrics import accuracy_score, auc, confusion_matrix, mean_squared_error
-from sklearn.model_selection import train_test_split
-
+from moon.models.base_model import GradingModel
 import xgboost as xgb
+import pickle
+from moon.utils.load_data import local_file_path
 
-data = load_data.numpy()
-x_train, x_test, y_train, y_test = train_test_split(
-    np.reshape(data["climbs"], (len(data["climbs"]), 18 * 18)).astype(int),
-    data["grades"],
-    test_size=0.2,
-    random_state=42,
-)
 
-xgb_model = xgb.XGBClassifier(objective="multi:softprob", random_state=42)
-xgb_model.fit(x_train, y_train)
+class Model(GradingModel):
+    def xgb(self):
+        return xgb.XGBClassifier(objective="multi:softprob", random_state=42)
 
-y_pred = xgb_model.predict(x_test)
+    def train(self):
+        x_train, x_test, y_train, y_test = self.preprocess()
 
-print(accuracy_score(y_test, y_pred))
-print(mean_squared_error(y_test, y_pred))
+        xgb_model = self.xgb()
+        print('Training xgboost')
+
+        xgb_model.fit(x_train, y_train)
+        pickle.dump(xgb_model, open(local_file_path(__file__, "model.pickle"), "wb"))
+
+        print("Saved trained model.")
+
+        self.sample()
+
+    def sample(self):
+        x_train, x_test, y_train, y_test = self.preprocess()
+
+        xgb_model = pickle.load(open(local_file_path(__file__, "model.pickle"), "rb"))
+        sample = xgb_model.predict(x_test)
+
+        pickle.dump((x_test, y_test, sample), open(local_file_path(__file__, "sample.pickle"), "wb"))
+        print("Saved model sample.")
+
+    def load_sample(self):
+        return pickle.load(open(local_file_path(__file__, "sample.pickle"), "rb"))
+
+
+if __name__ == "__main__":
+    Model().parse()

@@ -1,24 +1,15 @@
 import pickle
 
-import numpy as np
 from keras.layers import Dense
 from keras.models import Sequential, load_model
 from keras.utils import to_categorical
-from moon.models.base_model import BaseModel
-from moon.utils.load_data import load_numpy, local_file_path
-from sklearn.model_selection import train_test_split
+from moon.models.base_model import GradingModel
+from moon.utils.load_data import local_file_path
 
 
-np.random.seed(0)
 
 
-class Model(BaseModel):
-    def preprocess(self):
-        climbs, grades = load_numpy()
-        return train_test_split(
-            np.reshape(climbs, (len(climbs), 18 * 18)).astype(int), grades, test_size=0.2, random_state=42
-        )
-
+class Model(GradingModel):
     def train(self):
         x_train, x_test, y_train, y_test = self.preprocess()
 
