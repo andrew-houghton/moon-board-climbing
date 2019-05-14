@@ -27,10 +27,14 @@ def load_numpy():
 
 
 def gen_numpy():
-    base_climbset = json_to_climbset(load_json())
+    base_climbset = load_climbset()
     climbs = np.asarray([np.asarray(climb.as_image()) for climb in base_climbset.climbs])
     grades = np.asarray([climb.grade.grade_number for climb in base_climbset.climbs])
     pickle.dump((climbs, grades), open(local_file_path(__file__, "numpy.pkl"), "wb"))
+
+
+def load_climbset():
+    return json_to_climbset(load_json())
 
 
 def load_json():
