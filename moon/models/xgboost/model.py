@@ -5,15 +5,12 @@ from moon.utils.load_data import local_file_path
 
 
 class Model(GradingModel):
-    def xgb(self):
-        return xgb.XGBClassifier(objective="multi:softprob", random_state=42)
-
     def train(self):
         x_train, x_test, y_train, y_test = self.preprocess()
 
-        xgb_model = self.xgb()
-        print("Training xgboost")
+        xgb_model = xgb.XGBClassifier(objective="multi:softprob", random_state=42)
 
+        print("Training")
         xgb_model.fit(x_train, y_train)
         pickle.dump(xgb_model, open(local_file_path(__file__, "model.pickle"), "wb"))
 

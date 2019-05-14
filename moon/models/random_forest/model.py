@@ -1,41 +1,35 @@
-import moon.utils.load_data as load_data
-import numpy as np
-from moon.models.base_model import BaseModel
-from sklearn.datasets import make_classification
+from moon.models.base_model import GradingModel
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
+import pickle
+from moon.utils.load_data import local_file_path
 
-data = load_data.numpy()
-x_train, x_test, y_train, y_test = train_test_split(
-    np.reshape(data["climbs"], (len(data["climbs"]), 18 * 18)).astype(int),
-    data["grades"],
-    test_size=0.2,
-    random_state=42,
-)
 
-clf = RandomForestClassifier(n_estimators=100, max_depth=200, random_state=0)
+class Model(GradingModel):
+    def train(self):
+        x_train, x_test, y_train, y_test = self.preprocess()
 
-clf.fit(x_train, y_train)
+        model = RandomForestClassifier(n_estimators=100, max_depth=200, random_state=0)
+        print("Training")
 
-RandomForestClassifier(
-    bootstrap=True,
-    class_weight=None,
-    criterion="gini",
-    max_depth=2,
-    max_features="auto",
-    max_leaf_nodes=None,
-    min_impurity_decrease=0.0,
-    min_impurity_split=None,
-    min_samples_leaf=1,
-    min_samples_split=2,
-    min_weight_fraction_leaf=0.0,
-    n_estimators=100,
-    n_jobs=None,
-    oob_score=False,
-    random_state=0,
-    verbose=0,
-    warm_start=False,
-)
+        model.fit(x_train, y_train)
+        pickle.dump(model, open(local_file_path(__file__, "model.pickle"), "wb"))
 
-print(clf.score(x_train, y_train))
-print(clf.score(x_test, y_test))
+        print("Saved trained model.")
+
+        self.sample()
+
+    def sample(self):
+        x_train, x_test, y_train, y_test = self.preprocess()
+
+        model = pickle.load(open(local_file_path(__file__, "model.pickle"), "rb"))
+        sample = model.predict(x_test)
+
+        pickle.dump((x_test, y_test, sample), open(local_file_path(__file__, "sample.pickle"), "wb"))
+        print("Saved model sample.")
+
+    def load_sample(self):
+        return pickle.load(open(local_file_path(__file__, "sample.pickle"), "rb"))
+
+
+if __name__ == "__main__":
+    Model().parse()

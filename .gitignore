@@ -1,11 +1,7 @@
 __pycache__
 *.pyc
-current.png
+
 venv/
-data/json
-data/lstm_files
-data/images
-mymodel.json
+
 numpy.pkl
 combined.json
-data/numpy
