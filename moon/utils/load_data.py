@@ -1,21 +1,22 @@
-import os
-import pickle
 import gzip
 import json
+import os
+import pickle
 import shutil
-from moon.types.climbset import Climbset
-from moon.types.climb import Climb
+
 import numpy as np
+from moon.types.climb import Climb
+from moon.types.climbset import Climbset
 
 
-def local_file_path(filename):
-    scriptpath = os.path.dirname(os.path.realpath(__file__))
+def local_file_path(script_file, filename):
+    scriptpath = os.path.dirname(os.path.realpath(script_file))
     return os.path.join(scriptpath, filename)
 
 
 def get_or_generate(filename, generator_function):
-    filepath = local_file_path(filename)
-    if os.path.isfile(filepath):
+    filepath = local_file_path(__file__, filename)
+    if not os.path.isfile(filepath):
         generator_function()
     return filepath
 
@@ -29,7 +30,7 @@ def gen_numpy():
     base_climbset = json_to_climbset(load_json())
     climbs = np.asarray([np.asarray(climb.as_image()) for climb in base_climbset.climbs])
     grades = np.asarray([climb.grade.grade_number for climb in base_climbset.climbs])
-    pickle.dump((climbs, grades), open(local_file_path("numpy.pkl"), "wb"))
+    pickle.dump((climbs, grades), open(local_file_path(__file__, "numpy.pkl"), "wb"))
 
 
 def load_json():
@@ -38,8 +39,8 @@ def load_json():
 
 
 def gen_json():
-    with open(local_file_path("combined.json"), "wb") as f_out, gzip.open(
-        local_file_path("combined.json.gz"), "rb"
+    with open(local_file_path(__file__, "combined.json"), "wb") as f_out, gzip.open(
+        local_file_path(__file__, "combined.json.gz"), "rb"
     ) as f_in:
         shutil.copyfileobj(f_in, f_out)
 
@@ -54,4 +55,4 @@ def json_to_climbset(data):
 
 
 if __name__ == "__main__":
-    gen_numpy()
+    load_numpy()

@@ -1,2 +1,3 @@
 include moon/utils/*
 include moon/models/auto_ml_grading/imageClassifier.model
+recursive-include moon sample.pickle
