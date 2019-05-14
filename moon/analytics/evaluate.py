@@ -1,7 +1,7 @@
 import numpy as np
 from moon.analytics.metrics import expected_diff
 from moon.models import keras_mlp, random_forest
-from sklearn.metrics import accuracy_score, auc, confusion_matrix, mean_squared_error
+from sklearn.metrics import accuracy_score, mean_squared_error
 
 
 def evaluate(model_name, values):

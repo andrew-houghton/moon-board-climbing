@@ -1,7 +1,6 @@
 import argparse
 from typing import List, Tuple, Union
 
-import moon
 from moon.types.climbset import Climbset
 
 

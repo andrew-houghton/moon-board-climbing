@@ -52,9 +52,9 @@ class Hold:
             raise ValueError('Invalid input type. input_type argument should be a value like "website_format"')
 
         # Check that the row and column number is in a valid range
-        if not self.row in range(1, _max_row + 1, 1):
+        if self.row not in range(1, _max_row + 1, 1):
             raise ValueError("Row number {} invalid.".format(self.row))
-        if not self.col in range(1, _max_col + 1, 1):
+        if self.col not in range(1, _max_col + 1, 1):
             raise ValueError("Column number {} invalid.".format(self.col))
 
     def __repr__(self):

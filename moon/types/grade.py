@@ -43,8 +43,8 @@ _nn_grades_inverse = ["z", "x", "y", "w", "u", "v", "t", "s", "Z", "X", "Y", "W"
 class Grade:
     def __init__(self, grade):
         # Initialize a new grade object starting with a font format grade.
-        if not grade in _valid_grades.keys():
-            if not grade in _valid_nn_grades.keys():
+        if grade not in _valid_grades.keys():
+            if grade not in _valid_nn_grades.keys():
                 raise ValueError("Invalid grade. Not in grade list. Grade should be something like 7C.")
             else:
                 self.grade_number = _valid_nn_grades[grade]

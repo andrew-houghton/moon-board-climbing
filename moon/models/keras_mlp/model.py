@@ -1,14 +1,11 @@
 import pickle
 
 import numpy as np
-from keras.layers import Dense, Dropout
+from keras.layers import Dense
 from keras.models import Sequential, load_model
-from keras.regularizers import l1
 from keras.utils import to_categorical
-from moon.analytics.metrics import expected_diff
 from moon.models.base_model import BaseModel
 from moon.utils.load_data import load_numpy, local_file_path
-from sklearn.metrics import accuracy_score, auc, confusion_matrix, mean_squared_error
 from sklearn.model_selection import train_test_split
 
 

@@ -50,7 +50,7 @@ def json_to_climbset(data):
     # convert it to a climb and then add it to a climbset.
     all_climbs = Climbset()
     for cur_climb_json in data:
-        cur_climb = all_climbs.add(Climb("json", cur_climb_json))
+        all_climbs.add(Climb("json", cur_climb_json))
     return all_climbs
 
 
