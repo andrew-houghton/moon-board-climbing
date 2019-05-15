@@ -1,6 +1,6 @@
 import numpy as np
 from moon.analytics.metrics import expected_diff
-from moon.models import keras_mlp, xgboost, random_forest
+from moon.models import keras_mlp, xgboost, random_forest, keras_lstm_grade
 from sklearn.metrics import accuracy_score, mean_squared_error
 
 
@@ -27,6 +27,7 @@ models = {
     "keras multi layer percepetron": keras_mlp.Model(),
     "xgboost": xgboost.Model(),
     "random forest": random_forest.Model(),
+    "keras lstm": keras_lstm_grade.Model(),
 }
 
 samples = {k: v.load_sample() for k, v in models.items()}
