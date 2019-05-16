@@ -3,3 +3,4 @@ vocab.pkl
 logs/
 save/
 data.npy
+sample.pickle
