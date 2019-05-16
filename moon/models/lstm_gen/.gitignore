@@ -1,2 +1,5 @@
-images/
 input.txt
+vocab.pkl
+logs/
+save/
+data.npy

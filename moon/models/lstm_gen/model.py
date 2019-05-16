@@ -4,14 +4,14 @@ import pickle
 from moon.utils.load_data import local_file_path
 from moon.models.lstm_gen.prep import prep_no_grade
 import moon.models.lstm_gen.char_rnn.train as train
+import os
+
 
 class Model(GradingModel):
     def train(self):
-        input_file = prep_no_grade()
-
-        train.build_model(input_file, )
-
-        self.sample()
+        prep_no_grade()
+        model_dir = os.path.dirname(os.path.realpath(__file__))
+        train.build_model(model_dir)
 
     # def sample(self):
     #     x_train, x_test, y_train, y_test = self.preprocess()
@@ -27,4 +27,4 @@ class Model(GradingModel):
 
 
 if __name__ == "__main__":
-    Model().parse()
+    Model().train()

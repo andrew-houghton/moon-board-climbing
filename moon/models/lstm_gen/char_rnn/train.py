@@ -195,7 +195,7 @@ def train(args):
         # instrument for tensorboard
         summaries = tf.summary.merge_all()
         writer = tf.summary.FileWriter(
-            os.path.join(os.path.join(args.data_dir,'logs'), time.strftime("%Y-%m-%d-%H-%M-%S")))
+            os.path.join(os.path.join(args.data_dir, 'logs'), time.strftime("%Y-%m-%d-%H-%M-%S")))
         writer.add_graph(sess.graph)
 
         sess.run(tf.global_variables_initializer())
@@ -230,7 +230,7 @@ def train(args):
                         or (e == args.num_epochs - 1 and
                             b == data_loader.num_batches - 1):
                     # save for the last result
-                    checkpoint_path = os.path.join(args.data_dir+'save/', "model.ckpt")
+                    checkpoint_path = os.path.join(args.data_dir, 'save/', "model.ckpt")
                     saver.save(sess, checkpoint_path,
                                global_step=e * data_loader.num_batches + b)
                     print("model saved to {}".format(checkpoint_path))
