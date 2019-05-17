@@ -1,22 +1,23 @@
-from __future__ import print_function, division
+from __future__ import division, print_function
 
-from keras.layers import Input, Dense, Reshape, Flatten
-from keras.layers import BatchNormalization, Activation
-from keras.layers.advanced_activations import LeakyReLU
-from keras.models import Sequential, Model
-from keras.optimizers import Adam
+import sys
 
 import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
-
-import sys
-
 import numpy as np
+from keras.layers import Activation, BatchNormalization, Dense, Flatten, Input, Reshape
+from keras.layers.advanced_activations import LeakyReLU
+from keras.models import Model, Sequential, load_model
+from keras.optimizers import Adam
+from moon.utils.load_data import local_file_path
 
-class GAN():
-    def __init__(self, input_data):
+
+class GAN:
+    def __init__(self, input_data, discriminator_path, generator_path):
         self.input_data = input_data
+        self.discriminator_path = discriminator_path
+        self.generator_path = generator_path
         self.channels = 1
         self.img_shape = (self.input_data.shape[1], self.input_data.shape[2], self.channels)
         self.latent_dim = 100
@@ -25,9 +26,7 @@ class GAN():
 
         # Build and compile the discriminator
         self.discriminator = self.build_discriminator()
-        self.discriminator.compile(loss='binary_crossentropy',
-            optimizer=optimizer,
-            metrics=['accuracy'])
+        self.discriminator.compile(loss="binary_crossentropy", optimizer=optimizer, metrics=["accuracy"])
 
         # Build the generator
         self.generator = self.build_generator()
@@ -45,8 +44,7 @@ class GAN():
         # The combined model  (stacked generator and discriminator)
         # Trains the generator to fool the discriminator
         self.combined = Model(z, validity)
-        self.combined.compile(loss='binary_crossentropy', optimizer=optimizer)
-
+        self.combined.compile(loss="binary_crossentropy", optimizer=optimizer)
 
     def build_generator(self):
 
@@ -61,7 +59,7 @@ class GAN():
         model.add(Dense(1024))
         model.add(LeakyReLU(alpha=0.2))
         model.add(BatchNormalization(momentum=0.8))
-        model.add(Dense(np.prod(self.img_shape), activation='tanh'))
+        model.add(Dense(np.prod(self.img_shape), activation="tanh"))
         model.add(Reshape(self.img_shape))
 
         model.summary()
@@ -80,7 +78,7 @@ class GAN():
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dense(256))
         model.add(LeakyReLU(alpha=0.2))
-        model.add(Dense(1, activation='sigmoid'))
+        model.add(Dense(1, activation="sigmoid"))
         model.summary()
 
         img = Input(shape=self.img_shape)
@@ -131,11 +129,22 @@ class GAN():
             g_loss = self.combined.train_on_batch(noise, valid)
 
             # Plot the progress
-            print ("%d [D loss: %f, acc.: %.2f%%] [G loss: %f]" % (epoch, d_loss[0], 100*d_loss[1], g_loss))
+            print("%d [D loss: %f, acc.: %.2f%%] [G loss: %f]" % (epoch, d_loss[0], 100 * d_loss[1], g_loss))
 
             # If at save interval => save generated image samples
             if epoch % sample_interval == 0:
                 self.sample_images(epoch)
+
+        self.sample_images(epoch)
+        self.save_model()
+
+    def save_model(self):
+        self.discriminator.save(self.discriminator_path)
+        self.generator.save(self.generator_path)
+
+    def load_models(self):
+        self.discriminator = load_model(self.discriminator_path)
+        self.generator = load_model(self.generator_path)
 
     def sample_images(self, epoch):
         r, c = 5, 5
@@ -149,13 +158,13 @@ class GAN():
         cnt = 0
         for i in range(r):
             for j in range(c):
-                axs[i,j].imshow(gen_imgs[cnt, :,:,0], cmap='gray')
-                axs[i,j].axis('off')
+                axs[i, j].imshow(gen_imgs[cnt, :, :, 0], cmap="gray")
+                axs[i, j].axis("off")
                 cnt += 1
         fig.savefig("images/%d.png" % epoch)
         plt.close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     gan = GAN()
     gan.train(epochs=1000, batch_size=32, sample_interval=50)

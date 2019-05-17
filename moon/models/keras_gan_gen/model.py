@@ -1,15 +1,21 @@
 import os
 import pickle
+
 from moon.models.base_model import GeneratorModel
-from moon.utils.load_data import local_file_path
 from moon.models.keras_gan_gen.gan import GAN
+from moon.utils.load_data import local_file_path
 
 
 class Model(GeneratorModel):
     def train(self):
         climbs, _ = self.preprocess()
-        gan = GAN(climbs)
-        gan.train(epochs=1000, batch_size=32, sample_interval=50)
+
+        discriminator_path = local_file_path(__file__, "discriminator.h5")
+        generator_path = local_file_path(__file__, "generator.h5")
+
+        gan = GAN(climbs, discriminator_path, generator_path)
+
+        gan.train(epochs=1000, batch_size=32, sample_interval=200)
 
     def sample(self):
         # model_dir = os.path.dirname(os.path.realpath(__file__))
