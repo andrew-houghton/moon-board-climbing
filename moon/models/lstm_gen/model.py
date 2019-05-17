@@ -4,7 +4,7 @@ import pickle
 import moon.models.lstm_gen.char_rnn.sample as sample
 import moon.models.lstm_gen.char_rnn.train as train
 import xgboost as xgb
-from moon.models.base_model import GradingModel
+from moon.models.base_model import GeneratorModel
 from moon.models.lstm_gen.prep import prep_no_grade
 from moon.types import climb, climbset
 from moon.utils.load_data import local_file_path
@@ -22,7 +22,7 @@ def clean_sample(sample):
     return [climb_str for climb_str in split_sample if climb.Climb.valid_input_sample(climb_str)]
 
 
-class Model(GradingModel):
+class Model(GeneratorModel):
     def train(self):
         prep_no_grade()
         model_dir = os.path.dirname(os.path.realpath(__file__))

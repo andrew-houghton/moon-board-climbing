@@ -34,6 +34,9 @@ class GeneratorModel(BaseModel):
     def sample(self) -> Climbset:
         pass
 
+    def preprocess(self):
+        return load_numpy()
+
 
 class GradingModel(BaseModel):
     def sample(self) -> List[Union[int, float]]:
