@@ -1,6 +1,5 @@
 from __future__ import print_function, division
 
-from keras.datasets import mnist
 from keras.layers import Input, Dense, Reshape, Flatten
 from keras.layers import BatchNormalization, Activation
 from keras.layers.advanced_activations import LeakyReLU
@@ -16,11 +15,10 @@ import sys
 import numpy as np
 
 class GAN():
-    def __init__(self):
-        self.img_rows = 28
-        self.img_cols = 28
+    def __init__(self, input_data):
+        self.input_data = input_data
         self.channels = 1
-        self.img_shape = (self.img_rows, self.img_cols, self.channels)
+        self.img_shape = (self.input_data.shape[1], self.input_data.shape[2], self.channels)
         self.latent_dim = 100
 
         optimizer = Adam(0.0002, 0.5)
@@ -93,10 +91,10 @@ class GAN():
     def train(self, epochs, batch_size=128, sample_interval=50):
 
         # Load the dataset
-        (X_train, _), (_, _) = mnist.load_data()
+        X_train = self.input_data
 
         # Rescale -1 to 1
-        X_train = X_train / 127.5 - 1.
+        # X_train = X_train / 127.5 - 1.  #TODO
         X_train = np.expand_dims(X_train, axis=3)
 
         # Adversarial ground truths
