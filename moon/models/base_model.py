@@ -45,5 +45,5 @@ class GradingModel(BaseModel):
     def preprocess(self):
         climbs, grades = load_numpy()
         return train_test_split(
-            np.reshape(climbs, (len(climbs), 18 * 18)).astype(int), grades, test_size=0.2, random_state=42
+            np.reshape(climbs, (len(climbs), 11 * 18)).astype(int), grades, test_size=0.2, random_state=42
         )

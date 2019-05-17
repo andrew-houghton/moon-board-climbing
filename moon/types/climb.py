@@ -24,7 +24,7 @@ class Climb:
 
         elif input_type == "image" and type(input_data) == PngImageFile:
             # Catch invalid image sizes
-            if input_data.size != (18, 18):
+            if input_data.size != (11, 18):
                 print(input_data.size)
 
             # These fields are not stored with the images so they cannot be restored/initialized.
@@ -84,7 +84,7 @@ class Climb:
         from PIL import Image
 
         # Create new blank canvas
-        image = Image.new("1", (18, 18))
+        image = Image.new("1", (11, 18))
 
         im = image.load()
 

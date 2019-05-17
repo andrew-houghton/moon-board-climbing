@@ -12,7 +12,7 @@ class Model(GradingModel):
         x_train, x_test, y_train, y_test = self.preprocess()
 
         model = Sequential()
-        model.add(Dense(20, input_dim=18 * 18, activation="relu"))
+        model.add(Dense(20, input_dim=x_train.shape[1], activation="relu"))
         model.add(Dense(15, activation="softmax"))
 
         model.compile(loss="mse", optimizer="adam", metrics=["accuracy"])
