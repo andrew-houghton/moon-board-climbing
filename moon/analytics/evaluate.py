@@ -1,6 +1,6 @@
 import numpy as np
 from moon.analytics.metrics import expected_diff
-from moon.models import keras_mlp, xgboost, random_forest, keras_lstm_grade
+from moon.models import keras_lstm_grade, keras_mlp, random_forest, xgboost
 from sklearn.metrics import accuracy_score, mean_squared_error
 
 

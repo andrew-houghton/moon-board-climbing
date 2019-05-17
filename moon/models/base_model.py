@@ -1,11 +1,10 @@
 import argparse
 from typing import List, Tuple, Union
 
+import numpy as np
 from moon.types.climbset import Climbset
 from moon.utils.load_data import load_numpy
 from sklearn.model_selection import train_test_split
-import numpy as np
-
 
 np.random.seed(0)
 

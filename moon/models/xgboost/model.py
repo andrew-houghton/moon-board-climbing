@@ -1,6 +1,7 @@
-from moon.models.base_model import GradingModel
-import xgboost as xgb
 import pickle
+
+import xgboost as xgb
+from moon.models.base_model import GradingModel
 from moon.utils.load_data import local_file_path
 
 
