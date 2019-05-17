@@ -13,9 +13,9 @@ class Model(GeneratorModel):
         discriminator_path = local_file_path(__file__, "discriminator.h5")
         generator_path = local_file_path(__file__, "generator.h5")
 
-        gan = GAN(climbs, discriminator_path, generator_path)
+        gan = GAN(climbs, discriminator_path, generator_path, node_scale_factor=8)
 
-        gan.train(epochs=1000, batch_size=32, sample_interval=200)
+        gan.train(epochs=5000, batch_size=32, sample_interval=200)
 
     def sample(self):
         # model_dir = os.path.dirname(os.path.realpath(__file__))

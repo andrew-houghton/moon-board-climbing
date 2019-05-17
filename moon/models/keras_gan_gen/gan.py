@@ -14,19 +14,18 @@ from moon.utils.load_data import local_file_path
 
 
 class GAN:
-    def __init__(self, input_data, discriminator_path, generator_path):
+    def __init__(self, input_data, discriminator_path, generator_path, node_scale_factor=64):
         self.input_data = input_data
         self.discriminator_path = discriminator_path
         self.generator_path = generator_path
+        self.node_scale_factor = node_scale_factor
         self.channels = 1
         self.img_shape = (self.input_data.shape[1], self.input_data.shape[2], self.channels)
         self.latent_dim = 100
 
-        optimizer = Adam(0.0002, 0.5)
-
         # Build and compile the discriminator
         self.discriminator = self.build_discriminator()
-        self.discriminator.compile(loss="binary_crossentropy", optimizer=optimizer, metrics=["accuracy"])
+        self.discriminator.compile(loss="binary_crossentropy", optimizer=Adam(0.0002, 0.5), metrics=["accuracy"])
 
         # Build the generator
         self.generator = self.build_generator()
@@ -44,19 +43,19 @@ class GAN:
         # The combined model  (stacked generator and discriminator)
         # Trains the generator to fool the discriminator
         self.combined = Model(z, validity)
-        self.combined.compile(loss="binary_crossentropy", optimizer=optimizer)
+        self.combined.compile(loss="binary_crossentropy", optimizer=Adam(0.0002, 0.5))
 
     def build_generator(self):
 
         model = Sequential()
 
-        model.add(Dense(256, input_dim=self.latent_dim))
+        model.add(Dense(self.node_scale_factor, input_dim=self.latent_dim))
         model.add(LeakyReLU(alpha=0.2))
         model.add(BatchNormalization(momentum=0.8))
-        model.add(Dense(512))
+        model.add(Dense(self.node_scale_factor*2))
         model.add(LeakyReLU(alpha=0.2))
         model.add(BatchNormalization(momentum=0.8))
-        model.add(Dense(1024))
+        model.add(Dense(self.node_scale_factor*4))
         model.add(LeakyReLU(alpha=0.2))
         model.add(BatchNormalization(momentum=0.8))
         model.add(Dense(np.prod(self.img_shape), activation="tanh"))
@@ -74,9 +73,9 @@ class GAN:
         model = Sequential()
 
         model.add(Flatten(input_shape=self.img_shape))
-        model.add(Dense(512))
+        model.add(Dense(self.node_scale_factor*2))
         model.add(LeakyReLU(alpha=0.2))
-        model.add(Dense(256))
+        model.add(Dense(self.node_scale_factor))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dense(1, activation="sigmoid"))
         model.summary()
