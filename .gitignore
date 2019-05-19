@@ -5,3 +5,7 @@ venv/
 
 numpy.pkl
 combined.json
+
+build/
+dist/
+*.egg-info
