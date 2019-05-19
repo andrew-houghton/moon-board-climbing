@@ -9,6 +9,7 @@ RUN pip install \
 	keras \
 	tqdm \
 	sklearn \
+	pygame \
 	xgboost
 
 WORKDIR "/src"

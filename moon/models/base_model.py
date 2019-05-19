@@ -18,7 +18,9 @@ class BaseModel:
         group.add_argument("prep", nargs="?")
         group.add_argument("train", nargs="?")
         group.add_argument("sample", nargs="?")
-        args = [i for i in parser.parse_args().__dict__.values()][0]
+
+        args = parser.parse_args()
+        args = [i for i in args.__dict__.values() if i][0]
 
         function_map[args]()
 
