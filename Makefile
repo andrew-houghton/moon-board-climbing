@@ -1,4 +1,4 @@
-IMAGE_NAME := moon-board-climbing/keras
+IMAGE_NAME := docker.pkg.github.com/andrew-houghton/moon-board-climbing/keras:1.0
 
 .PHONY: build
 
@@ -10,4 +10,4 @@ run :
 
 travis : build
 	echo $(GIT_TOKEN) | docker login docker.pkg.github.com -u $(GIT_USERNAME) --password-stdin
-	docker push docker.pkg.github.com/andrew-houghton/$(IMAGE_NAME)
+	docker push $(IMAGE_NAME)
