@@ -6,6 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 
 class Model(GradingModel):
+    self.name="Random Forest"
     def train(self):
         x_train, x_test, y_train, y_test = self.preprocess()
 

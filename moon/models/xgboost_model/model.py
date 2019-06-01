@@ -6,6 +6,7 @@ from moon.utils.load_data import local_file_path
 
 
 class Model(GradingModel):
+    self.name="XGBoost"
     def train(self):
         x_train, x_test, y_train, y_test = self.preprocess()
 
