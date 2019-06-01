@@ -7,6 +7,8 @@ from moon.utils.load_data import local_file_path
 
 
 class Model(GeneratorModel):
+    self.name="Keras GAN"
+
     def train(self):
         climbs, _ = self.preprocess()
 

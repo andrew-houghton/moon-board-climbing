@@ -13,6 +13,8 @@ from sklearn.model_selection import train_test_split
 
 
 class Model(BaseModel):
+    self.name="Auto ML grading"
+
     def sample(self):
         data = load_data.numpy()
         x_train, x_test, y_train, y_test = train_test_split(

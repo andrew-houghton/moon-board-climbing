@@ -27,6 +27,8 @@ def move_sizes(hold_list):
 
 
 class Model(GradingModel):
+    self.name="Keras LSTM"
+    
     def preprocess(self):
         climbset = load_climbset()
 

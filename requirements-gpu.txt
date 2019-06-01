@@ -1,0 +1,11 @@
+tensorflow
+hypergan
+hyperchamber
+numpy
+pillow
+pygame
+keras
+tqdm
+autokeras
+xgboost
+tensorflowjs
