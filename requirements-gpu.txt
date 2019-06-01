@@ -6,6 +6,5 @@ pillow
 pygame
 keras
 tqdm
-autokeras
 xgboost
 tensorflowjs
