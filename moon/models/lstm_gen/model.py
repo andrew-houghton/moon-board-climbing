@@ -1,12 +1,11 @@
 import os
 import pickle
 
-import moon
-
 from moon.models.base_model import GeneratorModel
 from moon.types import climb, climbset
 from moon.utils.load_data import local_file_path
-
+from moon.models.lstm_gen.prep import prep_no_grade
+from moon.models.lstm_gen.char_rnn.train import build_model
 
 def clean_sample(sample):
     split_sample = sample.split(climbset.Climbset.get_terminator())
@@ -24,8 +23,9 @@ class Model(GeneratorModel):
     name="LSTM"
     
     def train(self):
-        moon.models.lstm_gen.prep.prep_no_grade()
-        moon.models.lstm_gen.char_rnn.train.build_model(model_dir)
+        model_dir = os.path.dirname(os.path.realpath(__file__))
+        prep_no_grade()
+        build_model(model_dir)
 
     def sample(self):
         model_dir = os.path.dirname(os.path.realpath(__file__))
