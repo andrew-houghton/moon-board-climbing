@@ -132,25 +132,35 @@ class GAN:
 
             # If at save interval => save generated image samples
             if epoch % sample_interval == 0:
-                self.sample_images(epoch)
+                self.save_sample_images(epoch)
 
-        self.sample_images(epoch)
+        self.save_sample_images(epoch)
         self.save_model()
 
     def save_model(self):
         self.discriminator.save(self.discriminator_path)
+        self.generator.compile(loss="binary_crossentropy", optimizer=Adam(0.0002, 0.5))
         self.generator.save(self.generator_path)
 
     def load_models(self):
-        self.discriminator = load_model(self.discriminator_path)
         self.generator = load_model(self.generator_path)
 
-    def sample_images(self, epoch):
+    def sample_image(self):
+        noise = np.random.normal(0, 1, (1, self.latent_dim))
+        print(noise.shape)
+        image = self.generator.predict(noise)
+        image = np.reshape(image, self.img_shape[0:2])
+        image = 0.5 * image + 0.5
+        image = image > 0.9
+        return image
+
+    def save_sample_images(self, epoch):
         r, c = 5, 5
         noise = np.random.normal(0, 1, (r * c, self.latent_dim))
         gen_imgs = self.generator.predict(noise)
 
         # Rescale images 0 - 1
+        gen_imgs = self.rescale_image_values(gen_imgs)
         gen_imgs = 0.5 * gen_imgs + 0.5
 
         fig, axs = plt.subplots(r, c)
