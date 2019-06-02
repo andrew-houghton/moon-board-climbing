@@ -6,6 +6,8 @@ from moon.types import climb, climbset
 from moon.utils.load_data import local_file_path
 from moon.models.lstm_gen.prep import prep_no_grade
 from moon.models.lstm_gen.char_rnn.train import build_model
+from moon.models.lstm_gen.char_rnn.sample import get_sample
+
 
 def clean_sample(sample):
     split_sample = sample.split(climbset.Climbset.get_terminator())
@@ -29,14 +31,14 @@ class Model(GeneratorModel):
 
     def sample(self):
         model_dir = os.path.dirname(os.path.realpath(__file__))
-
-        sample_length = 12000
-        text_sample = moon.models.lstm_gen.char_rnn.sample.get_sample(model_dir, sample_length, "A")
+        num_samples = 1000
+        sample_length = 20000
+        text_sample = get_sample(model_dir, sample_length, "A")
 
         generated_climbs = climbset.Climbset(clean_sample(text_sample), "sample")
 
-        # Crop to 500 samples
-        generated_climbs.climbs = generated_climbs.climbs[:500]
+        print(f"Generated {len(generated_climbs.climbs)} and kept {num_samples}.")
+        generated_climbs.climbs = generated_climbs.climbs[:num_samples]
 
         pickle.dump(generated_climbs, open(local_file_path(__file__, "sample.pickle"), "wb"))
         print("saved sample")
