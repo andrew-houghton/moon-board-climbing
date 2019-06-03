@@ -1,7 +1,8 @@
 import os
 
 from moon.utils.load_data import load_climbset
-
+import pickle
+import json
 
 def prep_no_grade():
     output_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "input.txt")
@@ -10,5 +11,14 @@ def prep_no_grade():
     return output_path
 
 
+def clean_output_json():
+    with open('sample.pickle', 'rb') as handle:
+        sample=pickle.load(handle)
+    hold_lists = [i.holds for i in sample.climbs]
+    hold_lists = [[i.as_website_format() for i in j] for j in hold_lists]
+    hold_lists = [[(i[0], i[1:]) for i in j] for j in hold_lists]
+    with open('sample.json', 'w') as handle:
+        json.dump(hold_lists, handle)
+
 if __name__ == "__main__":
-    prep_no_grade()
+    clean_output_json()
