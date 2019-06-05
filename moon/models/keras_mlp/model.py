@@ -8,7 +8,7 @@ from moon.utils.load_data import local_file_path
 
 
 class Model(GradingModel):
-    self.name="Keras Multi Layer Percepetron"
+    self.name = "Keras Multi Layer Percepetron"
 
     def train(self):
         x_train, x_test, y_train, y_test = self.preprocess()
@@ -33,11 +33,16 @@ class Model(GradingModel):
 
         sample = model.predict(x_test)
 
-        pickle.dump((x_test, y_test, sample), open(local_file_path(__file__, "sample.pickle"), "wb"))
+        pickle.dump(
+            (x_test, y_test, sample),
+            open(local_file_path(__file__, "sample.pickle"), "wb"),
+        )
         print("Saved model sample.")
 
     def load_sample(self):
-        return pickle.load(open(local_file_path(__file__, "sample.pickle"), "rb"))
+        return pickle.load(
+            open(local_file_path(__file__, "sample.pickle"), "rb")
+        )
 
 
 if __name__ == "__main__":

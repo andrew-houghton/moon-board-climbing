@@ -28,9 +28,15 @@ def load_numpy():
 
 def gen_numpy():
     base_climbset = load_climbset()
-    climbs = np.asarray([np.asarray(climb.as_image()) for climb in base_climbset.climbs])
-    grades = np.asarray([climb.grade.grade_number for climb in base_climbset.climbs])
-    pickle.dump((climbs, grades), open(local_file_path(__file__, "numpy.pkl"), "wb"))
+    climbs = np.asarray(
+        [np.asarray(climb.as_image()) for climb in base_climbset.climbs]
+    )
+    grades = np.asarray(
+        [climb.grade.grade_number for climb in base_climbset.climbs]
+    )
+    pickle.dump(
+        (climbs, grades), open(local_file_path(__file__, "numpy.pkl"), "wb")
+    )
 
 
 def load_climbset():
@@ -43,7 +49,9 @@ def load_json():
 
 
 def gen_json():
-    with open(local_file_path(__file__, "combined.json"), "wb") as f_out, gzip.open(
+    with open(
+        local_file_path(__file__, "combined.json"), "wb"
+    ) as f_out, gzip.open(
         local_file_path(__file__, "combined.json.gz"), "rb"
     ) as f_in:
         shutil.copyfileobj(f_in, f_out)

@@ -20,7 +20,9 @@ class Climb:
                 self.holds.append(next_hold)
 
             self.rating = input_data["UserRating"]
-            self.grade = Grade(input_data["Grade"])  # store the grade as type grade
+            self.grade = Grade(
+                input_data["Grade"]
+            )  # store the grade as type grade
 
         elif input_type == "image" and type(input_data) == PngImageFile:
             # Catch invalid image sizes
@@ -37,16 +39,38 @@ class Climb:
             self.holds = []
             pixels = input_data.load()
             for y in range(17, -1, -1):  # loop over rows
-                for x in range(11):  # loop over columns (but not columns outside the moon board)
+                for x in range(
+                    11
+                ):  # loop over columns (but not columns outside the moon board)
                     if pixels[x, y] != 0:  # select only non black pixels
                         # Add a new hold using the co-ordinates of the pixel
                         next_hold = Hold("tuple", (18 - y, x + 1))
                         self.holds.append(next_hold)
-        elif input_type == "sample" and type(input_data) == str and len(input_data) > 1:
+        elif (
+            input_type == "sample"
+            and type(input_data) == str
+            and len(input_data) > 1
+        ):
             self.rating = None
 
             # find out if there is a grade character
-            nn_grade_chars = ["z", "x", "y", "w", "u", "v", "t", "s", "Z", "X", "Y", "W", "U", "V", "T"]
+            nn_grade_chars = [
+                "z",
+                "x",
+                "y",
+                "w",
+                "u",
+                "v",
+                "t",
+                "s",
+                "Z",
+                "X",
+                "Y",
+                "W",
+                "U",
+                "V",
+                "T",
+            ]
             if input_data[0] in nn_grade_chars:
                 # pre grade climb
                 grade_char = input_data[0]
@@ -64,7 +88,9 @@ class Climb:
 
             # Check that the climb move string is in pairs
             if len(input_data) % 2 != 0:
-                raise ValueError("Invalid climb string length, moves should be a pair of holds.")
+                raise ValueError(
+                    "Invalid climb string length, moves should be a pair of holds."
+                )
 
             self.holds = []
 
@@ -102,12 +128,30 @@ class Climb:
     def __repr__(self):
         # Create a string representing the class
         return "Moves:{}\nGrade:{}\nRating:{}".format(
-            " ".join([i.as_website_format() for i in self.holds]), self.grade, self.rating
+            " ".join([i.as_website_format() for i in self.holds]),
+            self.grade,
+            self.rating,
         )
 
     @classmethod
     def valid_input_sample(cls, sample):
-        nn_grade_chars = ["z", "x", "y", "w", "u", "v", "t", "s", "Z", "X", "Y", "W", "U", "V", "T"]
+        nn_grade_chars = [
+            "z",
+            "x",
+            "y",
+            "w",
+            "u",
+            "v",
+            "t",
+            "s",
+            "Z",
+            "X",
+            "Y",
+            "W",
+            "U",
+            "V",
+            "T",
+        ]
         # First check that it is in a valid length range
         if len(sample) < 2:
             return False
