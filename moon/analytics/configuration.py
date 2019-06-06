@@ -14,7 +14,7 @@ Climb=List[bool] # One hot encoded, 18*11 options
 @dataclass
 class Configuration:
     model: GradingModel
-    climbs: Climbset
+    climbset: Climbset
     preprocessing: BasePreprocessor
     metrics: Metrics
     data_split: Tuple[Tuple[List[Climb], List[Climb]], Tuple[List[Grade], List[Grade]]]
@@ -43,5 +43,29 @@ def get_climbsets() -> Tuple[Climbset]:
 def generate_configurations() -> Tuple[Configuration]:
     pass
 
-def run_configurations(Tuple[Configuration]) -> None:
+def run_configuration(config: Configuration) -> None:
+    # Run grade preprocessing
+    grades = [i.grade.grade_number for i in config.climbset.climbs]
+    new_grades = config.preprocessing.preprocess(grades)
+
+    # Format climbset
+    climbs = np.asarray([np.asarray(climb.as_image()) for climb in base_climbset.climbs])
+    climbs = [np.reshape(climbs, (len(climbs), 11 * 18)).astype(int)]
+
+    # Split test train data
+    config.data_split = train_test_split(
+            np.reshape(climbs, (len(climbs), 11 * 18)).astype(int),
+            grades,
+            test_size=0.2,
+            random_state=42,
+        )
+
+    # Train the model
+    # Get test set accuracy
+    # Generate metrics
+    # Print report
     pass
+
+def main():
+    for configuration in generate_configurations():
+        run_configuration(configuration)

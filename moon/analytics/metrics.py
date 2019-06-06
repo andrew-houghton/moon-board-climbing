@@ -8,3 +8,6 @@ def expected_diff(test_data, score_data):
 @dataclass
 class Metrics:
     accuracy: float
+
+    def generate_metrics(self, sample, actual):
+        self.accuracy = [i==j for i,j in zip(sample,actual)]/len(sample)
