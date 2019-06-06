@@ -6,7 +6,9 @@ from PIL import Image, ImageTk
 
 from climb import Climb
 
-import_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/types"
+import_path = (
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/types"
+)
 sys.path.append(import_path)
 
 

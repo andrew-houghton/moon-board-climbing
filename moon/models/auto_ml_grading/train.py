@@ -31,7 +31,12 @@ if __name__ == "__main__":
     x_test = np.squeeze(x_test.reshape((x_test.shape[0], -1)))
     y_train, y_encoder = transform_y(y_train)
     y_test, _ = transform_y(y_test)
-    mlpModule = MlpModule(loss=classification_loss, metric=Accuracy, searcher_args={}, verbose=True)
+    mlpModule = MlpModule(
+        loss=classification_loss,
+        metric=Accuracy,
+        searcher_args={},
+        verbose=True,
+    )
     # specify the fit args
     data_transformer = DataTransformerMlp(x_train)
     train_data = data_transformer.transform_train(x_train, y_train)

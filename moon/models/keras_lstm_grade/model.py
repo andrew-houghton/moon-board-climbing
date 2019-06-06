@@ -27,8 +27,9 @@ def move_sizes(hold_list):
 
 
 class Model(GradingModel):
-    self.name="Keras LSTM"
-    
+    def name(self):
+        return "Keras LSTM"
+
     def preprocess(self):
         climbset = load_climbset()
 
@@ -40,18 +41,24 @@ class Model(GradingModel):
         max_climb_length = 12
         holds_pad = sequence.pad_sequences(holds, maxlen=max_climb_length)
 
-        return train_test_split(holds_pad, grades, test_size=0.2, random_state=42)
+        return train_test_split(
+            holds_pad, grades, test_size=0.2, random_state=42
+        )
 
     def train(self):
         x_train, x_test, y_train, y_test = self.preprocess()
 
         model = Sequential()
-        model.add(LSTM(100, input_shape=(12, 2), dropout=0.2, recurrent_dropout=0.2))
+        model.add(
+            LSTM(100, input_shape=(12, 2), dropout=0.2, recurrent_dropout=0.2)
+        )
         model.add(Dense(15, activation="softmax"))
 
         model.compile(loss="mse", optimizer="adam", metrics=["accuracy"])
 
-        model.fit(x_train, to_categorical(y_train), epochs=50, batch_size=13570)
+        model.fit(
+            x_train, to_categorical(y_train), epochs=50, batch_size=13570
+        )
 
         model.save(local_file_path(__file__, "model.h5"))
         print("Saved trained model.")
@@ -68,11 +75,16 @@ class Model(GradingModel):
         print(model.metrics_names)
         print(model.evaluate(x_test, to_categorical(y_test)))
 
-        pickle.dump((x_test, y_test, sample), open(local_file_path(__file__, "sample.pickle"), "wb"))
+        pickle.dump(
+            (x_test, y_test, sample),
+            open(local_file_path(__file__, "sample.pickle"), "wb"),
+        )
         print("Saved model sample.")
 
     def load_sample(self):
-        return pickle.load(open(local_file_path(__file__, "sample.pickle"), "rb"))
+        return pickle.load(
+            open(local_file_path(__file__, "sample.pickle"), "rb")
+        )
 
 
 if __name__ == "__main__":

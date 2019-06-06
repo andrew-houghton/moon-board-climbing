@@ -49,23 +49,35 @@ class TextLoader:
         self.vocab_size = len(self.chars)
         self.vocab = dict(zip(self.chars, range(len(self.chars))))
         self.tensor = np.load(tensor_file)
-        self.num_batches = int(self.tensor.size / (self.batch_size * self.seq_length))
+        self.num_batches = int(
+            self.tensor.size / (self.batch_size * self.seq_length)
+        )
 
     def create_batches(self):
-        self.num_batches = int(self.tensor.size / (self.batch_size * self.seq_length))
+        self.num_batches = int(
+            self.tensor.size / (self.batch_size * self.seq_length)
+        )
 
         # When the data (tensor) is too small,
         # let's give them a better error message
         if self.num_batches == 0:
-            assert False, "Not enough data. Make seq_length and batch_size small."
+            assert (
+                False
+            ), "Not enough data. Make seq_length and batch_size small."
 
-        self.tensor = self.tensor[: self.num_batches * self.batch_size * self.seq_length]
+        self.tensor = self.tensor[
+            : self.num_batches * self.batch_size * self.seq_length
+        ]
         xdata = self.tensor
         ydata = np.copy(self.tensor)
         ydata[:-1] = xdata[1:]
         ydata[-1] = xdata[0]
-        self.x_batches = np.split(xdata.reshape(self.batch_size, -1), self.num_batches, 1)
-        self.y_batches = np.split(ydata.reshape(self.batch_size, -1), self.num_batches, 1)
+        self.x_batches = np.split(
+            xdata.reshape(self.batch_size, -1), self.num_batches, 1
+        )
+        self.y_batches = np.split(
+            ydata.reshape(self.batch_size, -1), self.num_batches, 1
+        )
 
     def next_batch(self):
         x, y = self.x_batches[self.pointer], self.y_batches[self.pointer]
@@ -93,12 +105,17 @@ def train(args):
     # check compatibility if training is continued from previously saved model
     if args.init_from is not None:
         # check if all necessary files exist
-        assert os.path.isdir(args.init_from), " %s must be a a path" % args.init_from
+        assert os.path.isdir(args.init_from), (
+            " %s must be a a path" % args.init_from
+        )
         assert os.path.isfile(os.path.join(args.init_from, "config.pkl")), (
             "config.pkl file does not exist in path %s" % args.init_from
         )
-        assert os.path.isfile(os.path.join(args.init_from, "chars_vocab.pkl")), (
-            "chars_vocab.pkl.pkl file does not exist in path %s" % args.init_from
+        assert os.path.isfile(
+            os.path.join(args.init_from, "chars_vocab.pkl")
+        ), (
+            "chars_vocab.pkl.pkl file does not exist in path %s"
+            % args.init_from
         )
         ckpt = tf.train.get_checkpoint_state(args.init_from)
         assert ckpt, "No checkpoint found"
@@ -110,14 +127,19 @@ def train(args):
         need_be_same = ["model", "rnn_size", "num_layers", "seq_length"]
         for checkme in need_be_same:
             assert vars(saved_model_args)[checkme] == vars(args)[checkme], (
-                "Command line argument and saved model disagree on '%s' " % checkme
+                "Command line argument and saved model disagree on '%s' "
+                % checkme
             )
 
         # open saved vocab/dict and check if vocabs/dicts are compatible
         with open(os.path.join(args.init_from, "chars_vocab.pkl"), "rb") as f:
             saved_chars, saved_vocab = cPickle.load(f)
-        assert saved_chars == data_loader.chars, "Data and loaded model disagree on character set!"
-        assert saved_vocab == data_loader.vocab, "Data and loaded model disagree on dictionary mappings!"
+        assert (
+            saved_chars == data_loader.chars
+        ), "Data and loaded model disagree on character set!"
+        assert (
+            saved_vocab == data_loader.vocab
+        ), "Data and loaded model disagree on dictionary mappings!"
 
     save_dir = os.path.join(args.data_dir, "save")
     if not os.path.isdir(save_dir):
@@ -133,7 +155,10 @@ def train(args):
         # instrument for tensorboard
         summaries = tf.summary.merge_all()
         writer = tf.summary.FileWriter(
-            os.path.join(os.path.join(args.data_dir, "logs"), time.strftime("%Y-%m-%d-%H-%M-%S"))
+            os.path.join(
+                os.path.join(args.data_dir, "logs"),
+                time.strftime("%Y-%m-%d-%H-%M-%S"),
+            )
         )
         writer.add_graph(sess.graph)
 
@@ -143,7 +168,11 @@ def train(args):
         if args.init_from is not None:
             saver.restore(sess, ckpt.model_checkpoint_path)
         for e in range(args.num_epochs):
-            sess.run(tf.assign(model.lr, args.learning_rate * (args.decay_rate ** e)))
+            sess.run(
+                tf.assign(
+                    model.lr, args.learning_rate * (args.decay_rate ** e)
+                )
+            )
             data_loader.reset_batch_pointer()
             state = sess.run(model.initial_state)
             for b in range(data_loader.num_batches):
@@ -155,7 +184,10 @@ def train(args):
                     feed[h] = state[i].h
 
                 # instrument for tensorboard
-                summ, train_loss, state, _ = sess.run([summaries, model.cost, model.final_state, model.train_op], feed)
+                summ, train_loss, state, _ = sess.run(
+                    [summaries, model.cost, model.final_state, model.train_op],
+                    feed,
+                )
                 writer.add_summary(summ, e * data_loader.num_batches + b)
 
                 end = time.time()
@@ -168,10 +200,19 @@ def train(args):
                         end - start,
                     )
                 )
-                if (e * data_loader.num_batches + b) % args.save_every == 0 or (
-                    e == args.num_epochs - 1 and b == data_loader.num_batches - 1
+                if (
+                    e * data_loader.num_batches + b
+                ) % args.save_every == 0 or (
+                    e == args.num_epochs - 1
+                    and b == data_loader.num_batches - 1
                 ):
                     # save for the last result
-                    checkpoint_path = os.path.join(args.data_dir, "save/", "model.ckpt")
-                    saver.save(sess, checkpoint_path, global_step=e * data_loader.num_batches + b)
+                    checkpoint_path = os.path.join(
+                        args.data_dir, "save/", "model.ckpt"
+                    )
+                    saver.save(
+                        sess,
+                        checkpoint_path,
+                        global_step=e * data_loader.num_batches + b,
+                    )
                     print("model saved to {}".format(checkpoint_path))

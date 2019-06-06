@@ -13,12 +13,15 @@ from sklearn.model_selection import train_test_split
 
 
 class Model(BaseModel):
-    self.name="Auto ML grading"
+    def name(self):
+        return "Auto ML grading"
 
     def sample(self):
         data = load_data.numpy()
         x_train, x_test, y_train, y_test = train_test_split(
-            np.reshape(data["climbs"], (len(data["climbs"]), 18 * 18, 1)).astype(int),
+            np.reshape(
+                data["climbs"], (len(data["climbs"]), 18 * 18, 1)
+            ).astype(int),
             data["grades"],
             test_size=0.2,
             random_state=42,

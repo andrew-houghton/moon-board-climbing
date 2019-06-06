@@ -40,7 +40,6 @@ def load_json(year):
     with open(local_file_path(__file__, year+".json"), "r") as handle:
         return json.load(handle)
 
-
 def json_to_climbset(data):
     # For each climb stored in json format
     # convert it to a climb and then add it to a climbset.

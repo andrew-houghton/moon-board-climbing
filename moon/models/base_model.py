@@ -11,7 +11,11 @@ np.random.seed(0)
 
 class BaseModel:
     def parse(self):
-        function_map = {"prep": self.prep, "train": self.train, "sample": self.sample}
+        function_map = {
+            "prep": self.prep,
+            "train": self.train,
+            "sample": self.sample,
+        }
 
         parser = argparse.ArgumentParser()
         group = parser.add_mutually_exclusive_group(required=True)
@@ -46,5 +50,8 @@ class GradingModel(BaseModel):
     def preprocess(self):
         climbs, grades = load_numpy()
         return train_test_split(
-            np.reshape(climbs, (len(climbs), 11 * 18)).astype(int), grades, test_size=0.2, random_state=42
+            np.reshape(climbs, (len(climbs), 11 * 18)).astype(int),
+            grades,
+            test_size=0.2,
+            random_state=42,
         )
