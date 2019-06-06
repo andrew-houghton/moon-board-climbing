@@ -1,4 +1,3 @@
-import gzip
 import json
 import os
 import pickle
@@ -14,39 +13,32 @@ def local_file_path(script_file, filename):
     return os.path.join(scriptpath, filename)
 
 
-def get_or_generate(filename, generator_function):
+def get_or_generate(filename, generator_function, *args):
     filepath = local_file_path(__file__, filename)
     if not os.path.isfile(filepath):
-        generator_function()
+        generator_function(*args)
     return filepath
 
 
-def load_numpy():
-    path = get_or_generate("numpy.pkl", gen_numpy)
+def load_numpy(year):
+    path = get_or_generate(year + ".pkl", gen_numpy, year)
     return pickle.load(open(path, "rb"))
 
 
-def gen_numpy():
-    base_climbset = load_climbset()
+def gen_numpy(year):
+    base_climbset = load_climbset(year)
     climbs = np.asarray([np.asarray(climb.as_image()) for climb in base_climbset.climbs])
     grades = np.asarray([climb.grade.grade_number for climb in base_climbset.climbs])
-    pickle.dump((climbs, grades), open(local_file_path(__file__, "numpy.pkl"), "wb"))
+    pickle.dump((climbs, grades), open(local_file_path(__file__, year+".pkl"), "wb"))
 
 
-def load_climbset():
-    return json_to_climbset(load_json())
+def load_climbset(year):
+    return json_to_climbset(load_json(year))
 
 
-def load_json():
-    path = get_or_generate("combined.json", gen_json)
-    return json.load(open(path))
-
-
-def gen_json():
-    with open(local_file_path(__file__, "combined.json"), "wb") as f_out, gzip.open(
-        local_file_path(__file__, "combined.json.gz"), "rb"
-    ) as f_in:
-        shutil.copyfileobj(f_in, f_out)
+def load_json(year):
+    with open(local_file_path(__file__, year+".json"), "r") as handle:
+        return json.load(handle)
 
 
 def json_to_climbset(data):
