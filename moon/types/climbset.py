@@ -103,6 +103,4 @@ class Climbset:
     def __repr__(self):
         # Create a human readable string representation of the whole climbset.
 
-        return "Climbset of length {} with climbs;\n{}".format(
-            len(self.climbs), "\n".join([str(i) for i in self.climbs])
-        )
+        return f"Climbset of length {len(self.climbs)}"

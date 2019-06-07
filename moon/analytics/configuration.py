@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import List, Tuple
 
 import numpy as np
+from sklearn.model_selection import train_test_split
 
 from moon.analytics.grade_preprocessor import (
     BasePreprocessor,
@@ -80,13 +81,16 @@ def run_configuration(config: Configuration) -> None:
 
     # Format climbset
     climbs = np.asarray(
-        [np.asarray(climb.as_image()) for climb in base_climbset.climbs]
+        [np.asarray(climb.as_image()) for climb in config.climbset.climbs]
     )
-    climbs = [np.reshape(climbs, (len(climbs), 11 * 18)).astype(int)]
+    climbs = np.reshape(climbs, (len(climbs), 11 * 18)).astype(int)
 
     # Split test train data
+    print(len(grades))
+    print(climbs.shape)
+
     config.data_split = train_test_split(
-        np.reshape(climbs, (len(climbs), 11 * 18)).astype(int),
+        climbs,
         grades,
         test_size=0.2,
         random_state=42,
@@ -100,9 +104,10 @@ def run_configuration(config: Configuration) -> None:
 
 def main():
     configurations = generate_configurations()
-    print("Running configurations")
     for configuration in configurations:
+        print(f"Running configuration {configuration}")
         run_configuration(configuration)
+        break
     print("Finished")
 
 
