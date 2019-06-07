@@ -6,9 +6,10 @@ from keras.layers import LSTM, Dense
 from keras.models import Sequential, load_model
 from keras.preprocessing import sequence
 from keras.utils import to_categorical
+from sklearn.model_selection import train_test_split
+
 from moon.models.base_model import GradingModel
 from moon.utils.load_data import load_climbset, local_file_path
-from sklearn.model_selection import train_test_split
 
 
 def hold_list(climb):

@@ -38,5 +38,6 @@ class Model(GeneratorModel):
             open(local_file_path(__file__, "sample.pickle"), "rb")
         )
 
+
 if __name__ == "__main__":
     Model().parse()

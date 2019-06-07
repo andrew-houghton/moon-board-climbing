@@ -1,17 +1,15 @@
 import pickle
 
 import xgboost as xgb
+
 from moon.models.base_model import GradingModel
 from moon.utils.load_data import local_file_path
 
 
 class Model(GradingModel):
-<<<<<<< HEAD:moon/models/xgboost_model/model.py
-    self.name="XGBoost"
-=======
-    self.name = "XGBoost"
+    def name(self):
+        return "XGBoost"
 
->>>>>>> a8f739f1a80758cacab2956c76055efec48b9a3c:moon/models/xgboost_model/model.py
     def train(self):
         x_train, x_test, y_train, y_test = self.preprocess()
 

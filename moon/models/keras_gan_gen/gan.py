@@ -2,10 +2,6 @@ from __future__ import division, print_function
 
 import sys
 
-import matplotlib
-
-matplotlib.use("TkAgg")
-import matplotlib.pyplot as plt
 import numpy as np
 from keras.layers import (
     Activation,
@@ -18,7 +14,12 @@ from keras.layers import (
 from keras.layers.advanced_activations import LeakyReLU
 from keras.models import Model, Sequential, load_model
 from keras.optimizers import Adam
+
+import matplotlib
+import matplotlib.pyplot as plt
 from moon.utils.load_data import local_file_path
+
+matplotlib.use("TkAgg")
 
 
 class GAN:

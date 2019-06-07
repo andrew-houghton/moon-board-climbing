@@ -3,13 +3,14 @@ import pickle
 from timeit import default_timer as timer
 from typing import List, Union
 
-import moon.utils.load_data as load_data
 import numpy as np
+from sklearn.model_selection import train_test_split
+
+import moon.utils.load_data as load_data
 from autokeras.preprocessor import OneHotEncoder
 from autokeras.utils import pickle_from_file
 from moon.models.base_model import BaseModel
 from moon.types.climbset import Climbset
-from sklearn.model_selection import train_test_split
 
 
 class Model(BaseModel):

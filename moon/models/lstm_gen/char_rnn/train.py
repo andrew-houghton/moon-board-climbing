@@ -6,8 +6,9 @@ import time
 
 import numpy as np
 import tensorflow as tf
-from moon.models.lstm_gen.char_rnn.model import Model
 from six.moves import cPickle
+
+from moon.models.lstm_gen.char_rnn.model import Model
 
 
 class TextLoader:

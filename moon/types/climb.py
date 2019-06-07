@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from PIL.PngImagePlugin import PngImageFile
+
 from moon.types.grade import Grade
 from moon.types.hold import Hold
-from PIL.PngImagePlugin import PngImageFile
 
 
 class Climb:

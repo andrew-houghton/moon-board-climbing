@@ -3,6 +3,7 @@ import pickle
 from keras.layers import Dense
 from keras.models import Sequential, load_model
 from keras.utils import to_categorical
+
 from moon.models.base_model import GradingModel
 from moon.utils.load_data import local_file_path
 

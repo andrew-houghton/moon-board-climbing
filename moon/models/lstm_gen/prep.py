@@ -1,8 +1,8 @@
+import json
 import os
+import pickle
 
 from moon.utils.load_data import load_climbset
-import pickle
-import json
 
 
 def prep_no_grade():

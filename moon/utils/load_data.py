@@ -4,6 +4,7 @@ import pickle
 import shutil
 
 import numpy as np
+
 from moon.types.climb import Climb
 from moon.types.climbset import Climbset
 
@@ -27,9 +28,15 @@ def load_numpy(year):
 
 def gen_numpy(year):
     base_climbset = load_climbset(year)
-    climbs = np.asarray([np.asarray(climb.as_image()) for climb in base_climbset.climbs])
-    grades = np.asarray([climb.grade.grade_number for climb in base_climbset.climbs])
-    pickle.dump((climbs, grades), open(local_file_path(__file__, year+".pkl"), "wb"))
+    climbs = np.asarray(
+        [np.asarray(climb.as_image()) for climb in base_climbset.climbs]
+    )
+    grades = np.asarray(
+        [climb.grade.grade_number for climb in base_climbset.climbs]
+    )
+    pickle.dump(
+        (climbs, grades), open(local_file_path(__file__, year + ".pkl"), "wb")
+    )
 
 
 def load_climbset(year):
@@ -37,8 +44,9 @@ def load_climbset(year):
 
 
 def load_json(year):
-    with open(local_file_path(__file__, year+".json"), "r") as handle:
+    with open(local_file_path(__file__, year + ".json"), "r") as handle:
         return json.load(handle)
+
 
 def json_to_climbset(data):
     # For each climb stored in json format

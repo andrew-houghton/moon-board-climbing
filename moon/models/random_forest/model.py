@@ -1,8 +1,9 @@
 import pickle
 
+from sklearn.ensemble import RandomForestClassifier
+
 from moon.models.base_model import GradingModel
 from moon.utils.load_data import local_file_path
-from sklearn.ensemble import RandomForestClassifier
 
 
 class Model(GradingModel):

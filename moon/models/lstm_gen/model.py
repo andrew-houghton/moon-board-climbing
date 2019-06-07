@@ -2,11 +2,11 @@ import os
 import pickle
 
 from moon.models.base_model import GeneratorModel
+from moon.models.lstm_gen.char_rnn.sample import get_sample
+from moon.models.lstm_gen.char_rnn.train import build_model
+from moon.models.lstm_gen.prep import prep_no_grade
 from moon.types import climb, climbset
 from moon.utils.load_data import local_file_path
-from moon.models.lstm_gen.prep import prep_no_grade
-from moon.models.lstm_gen.char_rnn.train import build_model
-from moon.models.lstm_gen.char_rnn.sample import get_sample
 
 
 def clean_sample(sample):
@@ -40,9 +40,13 @@ class Model(GeneratorModel):
         sample_length = 20000
         text_sample = get_sample(model_dir, sample_length, "A")
 
-        generated_climbs = climbset.Climbset(clean_sample(text_sample), "sample")
+        generated_climbs = climbset.Climbset(
+            clean_sample(text_sample), "sample"
+        )
 
-        print(f"Generated {len(generated_climbs.climbs)} and kept {num_samples}.")
+        print(
+            f"Generated {len(generated_climbs.climbs)} and kept {num_samples}."
+        )
         generated_climbs.climbs = generated_climbs.climbs[:num_samples]
 
         pickle.dump(

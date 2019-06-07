@@ -2,8 +2,9 @@ import os
 import pickle
 
 import tensorflow as tf
-from moon.models.lstm_gen.char_rnn.model import Model
 from six.moves import cPickle
+
+from moon.models.lstm_gen.char_rnn.model import Model
 
 
 def get_sample(base_save_dir, sample_length, seed_str):
