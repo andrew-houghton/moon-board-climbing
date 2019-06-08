@@ -5,9 +5,12 @@ class Climbset:
     # Holds many climbs
     # Used to manage entire strings of climbs such as LSTM input and output
 
-    def __init__(self, climbs=[], input_type="list"):
+    def __init__(self, climbs=None, input_type="list"):
         # Create a climbset starting from a list.
         # If no climbs are supplied then an empty list is used.
+        if not climbs:
+            climbs=[]
+
         if input_type == "list":
             if not type(climbs) == list:
                 raise ValueError(

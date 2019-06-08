@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Optional
+from sklearn.metrics import accuracy_score
 
 
 def expected_diff(test_data, score_data):
@@ -13,5 +14,5 @@ def expected_diff(test_data, score_data):
 class Metrics:
     accuracy: Optional[float] = None
 
-    def generate_metrics(self, sample, actual):
-        self.accuracy = [i == j for i, j in zip(sample, actual)] / len(sample)
+    def generate_metrics(self, actual, sample):
+        self.accuracy = accuracy_score(actual, sample)

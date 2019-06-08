@@ -15,6 +15,7 @@ from moon.models import (
     random_forest,
     xgboost_model,
 )
+
 from moon.models.base_model import GradingModel
 from moon.types.climbset import Climbset
 from moon.utils.load_data import load_climbset
@@ -43,10 +44,10 @@ class Configuration:
 # Generate configurations here
 def get_grading_models() -> Tuple[GradingModel]:
     return (
-        keras_lstm_grade.Model(),
-        keras_mlp.Model(),
+        # keras_lstm_grade.Model(),
+        # keras_mlp.Model(),
         random_forest.Model(),
-        xgboost_model.Model(),
+        # xgboost_model.Model(),
     )
 
 
@@ -76,7 +77,7 @@ def generate_configurations() -> List[Configuration]:
 
 def run_configuration(config: Configuration) -> None:
     # Run grade preprocessing
-    grades = [i.grade.grade_number for i in config.climbset.climbs]
+    grades = np.asarray([i.grade.grade_number for i in config.climbset.climbs])
     new_grades = config.preprocessing.preprocess(grades)
 
     # Format climbset
@@ -86,21 +87,26 @@ def run_configuration(config: Configuration) -> None:
     climbs = np.reshape(climbs, (len(climbs), 11 * 18)).astype(int)
 
     # Split test train data
-    print(len(grades))
-    print(climbs.shape)
-
     config.data_split = train_test_split(
         climbs,
-        grades,
+        new_grades,
         test_size=0.2,
         random_state=42,
     )
 
     # Train the model
-    # Get test set accuracy
-    # Generate metrics
-    # Print report
+    config.model.train(*config.data_split)
 
+    # Get test set accuracy
+    x_test = config.data_split[1]
+    y_test = config.data_split[3]
+    y_pred = config.model.sample(x_test)
+
+    # Generate metrics
+    config.metrics.generate_metrics(y_test, y_pred)
+
+    # Print report
+    print(config.metrics)
 
 def main():
     configurations = generate_configurations()
