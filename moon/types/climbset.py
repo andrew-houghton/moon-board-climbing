@@ -9,7 +9,7 @@ class Climbset:
         # Create a climbset starting from a list.
         # If no climbs are supplied then an empty list is used.
         if not climbs:
-            climbs=[]
+            climbs = []
 
         if input_type == "list":
             if not type(climbs) == list:
