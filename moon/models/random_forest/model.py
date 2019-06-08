@@ -9,7 +9,7 @@ class Model(GradingModel):
 
     def train(self, x_train, y_train):
         self.model = RandomForestClassifier(
-            n_estimators=20, max_depth=70, random_state=0
+            n_estimators=100, max_depth=30, random_state=0
         )
         print("Training")
         self.model.fit(x_train, y_train)

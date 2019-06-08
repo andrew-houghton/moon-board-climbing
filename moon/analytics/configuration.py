@@ -121,8 +121,9 @@ def main():
 if __name__ == "__main__":
     run_configuration(
         Configuration(
-            xgboost_model.Model(),
-            load_climbset("2016"),
+            random_forest.Model(),
+            # xgboost_model.Model(),
+            load_climbset("2017"),
             FlandersPreprocessor(),
         )
     )

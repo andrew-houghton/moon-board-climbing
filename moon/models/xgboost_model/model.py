@@ -12,8 +12,6 @@ class Model(GradingModel):
             objective="multi:softprob", random_state=42
         )
         print("Training")
-        print(f"{x_train.shape}")
-        print(f"{y_train.shape}")
         self.model.fit(x_train, y_train)
         print("Finished training")
 
