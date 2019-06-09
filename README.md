@@ -2,19 +2,35 @@
 
 It's a way to create new climbs for the [moon board](https://www.moonboard.com/) and grade climbs using machine learning!
 
-## Setup
+## Automatic Grading
+### Setup
 
 1. Clone the repo
 2. Install python dependencies by running:
-
 ```sh
-virtualenv -p python3 venv
+virtualenv -p python3.7 venv
 source venv/bin/activate
-pip install .
+pip install -r requirements.txt
+```
+3. Run the grading script
+```sh
+python moon/analytics/configuration.py
 ```
 
-## Climb Generation Models
+<!-- 
+## Creating new climbs
+### Setup
 
-https://github.com/sherjilozair/char-rnn-tensorflow
+1. Clone the repo
+2. Install python dependencies by running:
+```sh
+virtualenv -p python3.7 venv
+source venv/bin/activate
+pip install -r requirements-generate.txt
+```
+ -->
 
-https://github.com/255BITS/HyperGAN
+### Climb Generation Models
+
+* https://github.com/sherjilozair/char-rnn-tensorflow
+* https://github.com/255BITS/HyperGAN

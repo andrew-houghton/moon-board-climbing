@@ -58,24 +58,6 @@ class Configuration:
         )
 
 
-# Generate configurations here
-def get_grading_models() -> tuple:
-    return (
-        # keras_lstm_grade.Model(),
-        # keras_mlp.Model(),
-        random_forest.Model(),
-        xgboost_model.Model(),
-    )
-
-
-def get_grade_preprocessors() -> Tuple[BasePreprocessor]:
-    return (CategoricalPreprocessor(),)
-
-
-def get_climbsets() -> Tuple[Climbset]:
-    return (load_climbset("2016"), load_climbset("2017"))
-
-
 def run_configuration(config: Configuration) -> None:
     # Run grade preprocessing
     grades = np.asarray([i.grade.grade_number for i in config.climbset.climbs])
