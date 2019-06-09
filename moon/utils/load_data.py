@@ -40,7 +40,9 @@ def gen_numpy(year):
 
 
 def load_climbset(year):
-    return json_to_climbset(load_json(year))
+    climbset = json_to_climbset(load_json(year))
+    climbset.year = year
+    return climbset
 
 
 def load_json(year):

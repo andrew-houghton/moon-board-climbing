@@ -37,8 +37,25 @@ class Configuration:
     y_train: List[Grade] = None
     y_test: List[Grade] = None
 
+    @staticmethod
+    def report_headings():
+        print(
+            "Climbset "
+            "Model                "
+            "Preprocessing        "
+            "Test Accuracy        "
+            "Train Accuracy       "
+        )
+
     def report(self):
-        pass
+        col_width = 20
+        test_acc = f"{self.test_metrics.accuracy:.3}"
+        train_acc = f"{self.train_metrics.accuracy:.3}"
+        print(
+            f"{self.climbset.year:<9}"
+            f"{self.model.name():<{col_width}} {type(self.preprocessing).__name__:<{col_width}} "
+            f"{test_acc:<{col_width}} {train_acc:<{col_width}}"
+        )
 
     def execute(self):
         pass
@@ -60,22 +77,6 @@ def get_grade_preprocessors() -> Tuple[BasePreprocessor]:
 
 def get_climbsets() -> Tuple[Climbset]:
     return (load_climbset("2016"),)
-
-
-def generate_configurations() -> List[Configuration]:
-    print("Generating configurations.")
-    configurations = []
-    for model in get_grading_models():
-        for climbset in get_climbsets():
-            for preprocessing in get_grade_preprocessors():
-                configurations.append(
-                    Configuration(
-                        model=model,
-                        climbset=climbset,
-                        preprocessing=preprocessing,
-                    )
-                )
-    return configurations
 
 
 def run_configuration(config: Configuration) -> None:
@@ -105,10 +106,6 @@ def run_configuration(config: Configuration) -> None:
         config.y_train, config.model.sample(config.x_train)
     )
 
-    # Print report
-    print(f"test {config.test_metrics}")
-    print(f"train {config.train_metrics}")
-
 
 def main():
     configurations = generate_configurations()
@@ -119,11 +116,10 @@ def main():
 
 
 if __name__ == "__main__":
-    run_configuration(
-        Configuration(
-            random_forest.Model(),
-            # xgboost_model.Model(),
-            load_climbset("2017"),
-            FlandersPreprocessor(),
-        )
+    cfg = Configuration(
+        random_forest.Model(), load_climbset("2017"), FlandersPreprocessor()
     )
+    run_configuration(cfg)
+
+    Configuration.report_headings()
+    cfg.report()
