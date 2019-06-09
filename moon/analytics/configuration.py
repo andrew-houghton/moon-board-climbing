@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import Any, List, Tuple
 
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -11,13 +11,12 @@ from moon.analytics.grade_preprocessor import (
 )
 from moon.analytics.metrics import Metrics
 from moon.models import (
-    keras_lstm_grade,
-    keras_mlp,
+    # keras_lstm_grade,
+    # keras_mlp,
     random_forest,
     xgboost_model,
 )
 
-from moon.models.base_model import GradingModel
 from moon.types.climbset import Climbset
 from moon.utils.load_data import load_climbset
 
@@ -27,7 +26,7 @@ Climb = List[bool]  # One hot encoded, 18*11 options
 
 @dataclass
 class Configuration:
-    model: GradingModel
+    model: Any
     climbset: Climbset
     preprocessing: BasePreprocessor
     train_metrics: Metrics = Metrics()
@@ -62,7 +61,7 @@ class Configuration:
 
 
 # Generate configurations here
-def get_grading_models() -> Tuple[GradingModel]:
+def get_grading_models() -> tuple:
     return (
         # keras_lstm_grade.Model(),
         # keras_mlp.Model(),
@@ -116,10 +115,16 @@ def main():
 
 
 if __name__ == "__main__":
-    cfg = Configuration(
-        random_forest.Model(), load_climbset("2017"), FlandersPreprocessor()
-    )
-    run_configuration(cfg)
-
     Configuration.report_headings()
-    cfg.report()
+    for year in ("2016", "2017"):
+        cfg = Configuration(
+            xgboost_model.Model(), load_climbset(year), FlandersPreprocessor()
+        )
+        run_configuration(cfg)
+        cfg.report()
+
+        cfg = Configuration(
+            random_forest.Model(), load_climbset(year), FlandersPreprocessor()
+        )
+        run_configuration(cfg)
+        cfg.report()

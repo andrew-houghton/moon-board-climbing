@@ -1,9 +1,7 @@
 from sklearn.ensemble import RandomForestClassifier
 
-from moon.models.base_model import GradingModel
 
-
-class Model(GradingModel):
+class Model:
     def name(self):
         return "Random Forest"
 
@@ -11,9 +9,7 @@ class Model(GradingModel):
         self.model = RandomForestClassifier(
             n_estimators=100, max_depth=30, random_state=0
         )
-        print("Training")
         self.model.fit(x_train, y_train)
-        print("Finished training")
 
     def sample(self, x):
         return self.model.predict(x)

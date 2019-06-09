@@ -1,9 +1,7 @@
 import xgboost as xgb
 
-from moon.models.base_model import GradingModel
 
-
-class Model(GradingModel):
+class Model:
     def name(self):
         return "XGBoost"
 
@@ -11,9 +9,7 @@ class Model(GradingModel):
         self.model = xgb.XGBClassifier(
             objective="multi:softprob", random_state=42
         )
-        print("Training")
         self.model.fit(x_train, y_train)
-        print("Finished training")
 
     def sample(self, x):
         return self.model.predict(x)
