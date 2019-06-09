@@ -8,11 +8,12 @@ from moon.analytics.grade_preprocessor import (
     BasePreprocessor,
     CategoricalPreprocessor,
     FlandersPreprocessor,
+    SplitPreprocessor,
 )
 from moon.analytics.metrics import Metrics
 from moon.models import (
     # keras_lstm_grade,
-    # keras_mlp,
+    keras_mlp,
     random_forest,
     xgboost_model,
 )
@@ -39,7 +40,7 @@ class Configuration:
     @staticmethod
     def report_headings():
         print(
-            "Climbset "
+            "\nClimbset "
             "Model                "
             "Preprocessing        "
             "Test Accuracy        "
@@ -50,14 +51,11 @@ class Configuration:
         col_width = 20
         test_acc = f"{self.test_metrics.accuracy:.3}"
         train_acc = f"{self.train_metrics.accuracy:.3}"
-        print(
+        return (
             f"{self.climbset.year:<9}"
             f"{self.model.name():<{col_width}} {type(self.preprocessing).__name__:<{col_width}} "
             f"{test_acc:<{col_width}} {train_acc:<{col_width}}"
         )
-
-    def execute(self):
-        pass
 
 
 # Generate configurations here
@@ -75,7 +73,7 @@ def get_grade_preprocessors() -> Tuple[BasePreprocessor]:
 
 
 def get_climbsets() -> Tuple[Climbset]:
-    return (load_climbset("2016"),)
+    return (load_climbset("2016"), load_climbset("2017"))
 
 
 def run_configuration(config: Configuration) -> None:
@@ -98,33 +96,45 @@ def run_configuration(config: Configuration) -> None:
     config.model.train(config.x_train, config.y_train)
 
     # Generate metrics
-    config.test_metrics.generate_metrics(
-        config.y_test, config.model.sample(config.x_test)
-    )
-    config.train_metrics.generate_metrics(
-        config.y_train, config.model.sample(config.x_train)
-    )
+    test_sample = config.model.sample(config.x_test)
+    config.test_metrics.generate_metrics(config.y_test, test_sample)
+
+    train_sample = config.model.sample(config.x_train)
+    config.train_metrics.generate_metrics(config.y_train, train_sample)
 
 
-def main():
-    configurations = generate_configurations()
-    for configuration in configurations:
-        print(f"Running configuration {configuration}")
-        run_configuration(configuration)
-    print("Finished")
-
-
-if __name__ == "__main__":
+def random_forest_both_years():
     Configuration.report_headings()
     for year in ("2016", "2017"):
-        cfg = Configuration(
-            xgboost_model.Model(), load_climbset(year), FlandersPreprocessor()
-        )
-        run_configuration(cfg)
-        cfg.report()
-
         cfg = Configuration(
             random_forest.Model(), load_climbset(year), FlandersPreprocessor()
         )
         run_configuration(cfg)
-        cfg.report()
+        print(cfg.report())
+
+def keras_both_years():
+    reports = []
+    for year in ("2016", "2017"):
+        cfg = Configuration(
+            keras_mlp.Model(), load_climbset(year), CategoricalPreprocessor()
+        )
+        run_configuration(cfg)
+        reports.append(cfg.report())
+
+    Configuration.report_headings()
+    print("\n".join(reports))
+
+def keras_split():
+    reports = []
+    for year in ("2016", "2017"):
+        cfg = Configuration(
+            keras_mlp.Model(), load_climbset(year), SplitPreprocessor(6)
+        )
+        run_configuration(cfg)
+        reports.append(cfg.report())
+
+    Configuration.report_headings()
+    print("\n".join(reports))
+
+if __name__ == "__main__":
+    keras_split()

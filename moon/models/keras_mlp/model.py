@@ -1,51 +1,22 @@
-import pickle
-
 from keras.layers import Dense
-from keras.models import Sequential, load_model
-from keras.utils import to_categorical
-
-from moon.models.base_model import GradingModel
-from moon.utils.load_data import local_file_path
+from keras.models import Sequential
+import numpy as np
 
 
-class Model(GradingModel):
+class Model():
     def name(self):
         return "Keras Multi Layer Percepetron"
 
-    def train(self):
-        x_train, x_test, y_train, y_test = self.preprocess()
+    def train(self, x_train, y_train):
+        num_classes = y_train.shape[1]
 
-        model = Sequential()
-        model.add(Dense(20, input_dim=x_train.shape[1], activation="relu"))
-        model.add(Dense(15, activation="softmax"))
+        self.model = Sequential()
+        self.model.add(Dense(20, input_dim=x_train.shape[1], activation="relu"))
+        self.model.add(Dense(num_classes, activation="softmax"))
+        self.model.compile(loss="mse", optimizer="adam", metrics=["accuracy"])
+        self.model.fit(x_train, y_train, epochs=10, batch_size=10)
 
-        model.compile(loss="mse", optimizer="adam", metrics=["accuracy"])
-
-        model.fit(x_train, to_categorical(y_train), epochs=10, batch_size=10)
-
-        model.save(local_file_path(__file__, "model.h5"))
-        print("Saved trained model.")
-
-        self.sample()
-
-    def sample(self):
-        x_train, x_test, y_train, y_test = self.preprocess()
-
-        model = load_model(local_file_path(__file__, "model.h5"))
-
-        sample = model.predict(x_test)
-
-        pickle.dump(
-            (x_test, y_test, sample),
-            open(local_file_path(__file__, "sample.pickle"), "wb"),
-        )
-        print("Saved model sample.")
-
-    def load_sample(self):
-        return pickle.load(
-            open(local_file_path(__file__, "sample.pickle"), "rb")
-        )
-
-
-if __name__ == "__main__":
-    Model().parse()
+    def sample(self, x):
+        y_pred = self.model.predict(x)
+        bool_preds = [[1 if i==max(row) else 0 for i in row] for row in y_pred]
+        return np.asarray(bool_preds)
