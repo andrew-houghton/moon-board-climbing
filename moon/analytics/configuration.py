@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from typing import Any, List, Tuple
+import time
 
 import numpy as np
 from sklearn.model_selection import train_test_split
-
 from moon.analytics.grade_preprocessor import (
     CategoricalPreprocessor,
     FlandersPreprocessor,
@@ -12,7 +12,6 @@ from moon.analytics.grade_preprocessor import (
 from moon.analytics.climb_preprocessor import OneHotPreprocessor, HoldListPreprocessor
 from moon.analytics.metrics import Metrics
 from moon.models import keras_lstm_grade, keras_mlp, random_forest, xgboost_model
-
 from moon.types.climbset import Climbset
 from moon.utils.load_data import load_climbset
 
@@ -53,7 +52,7 @@ class Configuration:
             f"{self.model.name():<{col_width}} "
             f"{type(self.x_preprocessing).__name__[:-12]:<{col_width}} "
             f"{type(self.y_preprocessing).__name__[:-12]:<{col_width}} "
-            f"{test_acc:<{col_width}} {train_acc:<{col_width}}"
+            f"{test_acc:<{col_width}} {train_acc}"
         )
 
     def __repr__(self):
@@ -97,52 +96,6 @@ def xgboost_both_years():
         print(cfg.report())
 
 
-def forest_both_years():
-    Configuration.report_headings()
-    for year in ("2016", "2017"):
-        cfg = Configuration(random_forest.Model(), load_climbset(year), FlandersPreprocessor())
-        run_configuration(cfg)
-        print(cfg.report())
-
-
-def keras_both_years():
-    reports = []
-    for year in ("2016", "2017"):
-        cfg = Configuration(keras_mlp.Model(), load_climbset(year), CategoricalPreprocessor())
-        run_configuration(cfg)
-        reports.append(cfg.report())
-
-    Configuration.report_headings()
-    print("\n".join(reports))
-
-
-def keras_split():
-    reports = []
-    for year in ("2016", "2017"):
-        cfg = Configuration(keras_mlp.Model(), load_climbset(year), SplitPreprocessor(6))
-        run_configuration(cfg)
-        reports.append(cfg.report())
-
-    Configuration.report_headings()
-    print("\n".join(reports))
-
-
-def lstm_categorical():
-    reports = []
-    for year in ("2016", "2017"):
-        cfg = Configuration(
-            keras_lstm_grade.Model(),
-            load_climbset(year),
-            CategoricalPreprocessor(),
-            HoldListPreprocessor(),
-        )
-        run_configuration(cfg)
-        reports.append(cfg.report())
-
-    Configuration.report_headings()
-    print("\n".join(reports))
-
-
 def generate_all_valid_configurations():
     configs = []
     for year in ("2016", "2017"):
@@ -177,10 +130,14 @@ def generate_all_valid_configurations():
 
 if __name__ == "__main__":
     configs = generate_all_valid_configurations()
+
     reports = []
     for cfg in configs:
-        print(f"Training {str(cfg)}")
+        print(f"Training {str(cfg)}", end="", flush=True)
+        start = time.time()
         run_configuration(cfg)
         reports.append(cfg.report())
+        print(f" Trained in {time.time() - start:.2f}s")
+
     Configuration.report_headings()
     print("\n".join(reports))
