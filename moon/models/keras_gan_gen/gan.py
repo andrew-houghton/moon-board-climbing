@@ -2,14 +2,15 @@ from __future__ import division, print_function
 
 import sys
 
+import matplotlib
+import matplotlib.pyplot as plt
 import numpy as np
-from keras.layers import Activation, BatchNormalization, Dense, Flatten, Input, Reshape
+from keras.layers import (Activation, BatchNormalization, Dense, Flatten,
+                          Input, Reshape)
 from keras.layers.advanced_activations import LeakyReLU
 from keras.models import Model, Sequential, load_model
 from keras.optimizers import Adam
 
-import matplotlib
-import matplotlib.pyplot as plt
 from moon.utils.load_data import local_file_path
 
 matplotlib.use("TkAgg")

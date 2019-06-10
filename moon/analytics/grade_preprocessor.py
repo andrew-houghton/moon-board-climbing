@@ -1,11 +1,16 @@
 from typing import List
 
-from keras.utils import to_categorical
 import numpy as np
+from keras.utils import to_categorical
 
 
 class CategoricalPreprocessor:
     def preprocess(self, grade: int) -> List[bool]:
+        return to_categorical(grade)
+
+class HalfGradePreprocessor:
+    def preprocess(self, grade: int) -> List[bool]:
+        grade=grade/2
         return to_categorical(grade)
 
 

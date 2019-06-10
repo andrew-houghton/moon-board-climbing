@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Optional
+
 from sklearn.metrics import accuracy_score
 
 

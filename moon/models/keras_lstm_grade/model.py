@@ -1,7 +1,8 @@
+import os
+
+import numpy as np
 from keras.layers import LSTM, Dense
 from keras.models import Sequential, load_model
-import numpy as np
-import os
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
