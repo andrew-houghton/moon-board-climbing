@@ -3,14 +3,7 @@ from __future__ import division, print_function
 import sys
 
 import numpy as np
-from keras.layers import (
-    Activation,
-    BatchNormalization,
-    Dense,
-    Flatten,
-    Input,
-    Reshape,
-)
+from keras.layers import Activation, BatchNormalization, Dense, Flatten, Input, Reshape
 from keras.layers.advanced_activations import LeakyReLU
 from keras.models import Model, Sequential, load_model
 from keras.optimizers import Adam
@@ -23,31 +16,19 @@ matplotlib.use("TkAgg")
 
 
 class GAN:
-    def __init__(
-        self,
-        input_data,
-        discriminator_path,
-        generator_path,
-        node_scale_factor=64,
-    ):
+    def __init__(self, input_data, discriminator_path, generator_path, node_scale_factor=64):
         self.input_data = input_data
         self.discriminator_path = discriminator_path
         self.generator_path = generator_path
         self.node_scale_factor = node_scale_factor
         self.channels = 1
-        self.img_shape = (
-            self.input_data.shape[1],
-            self.input_data.shape[2],
-            self.channels,
-        )
+        self.img_shape = (self.input_data.shape[1], self.input_data.shape[2], self.channels)
         self.latent_dim = 100
 
         # Build and compile the discriminator
         self.discriminator = self.build_discriminator()
         self.discriminator.compile(
-            loss="binary_crossentropy",
-            optimizer=Adam(0.0002, 0.5),
-            metrics=["accuracy"],
+            loss="binary_crossentropy", optimizer=Adam(0.0002, 0.5), metrics=["accuracy"]
         )
 
         # Build the generator
@@ -66,9 +47,7 @@ class GAN:
         # The combined model  (stacked generator and discriminator)
         # Trains the generator to fool the discriminator
         self.combined = Model(z, validity)
-        self.combined.compile(
-            loss="binary_crossentropy", optimizer=Adam(0.0002, 0.5)
-        )
+        self.combined.compile(loss="binary_crossentropy", optimizer=Adam(0.0002, 0.5))
 
     def build_generator(self):
 
@@ -167,9 +146,7 @@ class GAN:
 
     def save_model(self):
         self.discriminator.save(self.discriminator_path)
-        self.generator.compile(
-            loss="binary_crossentropy", optimizer=Adam(0.0002, 0.5)
-        )
+        self.generator.compile(loss="binary_crossentropy", optimizer=Adam(0.0002, 0.5))
         self.generator.save(self.generator_path)
 
     def load_models(self):

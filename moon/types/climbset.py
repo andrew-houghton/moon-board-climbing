@@ -13,30 +13,22 @@ class Climbset:
 
         if input_type == "list":
             if not type(climbs) == list:
-                raise ValueError(
-                    "Input must be a list of climb objects. Please input a list."
-                )
+                raise ValueError("Input must be a list of climb objects. Please input a list.")
 
             for climb in climbs:
                 if type(climb) != Climb:
-                    raise ValueError(
-                        "Objects in climbset must be of type climb."
-                    )
+                    raise ValueError("Objects in climbset must be of type climb.")
             self.climbs = climbs
 
         elif input_type == "sample":
             # Check input type
             if not type(climbs) == list:
-                raise ValueError(
-                    "Input must be a list of strings. Please input a list."
-                )
+                raise ValueError("Input must be a list of strings. Please input a list.")
 
             # Check input type
             for climb in climbs:
                 if type(climb) != str:
-                    raise ValueError(
-                        "Input object from sample must be of type str."
-                    )
+                    raise ValueError("Input object from sample must be of type str.")
 
             # Process each climb one by one and add them to the climbset
             self.climbs = []

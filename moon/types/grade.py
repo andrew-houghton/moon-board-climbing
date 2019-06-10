@@ -38,23 +38,7 @@ _valid_nn_grades = {
     "T": 14,
 }
 
-_nn_grades_inverse = [
-    "z",
-    "x",
-    "y",
-    "w",
-    "u",
-    "v",
-    "t",
-    "s",
-    "Z",
-    "X",
-    "Y",
-    "W",
-    "U",
-    "V",
-    "T",
-]
+_nn_grades_inverse = ["z", "x", "y", "w", "u", "v", "t", "s", "Z", "X", "Y", "W", "U", "V", "T"]
 
 
 class Grade:

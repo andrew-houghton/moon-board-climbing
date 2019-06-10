@@ -28,15 +28,9 @@ def load_numpy(year):
 
 def gen_numpy(year):
     base_climbset = load_climbset(year)
-    climbs = np.asarray(
-        [np.asarray(climb.as_image()) for climb in base_climbset.climbs]
-    )
-    grades = np.asarray(
-        [climb.grade.grade_number for climb in base_climbset.climbs]
-    )
-    pickle.dump(
-        (climbs, grades), open(local_file_path(__file__, year + ".pkl"), "wb")
-    )
+    climbs = np.asarray([np.asarray(climb.as_image()) for climb in base_climbset.climbs])
+    grades = np.asarray([climb.grade.grade_number for climb in base_climbset.climbs])
+    pickle.dump((climbs, grades), open(local_file_path(__file__, year + ".pkl"), "wb"))
 
 
 def load_climbset(year):

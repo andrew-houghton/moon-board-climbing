@@ -6,15 +6,11 @@ from PIL import Image, ImageTk
 
 from climbset import Climbset
 
-import_path = (
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/types"
-)
+import_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/types"
 sys.path.append(import_path)
 
 
-base_image = Image.open(
-    os.path.dirname(os.path.realpath(__file__)) + "/cleaned.png"
-)
+base_image = Image.open(os.path.dirname(os.path.realpath(__file__)) + "/cleaned.png")
 
 
 def fix_transparency(climb_image):
@@ -68,25 +64,14 @@ class ClimbsetNavigator:
 
         # Create the display elements
         self.top_label = tk.Label(
-            self.app_root,
-            text="Image 1 of {}".format(len(self.climbset.climbs)),
+            self.app_root, text="Image 1 of {}".format(len(self.climbset.climbs))
         )
         self.grade_label = tk.Label(self.app_root, text="Grade: ")
-        self.left_button = tk.Button(
-            self.app_root, text="<-", command=self.last_image
-        )
-        self.right_button = tk.Button(
-            self.app_root, text="->", command=self.next_image
-        )
-        self.toggle_button = tk.Button(
-            self.app_root, text="Toggle", command=self.toggle_overlay
-        )
-        self.delete_button = tk.Button(
-            self.app_root, text="Delete", command=self.delete_current
-        )
-        self.save_button = tk.Button(
-            self.app_root, text="Save Climbs", command=self.save_all
-        )
+        self.left_button = tk.Button(self.app_root, text="<-", command=self.last_image)
+        self.right_button = tk.Button(self.app_root, text="->", command=self.next_image)
+        self.toggle_button = tk.Button(self.app_root, text="Toggle", command=self.toggle_overlay)
+        self.delete_button = tk.Button(self.app_root, text="Delete", command=self.delete_current)
+        self.save_button = tk.Button(self.app_root, text="Save Climbs", command=self.save_all)
         self.main_image = tk.Label(self.app_root)
 
         # Manage the layout
@@ -97,9 +82,7 @@ class ClimbsetNavigator:
         self.left_button.grid(column=0, row=1, padx=10, pady=10)
         self.right_button.grid(column=4, row=1, padx=10, pady=10)
 
-        self.toggle_button.grid(
-            column=0, row=2, columnspan=2, padx=10, pady=10
-        )
+        self.toggle_button.grid(column=0, row=2, columnspan=2, padx=10, pady=10)
         self.delete_button.grid(column=2, row=2, padx=10, pady=10)
         self.save_button.grid(column=3, row=2, columnspan=2, padx=10, pady=10)
 
@@ -157,9 +140,7 @@ class ClimbsetNavigator:
         self.main_image.configure(image=self.img)
 
         climb = self.climbset.climbs[self.climb_num]
-        self.grade_label.configure(
-            text=f"Grade: {climb.grade} - {climb.grade.grade_number}"
-        )
+        self.grade_label.configure(text=f"Grade: {climb.grade} - {climb.grade.grade_number}")
 
     def run(self):
         # Show the app
@@ -184,9 +165,7 @@ class ClimbsetNavigator:
     def update_view_state(self):
         # Check that the title at the top and the left and right buttons are in the correct state
         self.top_label.configure(
-            text="Image {} of {}".format(
-                self.climb_num + 1, len(self.climbset.climbs)
-            )
+            text="Image {} of {}".format(self.climb_num + 1, len(self.climbset.climbs))
         )
 
         if self.climb_num == 0:
@@ -201,11 +180,7 @@ class ClimbsetNavigator:
 
 
 if __name__ == "__main__":
-    example_no_string = [
-        "ChDlHnGjEr",
-        "JbIeDhDjCmEoBr",
-        "FeHhJhHkEjEmEnIhEoDqEr",
-    ]
+    example_no_string = ["ChDlHnGjEr", "JbIeDhDjCmEoBr", "FeHhJhHkEjEmEnIhEoDqEr"]
     loaded_climbset = Climbset(example_no_string, "sample")
 
     app = ClimbsetNavigator(loaded_climbset)

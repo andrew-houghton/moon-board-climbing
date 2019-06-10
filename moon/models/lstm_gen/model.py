@@ -18,11 +18,7 @@ def clean_sample(sample):
         split_sample.pop(0)
     split_sample.pop(len(split_sample) - 1)
 
-    return [
-        climb_str
-        for climb_str in split_sample
-        if climb.Climb.valid_input_sample(climb_str)
-    ]
+    return [climb_str for climb_str in split_sample if climb.Climb.valid_input_sample(climb_str)]
 
 
 class Model(GeneratorModel):
@@ -40,25 +36,16 @@ class Model(GeneratorModel):
         sample_length = 20000
         text_sample = get_sample(model_dir, sample_length, "A")
 
-        generated_climbs = climbset.Climbset(
-            clean_sample(text_sample), "sample"
-        )
+        generated_climbs = climbset.Climbset(clean_sample(text_sample), "sample")
 
-        print(
-            f"Generated {len(generated_climbs.climbs)} and kept {num_samples}."
-        )
+        print(f"Generated {len(generated_climbs.climbs)} and kept {num_samples}.")
         generated_climbs.climbs = generated_climbs.climbs[:num_samples]
 
-        pickle.dump(
-            generated_climbs,
-            open(local_file_path(__file__, "sample.pickle"), "wb"),
-        )
+        pickle.dump(generated_climbs, open(local_file_path(__file__, "sample.pickle"), "wb"))
         print("saved sample")
 
     def load_sample(self):
-        return pickle.load(
-            open(local_file_path(__file__, "sample.pickle"), "rb")
-        )
+        return pickle.load(open(local_file_path(__file__, "sample.pickle"), "rb"))
 
 
 if __name__ == "__main__":

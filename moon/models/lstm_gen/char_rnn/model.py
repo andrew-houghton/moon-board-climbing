@@ -24,9 +24,7 @@ class Model:
         cells = []
         for _ in range(args.num_layers):
             cell = cell_fn(args.rnn_size)
-            if training and (
-                args.output_keep_prob < 1.0 or args.input_keep_prob < 1.0
-            ):
+            if training and (args.output_keep_prob < 1.0 or args.input_keep_prob < 1.0):
                 cell = rnn.DropoutWrapper(
                     cell,
                     input_keep_prob=args.input_keep_prob,
@@ -36,23 +34,15 @@ class Model:
 
         self.cell = cell = rnn.MultiRNNCell(cells, state_is_tuple=True)
 
-        self.input_data = tf.placeholder(
-            tf.int32, [args.batch_size, args.seq_length]
-        )
-        self.targets = tf.placeholder(
-            tf.int32, [args.batch_size, args.seq_length]
-        )
+        self.input_data = tf.placeholder(tf.int32, [args.batch_size, args.seq_length])
+        self.targets = tf.placeholder(tf.int32, [args.batch_size, args.seq_length])
         self.initial_state = cell.zero_state(args.batch_size, tf.float32)
 
         with tf.variable_scope("rnnlm"):
-            softmax_w = tf.get_variable(
-                "softmax_w", [args.rnn_size, args.vocab_size]
-            )
+            softmax_w = tf.get_variable("softmax_w", [args.rnn_size, args.vocab_size])
             softmax_b = tf.get_variable("softmax_b", [args.vocab_size])
 
-        embedding = tf.get_variable(
-            "embedding", [args.vocab_size, args.rnn_size]
-        )
+        embedding = tf.get_variable("embedding", [args.vocab_size, args.rnn_size])
         inputs = tf.nn.embedding_lookup(embedding, self.input_data)
 
         # dropout beta testing: double check which one should affect next line
@@ -88,9 +78,7 @@ class Model:
         self.final_state = last_state
         self.lr = tf.Variable(0.0, trainable=False)
         tvars = tf.trainable_variables()
-        grads, _ = tf.clip_by_global_norm(
-            tf.gradients(self.cost, tvars), args.grad_clip
-        )
+        grads, _ = tf.clip_by_global_norm(tf.gradients(self.cost, tvars), args.grad_clip)
         with tf.name_scope("optimizer"):
             optimizer = tf.train.AdamOptimizer(self.lr)
         self.train_op = optimizer.apply_gradients(zip(grads, tvars))
@@ -100,9 +88,7 @@ class Model:
         tf.summary.histogram("loss", loss)
         tf.summary.scalar("train_loss", self.cost)
 
-    def sample(
-        self, sess, chars, vocab, num=200, prime="G2,J", sampling_type=1
-    ):
+    def sample(self, sess, chars, vocab, num=200, prime="G2,J", sampling_type=1):
         state = sess.run(self.cell.zero_state(1, tf.float32))
         for char in prime[:-1]:
             x = np.zeros((1, 1))

@@ -171,9 +171,16 @@ def generate_all_valid_configurations():
             # Random forest
             configs.append(Configuration(random_forest.Model(), load_climbset(year), preprocessor))
 
-    print("\n".join(map(str,configs)))
+    print(f"Generated {len(configs)} configruations.")
     return configs
 
 
 if __name__ == "__main__":
-    generate_all_valid_configurations()
+    configs = generate_all_valid_configurations()
+    reports = []
+    for cfg in configs:
+        print(f"Training {str(cfg)}")
+        run_configuration(cfg)
+        reports.append(cfg.report())
+    Configuration.report_headings()
+    print("\n".join(reports))
