@@ -24,7 +24,7 @@ class SplitPreprocessor(BasePreprocessor):
         self.threshold = threshold
 
     def preprocess_item(self, grade: int) -> List[bool]:
-        if grade>self.threshold:
+        if grade > self.threshold:
             return [True, False]
         else:
             return [False, True]

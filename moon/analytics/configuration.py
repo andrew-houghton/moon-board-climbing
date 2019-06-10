@@ -10,9 +10,10 @@ from moon.analytics.grade_preprocessor import (
     FlandersPreprocessor,
     SplitPreprocessor,
 )
+from moon.analytics.climb_preprocessor import OneHotPreprocessor
 from moon.analytics.metrics import Metrics
 from moon.models import (
-    # keras_lstm_grade,
+    keras_lstm_grade,
     keras_mlp,
     random_forest,
     xgboost_model,
@@ -29,7 +30,8 @@ Climb = List[bool]  # One hot encoded, 18*11 options
 class Configuration:
     model: Any
     climbset: Climbset
-    preprocessing: BasePreprocessor
+    y_preprocessing: Any
+    x_preprocessing: Any = OneHotPreprocessor()
     train_metrics: Metrics = Metrics()
     test_metrics: Metrics = Metrics()
     x_train: List[Climb] = None
@@ -42,7 +44,8 @@ class Configuration:
         print(
             "\nClimbset "
             "Model                "
-            "Preprocessing        "
+            "Climb Preprocessing  "
+            "Grade Preprocessing  "
             "Test Accuracy        "
             "Train Accuracy       "
         )
@@ -52,26 +55,25 @@ class Configuration:
         test_acc = f"{self.test_metrics.accuracy:.3}"
         train_acc = f"{self.train_metrics.accuracy:.3}"
         return (
-            f"{self.climbset.year:<9}"
-            f"{self.model.name():<{col_width}} {type(self.preprocessing).__name__:<{col_width}} "
+            f"{self.climbset.year:<9} "
+            f"{self.model.name():<{col_width}} "
+            f"{type(self.x_preprocessing).__name__:<{col_width}} "
+            f"{type(self.y_preprocessing).__name__:<{col_width}} "
             f"{test_acc:<{col_width}} {train_acc:<{col_width}}"
         )
 
 
 def run_configuration(config: Configuration) -> None:
+    # Run climb preprocessing
+    new_climbs = config.x_preprocessing.preprocess(config.climbset.climbs)
+
     # Run grade preprocessing
     grades = np.asarray([i.grade.grade_number for i in config.climbset.climbs])
-    new_grades = config.preprocessing.preprocess(grades)
-
-    # Format climbset
-    climbs = np.asarray(
-        [np.asarray(climb.as_image()) for climb in config.climbset.climbs]
-    )
-    climbs = np.reshape(climbs, (len(climbs), 11 * 18)).astype(int)
+    new_grades = config.y_preprocessing.preprocess(grades)
 
     # Split test train data
     config.x_train, config.x_test, config.y_train, config.y_test = train_test_split(
-        climbs, new_grades, test_size=0.2, random_state=42
+        new_climbs, new_grades, test_size=0.2, random_state=42
     )
 
     # Train the model
@@ -85,7 +87,17 @@ def run_configuration(config: Configuration) -> None:
     config.train_metrics.generate_metrics(config.y_train, train_sample)
 
 
-def random_forest_both_years():
+def xgboost_both_years():
+    Configuration.report_headings()
+    for year in ("2016", "2017"):
+        cfg = Configuration(
+            xgboost_model.Model(), load_climbset(year), FlandersPreprocessor()
+        )
+        run_configuration(cfg)
+        print(cfg.report())
+
+
+def forest_both_years():
     Configuration.report_headings()
     for year in ("2016", "2017"):
         cfg = Configuration(
@@ -93,6 +105,7 @@ def random_forest_both_years():
         )
         run_configuration(cfg)
         print(cfg.report())
+
 
 def keras_both_years():
     reports = []
@@ -106,6 +119,7 @@ def keras_both_years():
     Configuration.report_headings()
     print("\n".join(reports))
 
+
 def keras_split():
     reports = []
     for year in ("2016", "2017"):
@@ -118,5 +132,21 @@ def keras_split():
     Configuration.report_headings()
     print("\n".join(reports))
 
+
+def lstm_categorical():
+    reports = []
+    for year in ("2016", "2017"):
+        cfg = Configuration(
+            keras_lstm_grade.Model(),
+            load_climbset(year),
+            CategoricalPreprocessor(),
+        )
+        run_configuration(cfg)
+        reports.append(cfg.report())
+
+    Configuration.report_headings()
+    print("\n".join(reports))
+
+
 if __name__ == "__main__":
-    keras_split()
+    forest_both_years()
