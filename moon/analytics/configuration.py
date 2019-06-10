@@ -5,22 +5,13 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 from moon.analytics.grade_preprocessor import (
-    BasePreprocessor,
     CategoricalPreprocessor,
     FlandersPreprocessor,
     SplitPreprocessor,
 )
-from moon.analytics.climb_preprocessor import (
-    OneHotPreprocessor,
-    HoldListPreprocessor,
-)
+from moon.analytics.climb_preprocessor import OneHotPreprocessor, HoldListPreprocessor
 from moon.analytics.metrics import Metrics
-from moon.models import (
-    keras_lstm_grade,
-    keras_mlp,
-    random_forest,
-    xgboost_model,
-)
+from moon.models import keras_lstm_grade, keras_mlp, random_forest, xgboost_model
 
 from moon.types.climbset import Climbset
 from moon.utils.load_data import load_climbset
@@ -60,9 +51,17 @@ class Configuration:
         return (
             f"{self.climbset.year:<9} "
             f"{self.model.name():<{col_width}} "
-            f"{type(self.x_preprocessing).__name__:<{col_width}} "
-            f"{type(self.y_preprocessing).__name__:<{col_width}} "
+            f"{type(self.x_preprocessing).__name__[:-12]:<{col_width}} "
+            f"{type(self.y_preprocessing).__name__[:-12]:<{col_width}} "
             f"{test_acc:<{col_width}} {train_acc:<{col_width}}"
+        )
+
+    def __repr__(self):
+        return (
+            f"Configuration: {self.model.name():<15} "
+            f"Climbset={self.climbset.year} "
+            f"X={type(self.y_preprocessing).__name__[:-12]:<13} "
+            f"Y={type(self.y_preprocessing).__name__[:-12]:<13} "
         )
 
 
@@ -93,9 +92,7 @@ def run_configuration(config: Configuration) -> None:
 def xgboost_both_years():
     Configuration.report_headings()
     for year in ("2016", "2017"):
-        cfg = Configuration(
-            xgboost_model.Model(), load_climbset(year), FlandersPreprocessor()
-        )
+        cfg = Configuration(xgboost_model.Model(), load_climbset(year), FlandersPreprocessor())
         run_configuration(cfg)
         print(cfg.report())
 
@@ -103,9 +100,7 @@ def xgboost_both_years():
 def forest_both_years():
     Configuration.report_headings()
     for year in ("2016", "2017"):
-        cfg = Configuration(
-            random_forest.Model(), load_climbset(year), FlandersPreprocessor()
-        )
+        cfg = Configuration(random_forest.Model(), load_climbset(year), FlandersPreprocessor())
         run_configuration(cfg)
         print(cfg.report())
 
@@ -113,9 +108,7 @@ def forest_both_years():
 def keras_both_years():
     reports = []
     for year in ("2016", "2017"):
-        cfg = Configuration(
-            keras_mlp.Model(), load_climbset(year), CategoricalPreprocessor()
-        )
+        cfg = Configuration(keras_mlp.Model(), load_climbset(year), CategoricalPreprocessor())
         run_configuration(cfg)
         reports.append(cfg.report())
 
@@ -126,9 +119,7 @@ def keras_both_years():
 def keras_split():
     reports = []
     for year in ("2016", "2017"):
-        cfg = Configuration(
-            keras_mlp.Model(), load_climbset(year), SplitPreprocessor(6)
-        )
+        cfg = Configuration(keras_mlp.Model(), load_climbset(year), SplitPreprocessor(6))
         run_configuration(cfg)
         reports.append(cfg.report())
 
@@ -152,5 +143,37 @@ def lstm_categorical():
     print("\n".join(reports))
 
 
+def generate_all_valid_configurations():
+    configs = []
+    for year in ("2016", "2017"):
+        # XGBoost
+        configs.append(
+            Configuration(xgboost_model.Model(), load_climbset(year), FlandersPreprocessor())
+        )
+        # Random forest flanders proprocessor
+        configs.append(
+            Configuration(random_forest.Model(), load_climbset(year), FlandersPreprocessor())
+        )
+
+        # Loop through categorical grade preprocessors
+        for preprocessor in (CategoricalPreprocessor(), SplitPreprocessor(4)):
+            # LSTM
+            configs.append(
+                Configuration(
+                    keras_lstm_grade.Model(),
+                    load_climbset(year),
+                    preprocessor,
+                    HoldListPreprocessor(),
+                )
+            )
+            # MLP
+            configs.append(Configuration(keras_mlp.Model(), load_climbset(year), preprocessor))
+            # Random forest
+            configs.append(Configuration(random_forest.Model(), load_climbset(year), preprocessor))
+
+    print("\n".join(map(str,configs)))
+    return configs
+
+
 if __name__ == "__main__":
-    lstm_categorical()
+    generate_all_valid_configurations()

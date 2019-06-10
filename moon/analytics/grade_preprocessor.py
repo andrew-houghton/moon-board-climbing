@@ -4,22 +4,17 @@ from keras.utils import to_categorical
 import numpy as np
 
 
-class BasePreprocessor:
-    def preprocess(self, grade: int) -> List[bool]:
-        pass
-
-
-class CategoricalPreprocessor(BasePreprocessor):
+class CategoricalPreprocessor:
     def preprocess(self, grade: int) -> List[bool]:
         return to_categorical(grade)
 
 
-class FlandersPreprocessor(BasePreprocessor):
+class FlandersPreprocessor:
     def preprocess(self, grade: int) -> int:
         return grade
 
 
-class SplitPreprocessor(BasePreprocessor):
+class SplitPreprocessor:
     def __init__(self, threshold):
         self.threshold = threshold
 

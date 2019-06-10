@@ -5,7 +5,7 @@ import numpy as np
 
 class Model:
     def name(self):
-        return "Keras Multi Layer Percepetron"
+        return "Keras MLP"
 
     def train(self, x_train, y_train):
         num_classes = y_train.shape[1]
