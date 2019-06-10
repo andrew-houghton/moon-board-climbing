@@ -18,6 +18,8 @@ pip install -r requirements.txt
 ```sh
 export PYTHONPATH=$(pwd)
 ```
+Note: On Windows set `PythonPath` environment variable to the project folder. [See Instructions here](https://www.codingdefined.com/2015/09/how-to-set-up-pythonpath-in-windows-10.html)
+
 4. Run the grading script
 ```sh
 python moon/analytics/configuration.py
