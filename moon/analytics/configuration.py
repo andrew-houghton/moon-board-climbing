@@ -10,7 +10,10 @@ from moon.analytics.grade_preprocessor import (
     FlandersPreprocessor,
     SplitPreprocessor,
 )
-from moon.analytics.climb_preprocessor import OneHotPreprocessor
+from moon.analytics.climb_preprocessor import (
+    OneHotPreprocessor,
+    HoldListPreprocessor,
+)
 from moon.analytics.metrics import Metrics
 from moon.models import (
     keras_lstm_grade,
@@ -140,6 +143,7 @@ def lstm_categorical():
             keras_lstm_grade.Model(),
             load_climbset(year),
             CategoricalPreprocessor(),
+            HoldListPreprocessor(),
         )
         run_configuration(cfg)
         reports.append(cfg.report())
@@ -149,4 +153,4 @@ def lstm_categorical():
 
 
 if __name__ == "__main__":
-    forest_both_years()
+    lstm_categorical()
