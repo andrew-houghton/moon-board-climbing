@@ -13,7 +13,7 @@ def main():
     # Save to file
     file_data ={
         "original": climbset,
-        "lstm": lstm.sample(climbset, 500, maxlen=12, epochs=1),
+        "lstm": lstm.sample(climbset, 500, maxlen=12, epochs=50),
     }
 
     print(f"Saving {len(file_data)} climbsets")
