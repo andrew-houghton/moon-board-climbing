@@ -1,15 +1,17 @@
+import time
 from dataclasses import dataclass
 from typing import Any, List, Tuple
-import time
 
 import numpy as np
 from sklearn.model_selection import train_test_split
+
+from moon.analytics.climb_preprocessor import HoldListPreprocessor, OneHotPreprocessor
 from moon.analytics.grade_preprocessor import (
     CategoricalPreprocessor,
     FlandersPreprocessor,
+    HalfGradePreprocessor,
     SplitPreprocessor,
 )
-from moon.analytics.climb_preprocessor import OneHotPreprocessor, HoldListPreprocessor
 from moon.analytics.metrics import Metrics
 from moon.models import keras_lstm_grade, keras_mlp, random_forest, xgboost_model
 from moon.types.climbset import Climbset
@@ -40,7 +42,7 @@ class Configuration:
             "Climb Preprocessing  "
             "Grade Preprocessing  "
             "Test Accuracy        "
-            "Train Accuracy       "
+            "Train Accuracy"
         )
 
     def report(self):
@@ -109,7 +111,11 @@ def generate_all_valid_configurations():
         )
 
         # Loop through categorical grade preprocessors
-        for preprocessor in (CategoricalPreprocessor(), SplitPreprocessor(4)):
+        for preprocessor in (
+            CategoricalPreprocessor(),
+            SplitPreprocessor(4),
+            HalfGradePreprocessor(),
+        ):
             # LSTM
             configs.append(
                 Configuration(
