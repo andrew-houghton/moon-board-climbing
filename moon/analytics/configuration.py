@@ -65,8 +65,19 @@ class Configuration:
             f"Y={type(self.y_preprocessing).__name__[:-12]:<13} "
         )
 
+    def sample(self, climbset):
+        new_climbs = self.x_preprocessing.preprocess(climbset.climbs)
+        grades = self.model.sample(new_climbs)
+        if type(self.y_preprocessing) == FlandersPreprocessor:
+            return grades
+        else:
+            return [np.argmax(i) for i in grades]
+
 
 def run_configuration(config: Configuration) -> None:
+    print(f"Training {str(config)}", end="", flush=True)
+    start = time.time()
+
     # Run climb preprocessing
     new_climbs = config.x_preprocessing.preprocess(config.climbset.climbs)
 
@@ -88,6 +99,8 @@ def run_configuration(config: Configuration) -> None:
 
     train_sample = config.model.sample(config.x_train)
     config.train_metrics.generate_metrics(config.y_train, train_sample)
+
+    print(f" Trained in {time.time() - start:.2f}s")
 
 
 def xgboost_both_years():
@@ -139,11 +152,8 @@ if __name__ == "__main__":
 
     reports = []
     for cfg in configs:
-        print(f"Training {str(cfg)}", end="", flush=True)
-        start = time.time()
         run_configuration(cfg)
         reports.append(cfg.report())
-        print(f" Trained in {time.time() - start:.2f}s")
 
     Configuration.report_headings()
     print("\n".join(reports))
