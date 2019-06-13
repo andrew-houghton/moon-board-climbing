@@ -75,7 +75,7 @@ class Model():
             sentence = text[start_index: start_index + maxlen]
             generated += sentence
 
-            for i in range(num_climbs*20):
+            for i in range(num_climbs*25):
                 x_pred = np.zeros((1, maxlen, len(chars)))
                 for t, char in enumerate(sentence):
                     x_pred[0, t, char_indices[char]] = 1.

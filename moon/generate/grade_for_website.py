@@ -19,9 +19,9 @@ def web_json_format(climb):
         'moves': [hold.as_website_format() for hold in climb.holds]
     }
 
-def main():
+def main(year):
     # Load generated climbsets
-    file_data = pickle.load(open(local_file_path(__file__, "climbsets.pickle"), "rb"))
+    file_data = pickle.load(open(local_file_path(__file__, year+".pickle"), "rb"))
     website_data = {'original': [web_json_format(climb) for climb in file_data['original'].climbs]}
 
     Configuration.report_headings()
@@ -55,9 +55,10 @@ def main():
             })
 
     # Save to file
-    with open('climbsets.js', 'w') as handle:
+    with open(year+'.js', 'w') as handle:
         handle.write("var climbs = "+json.dumps(website_data))
 
 
 if __name__=="__main__":
-    main()
+    main("2016")
+    # main("2017")
