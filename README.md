@@ -4,8 +4,7 @@
 
 It's a way to create new climbs for the [moon board](https://www.moonboard.com/) and grade climbs using machine learning!
 
-## Automatic Climb Grading
-### Setup
+## Setup
 
 1. Clone the repo
 2. Install python dependencies by running:
@@ -20,7 +19,10 @@ export PYTHONPATH=$(pwd)
 ```
 Note: On Windows set `PythonPath` environment variable to the project folder. [See Instructions here](https://www.codingdefined.com/2015/09/how-to-set-up-pythonpath-in-windows-10.html)
 
-4. Run the grading script
+
+## Automatic Climb Grading
+#### Instructions
+Run the grading script
 ```sh
 python moon/analytics/configuration.py
 ```
@@ -76,7 +78,7 @@ Climbset Model                Climb Preprocessing  Grade Preprocessing  Test Acc
 2017      Random Forest        OneHot               HalfGrade            0.183                0.997
 ```
 
-### Models
+#### Models
 
 * [XGBoost](https://xgboost.readthedocs.io/en/latest)
 * [Keras](https://keras.io/) - Multi layer percepetron
@@ -84,10 +86,18 @@ Climbset Model                Climb Preprocessing  Grade Preprocessing  Test Acc
 * [Scikit-learn Random Forest](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)
 
 ## Creating new climbs
+#### Instructions
+1. Run the climb generation script.
+```sh
+python moon/generate/generate_for_website.py
+```
+2. If you want to grade the climbs which were generated run the grading script.
+```sh
+python moon/generate/grade_for_website.py
+```
 
-TODO - documentation
+#### Climb Generation Models
 
-### Climb Generation Models
-
-* https://github.com/sherjilozair/char-rnn-tensorflow
-* https://github.com/255BITS/HyperGAN
+* [Keras](https://keras.io/) - LSTM
+* https://github.com/sherjilozair/char-rnn-tensorflow - not working in with current version
+* https://github.com/255BITS/HyperGAN - not working in with current version

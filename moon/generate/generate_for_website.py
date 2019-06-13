@@ -1,6 +1,7 @@
-from moon.utils.load_data import load_climbset, local_file_path
-from moon.models import keras_lstm_gen
 import pickle
+
+from moon.models import keras_lstm_gen
+from moon.utils.load_data import load_climbset, local_file_path
 
 
 def main(year):
@@ -11,9 +12,9 @@ def main(year):
 
     # Sample generators
     lstm = keras_lstm_gen.Model()
-    
+
     # Save to file
-    file_data ={
+    file_data = {
         "original": climbset,
         "lstm": lstm.sample(climbset, num_climbs, maxlen=12, epochs=50),
     }
@@ -22,6 +23,6 @@ def main(year):
     pickle.dump(file_data, open(local_file_path(__file__, f"{year}.pickle"), "wb"))
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main("2016")
     main("2017")
