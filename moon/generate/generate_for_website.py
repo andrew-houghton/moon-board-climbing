@@ -12,9 +12,6 @@ def main(year):
     # Sample generators
     lstm = keras_lstm_gen.Model()
     
-    # Crop original climbset
-    climbset.climbs = climbset.climbs[:num_climbs]
-
     # Save to file
     file_data ={
         "original": climbset,
@@ -26,5 +23,5 @@ def main(year):
 
 
 if __name__=="__main__":
-    # main("2016")
-    main("2017")
+    main("2016")
+    # main("2017")
