@@ -82,8 +82,8 @@ def main(year):
         add_grades(data['lstm'], config, file_data["lstm"])
 
     # Save to file
-    with open(local_file_path(__file__, year+'.js'), 'w') as handle:
-        handle.write("var climbs = "+json.dumps(data))
+    with open(local_file_path(__file__, f'{year}.js'), 'w') as handle:
+        handle.write(f"var climbs_{year} = "+json.dumps(data))
 
 
 if __name__=="__main__":

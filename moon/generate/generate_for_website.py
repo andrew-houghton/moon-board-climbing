@@ -24,4 +24,4 @@ def main(year):
 
 if __name__=="__main__":
     main("2016")
-    # main("2017")
+    main("2017")
