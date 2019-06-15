@@ -101,3 +101,7 @@ python moon/generate/grade_for_website.py
 * [Keras](https://keras.io/) - LSTM
 * https://github.com/sherjilozair/char-rnn-tensorflow - not working in with current version
 * https://github.com/255BITS/HyperGAN - not working in with current version
+
+## Website
+
+The `website-moon` directory holds the https://ahoughton.com/moon website. See the [README](website-moon/README.md) for details.
