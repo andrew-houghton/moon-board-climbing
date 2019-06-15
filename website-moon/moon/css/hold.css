@@ -1,0 +1,35 @@
+.rot_N {
+    transform: rotate(0deg);
+}
+.rot_NE {
+    transform: rotate(45deg);
+}
+.rot_E {
+    transform: rotate(90deg);
+}
+.rot_SE {
+    transform: rotate(135deg);
+}
+.rot_S {
+    transform: rotate(180deg);
+}
+.rot_SW {
+    transform: rotate(225deg);
+}
+.rot_W {
+    transform: rotate(270deg);
+}
+.rot_NW {
+    transform: rotate(315deg);
+}
+
+.m-fadeOut {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 300ms, opacity 300ms;
+}
+.m-fadeIn {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity 300ms;
+}

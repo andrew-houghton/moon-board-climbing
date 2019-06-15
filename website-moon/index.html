@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Moon Board Climb Generator</title>
+    <link rel="stylesheet" href="moon/css/layout.css">
+    <link rel="stylesheet" href="moon/css/hold.css">
+    <script type="text/javascript" src="moon/climbs/2016.js"></script>
+    <script type="text/javascript" src="moon/climbs/2017.js"></script>
+    <script type="text/javascript" src="moon/layouts/holds_2016.js"></script>
+    <script type="text/javascript" src="moon/layouts/holds_2017.js"></script>
+    <script type="text/javascript" src="moon/js/load_board.js"></script>
+    <script type="text/javascript" src="moon/js/load_holds.js"></script>
+    <link rel='shortcut icon' type='image/x-icon' href='moon/img/favicon.ico'/>
+  </head>
+  <body>
+    <h1>Moon Board Climb Generator</h1>
+    <div class="button-container">
+      <input type="button" value="Next" onclick="random_climb()">
+      <input type="button" value="Reset" onclick="reset_board()">
+    </div>
+    <div>
+      <b>Moon board year:</b>
+      <label><input type="radio" name="year" value="2016" onclick="updateHoldset()" checked><span>2016</span></label>
+      <label><input type="radio" name="year" value="2017" onclick="updateHoldset()"><span>2017</span></label>
+    </div>
+    <div>
+      <b>Climb generation algorithm:</b>
+      <label><input type="radio" name="model" value="original" checked><span>Handmade</span></label>
+      <label><input type="radio" name="model" value="lstm"><span>LSTM</span></label>
+    </div>
+    <div id="grade-container"></div>
+    <div class="background-image">
+      <div class="grid-container" id="moon-board">
+      </div>
+    </div>
+  </body>
+</html>

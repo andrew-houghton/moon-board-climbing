@@ -1,0 +1,42 @@
+.background-image {
+    width: 650px;
+    height: 1000px;
+    background-image: url("/moon/img/moonboard.png");
+    -webkit-box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+    -moz-box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+}
+
+.grid-container {
+    padding-top: 61px;
+    margin-left: 68px;
+    margin-right: 30px;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(11, 50px);
+    grid-template-rows: repeat(18, 50px);
+}
+
+.grid-container img {
+    position: relative;
+    margin-top: -20px;
+    left: -20px;
+}
+
+.button-container {
+    width: 650px;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 1fr;
+}
+
+
+body {
+    max-width: 670px;
+    margin: auto;
+    background: rgb(255,242,120);
+    background: linear-gradient(90deg, rgba(255,242,120,1) 0%, rgba(238,223,80,1) 15%, rgba(238,223,80,1) 85%, rgba(218,201,41,1) 100%); 
+}
+
+h1 {
+    text-align: center;
+}
