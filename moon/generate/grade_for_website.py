@@ -2,6 +2,7 @@ import json
 import pickle
 from functools import partial
 from pprint import pprint
+from pathlib import Path
 
 from moon.analytics.climb_preprocessor import HoldListPreprocessor
 from moon.analytics.configuration import Configuration, run_configuration
@@ -80,9 +81,12 @@ def main(year):
         add_grades(data["original"], config, file_data["original"])
         add_grades(data["lstm"], config, file_data["lstm"])
 
-    # Save to file
-    with open(local_file_path(__file__, f"{year}.js"), "w") as handle:
-        handle.write(f"var climbs_{year} = " + json.dumps(data))
+    # Save to file'
+    repo_base_directory = Path(__file__).resolve().parent.parent.parent
+    website_climb_directory = repo_base_directory.joinpath("website-moon", "moon", "climbs")
+
+    with open(website_climb_directory.joinpath(f"{year}.js"), "w") as handle:
+        handle.write(f"var climbs_{year} = " + json.dumps(data, indent=2))
 
 
 if __name__ == "__main__":
