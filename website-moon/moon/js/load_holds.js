@@ -16,16 +16,15 @@ function updateHoldset() {
 
     var container = document.getElementById("moon-board");
     clear_contents(container)
-    clear_contents(document.getElementById("grade-container"))
-    
-    for (i = 0; i < holds.length; i++) { 
+
+    for (i = 0; i < holds.length; i++) {
         var div = document.createElement('div');
 
         if (holds[i]) {
             var img = document.createElement('img');
-            img.src = 'moon/img/holds/'+holds[i][0];
+            img.src = 'moon/img/holds/' + holds[i][0];
             img.id = holds[i][1]
-            img.className = "hold "+holds[i][2]
+            img.className = "hold " + holds[i][2]
             div.append(img)
         }
 

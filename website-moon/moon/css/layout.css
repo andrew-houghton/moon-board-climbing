@@ -22,6 +22,12 @@
     left: -20px;
 }
 
+#grade-container {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    width: 100%;
+}
+
 .button-container {
     width: 650px;
     display: grid;
@@ -32,9 +38,12 @@
 
 body {
     max-width: 670px;
-    margin: auto;
     background: rgb(255,242,120);
     background: linear-gradient(90deg, rgba(255,242,120,1) 0%, rgba(238,223,80,1) 15%, rgba(238,223,80,1) 85%, rgba(218,201,41,1) 100%); 
+    margin: 40px auto;
+    line-height: 1.6;
+    font-size: 18px;
+    color: #444;
 }
 
 h1 {
