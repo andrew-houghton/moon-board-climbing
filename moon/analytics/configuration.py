@@ -75,8 +75,8 @@ class Configuration:
             f"Y={type(self.y_preprocessing).__name__[:-12]:<13} "
         )
 
-    def sample(self, climbset):
-        new_climbs = self.x_preprocessing.preprocess(climbset.climbs)
+    def sample(self, climbs):
+        new_climbs = self.x_preprocessing.preprocess(climbs)
         grades = self.model.sample(new_climbs)
         if type(self.y_preprocessing) == FlandersPreprocessor:
             return grades

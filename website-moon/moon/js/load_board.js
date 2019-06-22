@@ -50,6 +50,11 @@ function clear_contents_grade() {
 function display_grades(grades) {
     var container = document.getElementsByClassName("grade");
     for (var i = 0; i < container.length; i++) {
-        container.item(i).innerText = grades[container.item(i).id];
+        if(grades.hasOwnProperty(container.item(i).id)) {
+          container.item(i).innerText = grades[container.item(i).id];
+        }
+        else {
+          container.item(i).innerText = "-";
+        }
     }
 }

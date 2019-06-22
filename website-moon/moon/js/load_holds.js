@@ -30,6 +30,6 @@ function updateHoldset() {
 
         container.append(div)
     }
-    reset_board()
+    random_climb()
 }
 window.onload = updateHoldset;

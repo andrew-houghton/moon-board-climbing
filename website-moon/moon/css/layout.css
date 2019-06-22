@@ -4,6 +4,7 @@
     background-image: url("/moon/img/moonboard.png");
     -webkit-box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
     -moz-box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+    margin: 10px 0px;
 }
 
 .grid-container {
@@ -22,30 +23,84 @@
     left: -20px;
 }
 
+#options-container {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    width: 100%;
+}
+
+div.option {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  padding: 0px 40px 0px 40px;
+}
+
 #grade-container {
     display: grid;
-    grid-template-columns: repeat(6, auto);
+    grid-template-columns: repeat(5, auto);
     width: 100%;
+}
+
+#grade-container span {
+  text-align: center;
 }
 
 .button-container {
     width: 650px;
     display: grid;
-    grid-gap: 10px;
-    grid-template-columns: 1fr 1fr;
 }
 
 
 body {
-    max-width: 670px;
-    background: rgb(255,242,120);
-    background: linear-gradient(90deg, rgba(255,242,120,1) 0%, rgba(238,223,80,1) 15%, rgba(238,223,80,1) 85%, rgba(218,201,41,1) 100%); 
-    margin: 40px auto;
+    max-width: 650px;
+    background-color: #333333;
+    margin: 20px auto;
     line-height: 1.6;
-    font-size: 18px;
+    font-size: 16px;
+    font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
     color: #444;
+    color: #EEEEEE;
 }
 
 h1 {
     text-align: center;
+    text-transform: uppercase;
+    margin: 5px 0px 5px 0px;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 700;
+  text-align:center;
+  text-transform: uppercase;
+  margin: 5px 0px 5px 0px;
+  width:100%;
+}
+
+b {
+  text-transform: uppercase;
+}
+
+input {
+  cursor: pointer;
+}
+
+input[type=button] {
+  color: #000 !important;
+  cursor: pointer;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: #EEEEEE;
+  padding: 10px;
+  margin: 10px 100px;
+  border-radius: 5px;
+  display: inline-block;
+  border: none;
+}
+
+input[type=button]:hover {
+  background: #FFF;
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
 }
