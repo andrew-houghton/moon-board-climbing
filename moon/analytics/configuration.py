@@ -41,20 +41,29 @@ class Configuration:
             "Model                "
             "Climb Preprocessing  "
             "Grade Preprocessing  "
-            "Test Accuracy        "
-            "Train Accuracy"
+            "Train Acc "
+            "Test Acc  "
+            "Within 1  "
+            "Within 2  "
         )
 
     def report(self):
+        metric_width = 10
         col_width = 20
         test_acc = f"{self.test_metrics.accuracy:.3}"
         train_acc = f"{self.train_metrics.accuracy:.3}"
+        within_1 = f"{self.test_metrics.within_1:.3}"
+        within_2 = f"{self.test_metrics.within_2:.3}"
+
         return (
             f"{self.climbset.year:<9} "
             f"{self.model.name():<{col_width}} "
             f"{type(self.x_preprocessing).__name__[:-12]:<{col_width}} "
             f"{type(self.y_preprocessing).__name__[:-12]:<{col_width}} "
-            f"{test_acc:<{col_width}} {train_acc}"
+            f"{train_acc:<{metric_width}}"
+            f"{test_acc:<{metric_width}}"
+            f"{within_1:<{metric_width}}"
+            f"{within_2:<{metric_width}}"
         )
 
     def __repr__(self):
@@ -103,11 +112,11 @@ def run_configuration(config: Configuration) -> None:
     print(f" Trained in {time.time() - start:.2f}s")
 
 
-def xgboost_both_years():
-    Configuration.report_headings()
+def run_custom_model():
     for year in ("2016", "2017"):
-        cfg = Configuration(xgboost_model.Model(), load_climbset(year), FlandersPreprocessor())
+        cfg = Configuration(random_forest.Model(), load_climbset(year), CategoricalPreprocessor())
         run_configuration(cfg)
+        Configuration.report_headings()
         print(cfg.report())
 
 
@@ -148,6 +157,8 @@ def generate_all_valid_configurations():
 
 
 if __name__ == "__main__":
+    # run_custom_model()
+    program_start = time.time()
     configs = generate_all_valid_configurations()
 
     reports = []
@@ -155,5 +166,6 @@ if __name__ == "__main__":
         run_configuration(cfg)
         reports.append(cfg.report())
 
+    print(f"Completed training and sampling in {time.time() - program_start:.2f}s")
     Configuration.report_headings()
     print("\n".join(reports))

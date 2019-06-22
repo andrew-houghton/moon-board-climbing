@@ -11,7 +11,7 @@ class CategoricalPreprocessor:
 
 class HalfGradePreprocessor:
     def preprocess(self, grade: int) -> List[bool]:
-        grade = grade / 2
+        grade = np.floor(grade / 2)
         return to_categorical(grade)
 
 
