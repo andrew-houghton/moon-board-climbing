@@ -1,6 +1,7 @@
 import time
 from dataclasses import dataclass
 from typing import Any, List, Tuple
+from functools import partial
 
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -20,7 +21,6 @@ from moon.utils.load_data import load_climbset
 Grade = List[bool]  # Various length
 Climb = List[bool]  # One hot encoded, 18*11 options
 
-
 @dataclass
 class Configuration:
     model: Any
@@ -33,6 +33,7 @@ class Configuration:
     x_test: List[Climb] = None
     y_train: List[Grade] = None
     y_test: List[Grade] = None
+    split_function: Any = partial(train_test_split, test_size=0.2, random_state=42)
 
     @staticmethod
     def report_headings():
@@ -95,9 +96,7 @@ def run_configuration(config: Configuration) -> None:
     new_grades = config.y_preprocessing.preprocess(grades)
 
     # Split test train data
-    config.x_train, config.x_test, config.y_train, config.y_test = train_test_split(
-        new_climbs, new_grades, test_size=0.2, random_state=42
-    )
+    config.x_train, config.x_test, config.y_train, config.y_test = config.split_function(new_climbs, new_grades)
 
     # Train the model
     config.model.train(config.x_train, config.y_train)
