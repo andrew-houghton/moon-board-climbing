@@ -17,7 +17,7 @@ from moon.utils.load_data import local_file_path
 
 def web_json_format(climb):
     return {
-        "grade": {"original": climb.grade.as_font_grade()},
+        "grade": {"original": climb.grade.as_v_grade()},
         "moves": [hold.as_website_format() for hold in climb.holds],
     }
 
@@ -32,7 +32,7 @@ def model_setups(training_data):
 
 
 def nums_to_font(nums):
-    return [Grade(int(i)).as_font_grade() for i in nums]
+    return [Grade(int(i)).as_v_grade() for i in nums]
 
 
 def website_json_structure(file_data):
@@ -43,7 +43,7 @@ def website_json_structure(file_data):
         for climb in climbset.climbs:
             climb_dict = {"moves": [hold.as_website_format() for hold in climb.holds], "grade": {}}
             if climb.grade:
-                climb_dict["grade"] = {"original": climb.grade.as_font_grade()}
+                climb_dict["grade"] = {"original": climb.grade.as_v_grade()}
             data[name].append(climb_dict)
 
     return data

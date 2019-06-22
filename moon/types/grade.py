@@ -20,6 +20,25 @@ _valid_grades = {
     "8B+": 15,
 }
 
+_to_v_grade = {
+    0: "V3",
+    1: "V3",
+    2: "V4",
+    3: "V4",
+    4: "V5",
+    5: "V5",
+    6: "V6",
+    7: "V7",
+    8: "V8",
+    9: "V8",
+    10: "V9",
+    11: "V10",
+    12: "V11",
+    13: "V12",
+    14: "V13",
+    15: "V14"
+}
+
 _valid_nn_grades = {
     "z": 0,
     "x": 1,
@@ -58,7 +77,7 @@ class Grade:
 
     def as_v_grade(self):
         # Convert the grade of a climb to V grade format
-        return "Not implemented"
+        return _to_v_grade[self.grade_number]
 
     def as_font_grade(self):
         for grd in _valid_grades.keys():
