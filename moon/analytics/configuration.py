@@ -6,7 +6,10 @@ from functools import partial
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-from moon.analytics.climb_preprocessor import HoldListPreprocessor, OneHotPreprocessor
+from moon.analytics.climb_preprocessor import (
+    HoldListPreprocessor,
+    OneHotPreprocessor,
+)
 from moon.analytics.grade_preprocessor import (
     CategoricalPreprocessor,
     FlandersPreprocessor,
@@ -14,12 +17,18 @@ from moon.analytics.grade_preprocessor import (
     SplitPreprocessor,
 )
 from moon.analytics.metrics import Metrics
-from moon.models import keras_lstm_grade, keras_mlp, random_forest, xgboost_model
+from moon.models import (
+    keras_lstm_grade,
+    keras_mlp,
+    random_forest,
+    xgboost_model,
+)
 from moon.types.climbset import Climbset
 from moon.utils.load_data import load_climbset
 
 Grade = List[bool]  # Various length
 Climb = List[bool]  # One hot encoded, 18*11 options
+
 
 @dataclass
 class Configuration:
@@ -33,7 +42,15 @@ class Configuration:
     x_test: List[Climb] = None
     y_train: List[Grade] = None
     y_test: List[Grade] = None
-    split_function: Any = partial(train_test_split, test_size=0.2, random_state=42)
+    split_function: Any = partial(
+        train_test_split, test_size=0.2, random_state=42
+    )
+
+    def __post_init__(self):
+        self.climbset_climbs = self.climbset.climbs
+        self.climbset_grades = np.asarray(
+            [i.grade.grade_number for i in self.climbset.climbs]
+        )
 
     @staticmethod
     def report_headings():
@@ -47,6 +64,31 @@ class Configuration:
             "Within 1  "
             "Within 2  "
         )
+
+    def run(self):
+        print(f"Training {str(self)}", end="", flush=True)
+        start = time.time()
+
+        self.x_train, self.x_test, self.y_train, self.y_test = self.split_function(
+            self.climbset_climbs, self.climbset_grades
+        )
+
+        self.model.train(
+            self.x_preprocessing.preprocess(self.x_train),
+            self.y_preprocessing.preprocess(self.y_train),
+        )
+
+        self.test_metrics.generate_metrics(
+            self.y_preprocessing.preprocess(self.y_test),
+            self.model.sample(self.x_preprocessing.preprocess(self.x_test)),
+        )
+
+        self.train_metrics.generate_metrics(
+            self.y_preprocessing.preprocess(self.y_train),
+            self.model.sample(self.x_preprocessing.preprocess(self.x_train)),
+        )
+
+        print(f" Trained in {time.time() - start:.2f}s")
 
     def report(self):
         metric_width = 10
@@ -84,37 +126,14 @@ class Configuration:
             return [np.argmax(i) for i in grades]
 
 
-def run_configuration(config: Configuration) -> None:
-    print(f"Training {str(config)}", end="", flush=True)
-    start = time.time()
-
-    # Run climb preprocessing
-    new_climbs = config.x_preprocessing.preprocess(config.climbset.climbs)
-
-    # Run grade preprocessing
-    grades = np.asarray([i.grade.grade_number for i in config.climbset.climbs])
-    new_grades = config.y_preprocessing.preprocess(grades)
-
-    # Split test train data
-    config.x_train, config.x_test, config.y_train, config.y_test = config.split_function(new_climbs, new_grades)
-
-    # Train the model
-    config.model.train(config.x_train, config.y_train)
-
-    # Generate metrics
-    test_sample = config.model.sample(config.x_test)
-    config.test_metrics.generate_metrics(config.y_test, test_sample)
-
-    train_sample = config.model.sample(config.x_train)
-    config.train_metrics.generate_metrics(config.y_train, train_sample)
-
-    print(f" Trained in {time.time() - start:.2f}s")
-
-
 def run_custom_model():
     for year in ("2016", "2017"):
-        cfg = Configuration(random_forest.Model(), load_climbset(year), CategoricalPreprocessor())
-        run_configuration(cfg)
+        cfg = Configuration(
+            random_forest.Model(),
+            load_climbset(year),
+            CategoricalPreprocessor(),
+        )
+        cfg.run()
         Configuration.report_headings()
         print(cfg.report())
 
@@ -124,11 +143,19 @@ def generate_all_valid_configurations():
     for year in ("2016", "2017"):
         # XGBoost
         configs.append(
-            Configuration(xgboost_model.Model(), load_climbset(year), FlandersPreprocessor())
+            Configuration(
+                xgboost_model.Model(),
+                load_climbset(year),
+                FlandersPreprocessor(),
+            )
         )
         # Random forest flanders proprocessor
         configs.append(
-            Configuration(random_forest.Model(), load_climbset(year), FlandersPreprocessor())
+            Configuration(
+                random_forest.Model(),
+                load_climbset(year),
+                FlandersPreprocessor(),
+            )
         )
 
         # Loop through categorical grade preprocessors
@@ -147,9 +174,17 @@ def generate_all_valid_configurations():
                 )
             )
             # MLP
-            configs.append(Configuration(keras_mlp.Model(), load_climbset(year), preprocessor))
+            configs.append(
+                Configuration(
+                    keras_mlp.Model(), load_climbset(year), preprocessor
+                )
+            )
             # Random forest
-            configs.append(Configuration(random_forest.Model(), load_climbset(year), preprocessor))
+            configs.append(
+                Configuration(
+                    random_forest.Model(), load_climbset(year), preprocessor
+                )
+            )
 
     print(f"Generated {len(configs)} configruations.")
     return configs
@@ -162,9 +197,11 @@ if __name__ == "__main__":
 
     reports = []
     for cfg in configs:
-        run_configuration(cfg)
+        cfg.run()
         reports.append(cfg.report())
 
-    print(f"Completed training and sampling in {time.time() - program_start:.2f}s")
+    print(
+        f"Completed training and sampling in {time.time() - program_start:.2f}s"
+    )
     Configuration.report_headings()
     print("\n".join(reports))

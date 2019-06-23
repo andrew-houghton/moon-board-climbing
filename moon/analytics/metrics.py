@@ -6,7 +6,9 @@ from sklearn.metrics import accuracy_score
 
 
 def expected_diff(test_data, score_data):
-    ex_sum_diff = sum([abs(test_data[i] - score_data[i]) for i in range(len(test_data))])
+    ex_sum_diff = sum(
+        [abs(test_data[i] - score_data[i]) for i in range(len(test_data))]
+    )
     return ex_sum_diff / len(test_data)
 
 
@@ -15,16 +17,17 @@ def within_k(actual, sample, k):
     item_type = type(actual[0])
 
     if item_type == np.int64:
-        num = ((actual-sample)<=k).sum()
-        return num/len(actual)
+        num = ((actual - sample) <= k).sum()
+        return num / len(actual)
     elif item_type == np.ndarray:
         actual = actual.argmax(axis=1)
         sample = sample.argmax(axis=1)
-        
-        num = ((actual-sample)<=k).sum()
-        return num/len(actual)
+
+        num = ((actual - sample) <= k).sum()
+        return num / len(actual)
     else:
         return 0.0
+
 
 @dataclass
 class Metrics:
