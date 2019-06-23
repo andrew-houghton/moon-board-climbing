@@ -103,6 +103,10 @@ python moon/generate/grade_for_website.py
 * https://github.com/sherjilozair/char-rnn-tensorflow - not working in with current version
 * https://github.com/255BITS/HyperGAN - not working in with current version
 
+#### GPU
+
+It is possible to use GPU for the parts of this which use keras. Use conda to install `tensorflow-gpu` pip package instead of `tensorflow` to use GPU. Experiments on AWS with a Tesla K80 vs 12 core CPU showed that CPU is 6.5 times slower.
+
 ## Website
 
 The `website-moon` directory holds the https://ahoughton.com/moon website. See the [README](website-moon/README.md) for details.
