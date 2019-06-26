@@ -28,8 +28,9 @@ class Model:
             if Climb.valid_input_sample(climb_str)
         ]
 
-    def sample(self, training_climbset, num_climbs, maxlen=20, epochs=60):
+    def sample(self, training_climbset, num_climbs, params):
         text = training_climbset.no_grade_string()
+        maxlen = params.max_climb_length
 
         chars = sorted(list(set(text)))
         print("total chars:", len(chars))
@@ -56,11 +57,15 @@ class Model:
         # build the model: a single LSTM
         print("Build model...")
         model = Sequential()
-        model.add(LSTM(128, input_shape=(maxlen, len(chars))))
+        assert len(params.num_lstm_cells) == 1
+        model.add(
+            LSTM(params.num_lstm_cells[0], input_shape=(maxlen, len(chars)))
+        )
         model.add(Dense(len(chars), activation="softmax"))
 
-        optimizer = RMSprop(lr=0.01)
-        model.compile(loss="categorical_crossentropy", optimizer=optimizer)
+        model.compile(
+            loss="categorical_crossentropy", optimizer=params.optimizer
+        )
 
         def sample_from_array(preds, temperature=1.0):
             # helper function to sample an index from a probability array
@@ -73,7 +78,6 @@ class Model:
 
         def generate_text():
             start_index = random.randint(0, len(text) - maxlen - 1)
-            diversity = 0.8  # original values = 0.2, 0.5, 1.0, 1.2
             generated = ""
             sentence = text[start_index : start_index + maxlen]
             generated += sentence
@@ -84,7 +88,7 @@ class Model:
                     x_pred[0, t, char_indices[char]] = 1.0
 
                 preds = model.predict(x_pred, verbose=0)[0]
-                next_index = sample_from_array(preds, diversity)
+                next_index = sample_from_array(preds, params.text_diversity)
                 next_char = indices_char[next_index]
 
                 generated += next_char
@@ -92,7 +96,7 @@ class Model:
 
             return generated
 
-        model.fit(x, y, batch_size=128, epochs=epochs)
+        model.fit(x, y, batch_size=params.batch_size, epochs=params.epochs)
         generated_sample = self.clean_sample(generate_text())
         generated_climbs = Climbset(generated_sample, "sample")
 
