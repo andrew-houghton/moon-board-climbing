@@ -96,6 +96,7 @@ input[type=button] {
   border-radius: 5px;
   display: inline-block;
   border: none;
+  font-size: 20px;
 }
 
 input[type=button]:hover {
