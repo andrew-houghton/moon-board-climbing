@@ -22,7 +22,11 @@ class Model:
             split_sample.pop(0)
         split_sample.pop(len(split_sample) - 1)
 
-        return [climb_str for climb_str in split_sample if Climb.valid_input_sample(climb_str)]
+        return [
+            climb_str
+            for climb_str in split_sample
+            if Climb.valid_input_sample(climb_str)
+        ]
 
     def sample(self, training_climbset, num_climbs, maxlen=20, epochs=60):
         text = training_climbset.no_grade_string()
@@ -58,7 +62,7 @@ class Model:
         optimizer = RMSprop(lr=0.01)
         model.compile(loss="categorical_crossentropy", optimizer=optimizer)
 
-        def sample(preds, temperature=1.0):
+        def sample_from_array(preds, temperature=1.0):
             # helper function to sample an index from a probability array
             preds = np.asarray(preds).astype("float64")
             preds = np.log(preds) / temperature
@@ -80,7 +84,7 @@ class Model:
                     x_pred[0, t, char_indices[char]] = 1.0
 
                 preds = model.predict(x_pred, verbose=0)[0]
-                next_index = sample(preds, diversity)
+                next_index = sample_from_array(preds, diversity)
                 next_char = indices_char[next_index]
 
                 generated += next_char
@@ -92,6 +96,8 @@ class Model:
         generated_sample = self.clean_sample(generate_text())
         generated_climbs = Climbset(generated_sample, "sample")
 
-        print(f"Generated {len(generated_climbs.climbs)} and kept {num_climbs}.")
+        print(
+            f"Generated {len(generated_climbs.climbs)} and kept {num_climbs}."
+        )
         generated_climbs.climbs = generated_climbs.climbs[:num_climbs]
         return generated_climbs
