@@ -13,10 +13,12 @@ class default:
     batch_size: int = 128
 
 
-# @dataclass
-# class parameter_space:
-#     epochs: Tuple[int] = [50]
-#     max_climb_length: Tuple[int] = [8, 12, 16, 20]
-#     num_lstm_cells: Tuple[Tuple[int]] = [[128]]
-#     optimizer: Tuple[Any] = [RMSprop(lr=0.01)]
-#     text_diversity: Tuple[float] = [0.2, 0.5, 1.0, 1.2]
+@dataclass
+class parameter_space:
+    epochs: Tuple[int] = (10,)
+    max_climb_length: Tuple[int] = (12,)
+    num_lstm_cells: Tuple[Tuple[int]] = ([128],)
+    optimizer: Tuple[Any] = (RMSprop(lr=0.01),)
+    text_diversity: Tuple[float] = (1.0,)
+    # max_climb_length: Tuple[int] = [8, 12, 16, 20]
+    # text_diversity: Tuple[float] = [0.2, 0.5, 1.0, 1.2]

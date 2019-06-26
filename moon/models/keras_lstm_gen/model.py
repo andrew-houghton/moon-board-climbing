@@ -66,6 +66,7 @@ class Model:
         model.compile(
             loss="categorical_crossentropy", optimizer=params.optimizer
         )
+        model.fit(x, y, batch_size=params.batch_size, epochs=params.epochs)
 
         def sample_from_array(preds, temperature=1.0):
             # helper function to sample an index from a probability array
@@ -96,7 +97,6 @@ class Model:
 
             return generated
 
-        model.fit(x, y, batch_size=params.batch_size, epochs=params.epochs)
         generated_sample = self.clean_sample(generate_text())
         generated_climbs = Climbset(generated_sample, "sample")
 
