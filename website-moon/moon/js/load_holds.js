@@ -24,7 +24,7 @@ function updateHoldset() {
             var img = document.createElement('img');
             img.src = 'moon/img/holds/' + holds[i][0];
             img.id = holds[i][1]
-            img.alt = "Rock Climbing Hold"
+            img.alt = ""
             img.className = "hold " + holds[i][2]
             div.append(img)
         }
