@@ -19,11 +19,11 @@ class Parameters:
 
 @dataclass
 class ParameterSpace:
-    epochs: Tuple[int] = (2,)
-    max_climb_length: Tuple[int] = (12,)
-    num_lstm_cells: Tuple[Tuple[int]] = ([128], [32])
+    epochs: Tuple[int] = (100,)
+    max_climb_length: Tuple[int] = (8,12,20)
+    num_lstm_cells: Tuple[Tuple[int]] = ([256], [128], [32])
     optimizer: Tuple[Any] = (RMSprop(lr=0.01),)
-    batch_size: Tuple[int] = (128,)
+    batch_size: Tuple[int] = (32,128,2048)
 
     def product(self):
         return list(
@@ -38,9 +38,10 @@ class ParameterSpace:
 
 
 def train_model(parameters, climbset):
+    print(f"Training {parameters}")
     lstm = keras_lstm_gen.Model()
     history = lstm.train(climbset, parameters)
-    return parameters, history.history
+    return parameters, history.history['loss'][-1]
 
 
 def search():
@@ -49,6 +50,7 @@ def search():
         Parameters(*args) for args in parameter_args
     ]
 
+    print(f"Generated {len(hyper_parameter_combinations)} sets of parameters")
     train_func = partial(train_model, climbset=load_climbset("2016"))
     results = list(map(train_func, hyper_parameter_combinations))
     pprint(results)
