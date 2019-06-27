@@ -2,39 +2,27 @@ from __future__ import print_function
 
 import random
 
+from tqdm import tqdm
 import numpy as np
 from keras.callbacks import LambdaCallback
 from keras.layers import LSTM, Dense
 from keras.models import Sequential
 from keras.optimizers import RMSprop
+import tensorflow as tf
 
 from moon.types.climb import Climb
 from moon.types.climbset import Climbset
+
+tf.logging.set_verbosity(tf.logging.ERROR)
 
 
 class Model:
     def prep_data(self, training_climbset):
         text = training_climbset.no_grade_string()
         chars = sorted(list(set(text)))
-        print("total chars:", len(chars))
         char_indices = dict((c, i) for i, c in enumerate(chars))
         indices_char = dict((i, c) for i, c in enumerate(chars))
         return text, chars, char_indices, indices_char
-
-    def clean_sample(self, sample):
-        split_sample = sample.split(Climbset.get_terminator())
-
-        # Clean up items at the end
-        if len(split_sample[0]) <= 1:
-            # remove first item if it is too short to be a climb
-            split_sample.pop(0)
-        split_sample.pop(len(split_sample) - 1)
-
-        return [
-            climb_str
-            for climb_str in split_sample
-            if Climb.valid_input_sample(climb_str)
-        ]
 
     def train(self, training_climbset, params):
         maxlen = params.max_climb_length
@@ -48,9 +36,7 @@ class Model:
         for i in range(0, len(text) - maxlen, step):
             sentences.append(text[i : i + maxlen])
             next_chars.append(text[i + maxlen])
-        print("nb sequences:", len(sentences))
 
-        print("Vectorization...")
         x = np.zeros((len(sentences), maxlen, len(chars)), dtype=np.bool)
         y = np.zeros((len(sentences), len(chars)), dtype=np.bool)
         for i, sentence in enumerate(sentences):
@@ -58,7 +44,6 @@ class Model:
                 x[i, t, char_indices[char]] = 1
             y[i, char_indices[next_chars[i]]] = 1
 
-        # build the model: a single LSTM
         print("Build model...")
         self.model = Sequential()
         assert len(params.num_lstm_cells) == 1
@@ -96,13 +81,11 @@ class Model:
             start_index = random.randint(
                 0, len(text) - params.max_climb_length - 1
             )
-            generated = ""
             sentence = text[
                 start_index : start_index + params.max_climb_length
             ]
-            generated += sentence
 
-            for i in range(num_climbs * 25):
+            while True:
                 x_pred = np.zeros((1, params.max_climb_length, len(chars)))
                 for t, char in enumerate(sentence):
                     x_pred[0, t, char_indices[char]] = 1.0
@@ -111,17 +94,23 @@ class Model:
                 next_index = _sample_from_array(preds, temperature=0.8)
                 next_char = indices_char[next_index]
 
-                generated += next_char
+                yield next_char
                 sentence = sentence[1:] + next_char
 
-            return generated
+        def _generate_climb():
+            generator = _generate_text()
+            while True:
+                output = ""
+                for char in generator:
+                    if char == Climbset.get_terminator():
+                        if Climb.valid_input_sample(output):
+                            yield output
+                        break
+                    else:
+                        output += char
 
-        generated_sample = self.clean_sample(_generate_text())
-        generated_climbs = Climbset(generated_sample, "sample")
+        def _take(gen, n):
+            return [next(gen) for _ in tqdm(range(n))]
 
-        print(
-            f"Generated {len(generated_climbs.climbs)} and kept {num_climbs}."
-        )
-        generated_climbs.climbs = generated_climbs.climbs[:num_climbs]
-
-        return generated_climbs
+        generated_sample = _take(_generate_climb(), num_climbs)
+        return Climbset(generated_sample, "sample")
