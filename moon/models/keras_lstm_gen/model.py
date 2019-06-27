@@ -1,10 +1,7 @@
-from __future__ import print_function
-
 import random
 
 from tqdm import tqdm
 import numpy as np
-from keras.callbacks import LambdaCallback
 from keras.layers import LSTM, Dense
 from keras.models import Sequential
 from keras.optimizers import RMSprop
