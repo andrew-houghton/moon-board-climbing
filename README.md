@@ -106,3 +106,6 @@ python moon/generate/grade_for_website.py
 ## Website
 
 The `website-moon` directory holds the https://ahoughton.com/moon website. See the [README](website-moon/README.md) for details.
+<a href="https://ahoughton.com/moon">
+    ![Website](docs/website.png) 
+</a>
