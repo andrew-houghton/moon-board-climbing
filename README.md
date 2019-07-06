@@ -103,9 +103,22 @@ python moon/generate/grade_for_website.py
 * https://github.com/sherjilozair/char-rnn-tensorflow - not working in with current version
 * https://github.com/255BITS/HyperGAN - not working in with current version
 
-#### GPU
+#### GPU/ docker
 
 It is possible to use GPU for the parts of this which use keras. Use conda to install `tensorflow-gpu` pip package instead of `tensorflow` to use GPU. Experiments on AWS with a Tesla K80 vs 12 core CPU showed that CPU is 6.5 times slower.
+
+To run with GPU using docker use docker images from https://hub.docker.com/r/tensorflow/tensorflow/. Some setup is required on the host machine for drivers ect.
+```sh
+docker run -it \
+    -v $(pwd):/app \
+    -w /app \
+    -e PYTHONPATH=/app \
+    --runtime=nvidia \
+    --rm ufoym/deepo:tensorflow-py36 \
+    bash
+pip install -r requirements.txt
+pip install tensorflow-gpu
+```
 
 ## Website
 

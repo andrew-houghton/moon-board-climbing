@@ -71,7 +71,7 @@ class Model:
             loss="categorical_crossentropy", optimizer=params.optimizer
         )
         return self.model.fit(
-            x, y, batch_size=params.batch_size, epochs=params.epochs
+            x, y, batch_size=params.batch_size, epochs=params.epochs, validation_split=0.1
         )
 
     def sample(self, training_climbset, num_climbs, params):
