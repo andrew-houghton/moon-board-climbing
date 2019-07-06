@@ -13,7 +13,7 @@ def main(year):
 
     # Sample generators
     lstm = keras_lstm_gen.Model()
-    sampling_parameters = params.default()
+    sampling_parameters = params.Parameters()
     sample = lstm.sample(climbset, num_climbs, sampling_parameters)
 
     # Save to file

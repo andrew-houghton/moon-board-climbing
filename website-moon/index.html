@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8"/>
     <title>MoonBoard AI</title>
     <link rel="stylesheet" href="moon/css/layout.css">
     <link rel="stylesheet" href="moon/css/hold.css">
-    <script type="text/javascript" src="moon/climbs/2016.js"></script>
-    <script type="text/javascript" src="moon/climbs/2017.js"></script>
-    <script type="text/javascript" src="moon/layouts/holds_2016.js"></script>
-    <script type="text/javascript" src="moon/layouts/holds_2017.js"></script>
-    <script type="text/javascript" src="moon/js/load_board.js"></script>
-    <script type="text/javascript" src="moon/js/load_holds.js"></script>
     <link rel='shortcut icon' type='image/x-icon' href='moon/img/favicon.ico'/>
+    <meta name="description" content="Generate new rock climbs for the MoonBoard using AI.">
+    <meta name="keywords" content="MoonBoard, Generate, Rock climbing, AI, Machine Learning">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Andrew Houghton">
   </head>
   <body>
     <h1>MoonBoard AI</h1>
@@ -46,13 +44,18 @@
         <span class="grade" id="Random Forest"></span>
         <span class="grade" id="Keras LSTM"></span>
     </div>
-
-    <div class="background-image">
+    <div class="background-image" title="MoonBoard Wall">
       <div class="grid-container" id="moon-board">
       </div>
     </div>
     
     <footer>
+      <script type="text/javascript" src="moon/climbs/2016.js"></script>
+      <script type="text/javascript" src="moon/climbs/2017.js"></script>
+      <script type="text/javascript" src="moon/layouts/holds_2016.js"></script>
+      <script type="text/javascript" src="moon/layouts/holds_2017.js"></script>
+      <script type="text/javascript" src="moon/js/load_board.js"></script>
+      <script type="text/javascript" src="moon/js/load_holds.js"></script>
       <a href="https://github.com/andrew-houghton/moon-board-climbing">GitHub Project<a/> by Andrew Houghton and Ryan Mann. 
     </footer>
   </body>
