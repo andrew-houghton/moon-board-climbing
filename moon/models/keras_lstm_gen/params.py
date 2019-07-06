@@ -6,24 +6,25 @@ from moon.utils.load_data import load_climbset, local_file_path
 import itertools
 from pprint import pprint
 from functools import partial
+import time
 
 
 @dataclass
 class Parameters:
-    epochs: int = 2
-    max_climb_length: int = 12
-    num_lstm_cells: Tuple[int] = (128,)
+    epochs: int = 200
+    max_climb_length: int=16
+    num_lstm_cells: Tuple[int] = 256
     optimizer: Any = RMSprop(lr=0.01)
-    batch_size: int = 128
+    batch_size: int = 512
 
 
 @dataclass
 class ParameterSpace:
-    epochs: Tuple[int] = (100,)
-    max_climb_length: Tuple[int] = (8,12,20)
-    num_lstm_cells: Tuple[Tuple[int]] = ([256], [128], [32])
+    epochs: Tuple[int] = (15,)
+    max_climb_length: Tuple[int] = (16,)
+    num_lstm_cells: Tuple[Tuple[int]] = ([256], [128], [64], [32])
     optimizer: Tuple[Any] = (RMSprop(lr=0.01),)
-    batch_size: Tuple[int] = (32,128,2048)
+    batch_size: Tuple[int] = (1024,)
 
     def product(self):
         return list(
@@ -39,9 +40,11 @@ class ParameterSpace:
 
 def train_model(parameters, climbset):
     print(f"Training {parameters}")
+    start = time.time()
     lstm = keras_lstm_gen.Model()
     history = lstm.train(climbset, parameters)
-    return parameters, history.history['loss'][-1]
+    print(f"Training {parameters} took {time.time()-start}")
+    return parameters, min(history.history['loss']), min(history.history['val_loss']),time.time()-start
 
 
 def search():
