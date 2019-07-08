@@ -37,7 +37,7 @@ div.option {
 
 #grade-container {
     display: grid;
-    grid-template-columns: repeat(5, auto);
+    grid-template-columns: repeat(4, auto);
     width: 100%;
 }
 

@@ -12,8 +12,8 @@ import time
 @dataclass
 class Parameters:
     epochs: int = 200
-    max_climb_length: int=16
-    num_lstm_cells: Tuple[int] = 256
+    max_climb_length: int = 16
+    num_lstm_cells: Tuple[int] = (64,)
     optimizer: Any = RMSprop(lr=0.01)
     batch_size: int = 512
 
@@ -22,7 +22,7 @@ class Parameters:
 class ParameterSpace:
     epochs: Tuple[int] = (15,)
     max_climb_length: Tuple[int] = (16,)
-    num_lstm_cells: Tuple[Tuple[int]] = ([256], [128], [64], [32])
+    num_lstm_cells: Tuple[Tuple[int]] = ((256,), (128,), (64,), (32,))
     optimizer: Tuple[Any] = (RMSprop(lr=0.01),)
     batch_size: Tuple[int] = (1024,)
 
@@ -44,7 +44,12 @@ def train_model(parameters, climbset):
     lstm = keras_lstm_gen.Model()
     history = lstm.train(climbset, parameters)
     print(f"Training {parameters} took {time.time()-start}")
-    return parameters, min(history.history['loss']), min(history.history['val_loss']),time.time()-start
+    return (
+        parameters,
+        min(history.history["loss"]),
+        min(history.history["val_loss"]),
+        time.time() - start,
+    )
 
 
 def search():
