@@ -3,11 +3,13 @@ import pickle
 from functools import partial
 from pprint import pprint
 from pathlib import Path
+import time
 
 from sklearn.model_selection import train_test_split
+import numpy as np
 
 from moon.analytics.climb_preprocessor import HoldListPreprocessor
-from moon.analytics.configuration import Configuration, run_configuration
+from moon.analytics.configuration import Configuration
 from moon.analytics.grade_preprocessor import CategoricalPreprocessor, FlandersPreprocessor
 from moon.models import keras_lstm_grade, keras_mlp, random_forest, xgboost_model
 from moon.types.grade import Grade
@@ -57,12 +59,20 @@ def add_grades(data_to_grade, config, climbs):
 
 def train_model(args):
     model, training_data, preprocessor = args
+    x_train, y_train = training_data
+
     # Train classifier on original (graded) data
     if model.name() == "Keras LSTM":
         config = Configuration(model, training_data, preprocessor, HoldListPreprocessor())
     else:
         config = Configuration(model, training_data, preprocessor)
-    run_configuration(config)
+
+    start = time.time()
+    print(f"Training {str(config)}", end="", flush=True)
+    config.model.train(
+        config.x_preprocessing.preprocess(x_train), config.y_preprocessing.preprocess(y_train)
+    )
+    print(f" Trained in {time.time() - start:.2f}s")
     return config
 
 
@@ -70,15 +80,16 @@ def main(year):
     # Load generated climbsets
     file_data = pickle.load(open(local_file_path(__file__, year + ".pickle"), "rb"))
 
-    # Train the models
-    trained_models = map(train_model, model_setups(file_data["original"]))
-
-    # Only keep test set for original climbs
+    # Split training and test data
     original_climbs = file_data["original"].climbs
-    _, test_climbs, _, _ = train_test_split(
-        original_climbs, range(len(original_climbs)), test_size=0.2, random_state=42
-    )
-    file_data["original"].climbs = test_climbs[:500]
+    original_grades = np.asarray([i.grade.grade_number for i in original_climbs])
+    x_train, x_test, y_train, _ = Configuration.split_function(original_climbs, original_grades)
+
+    # Only keep a sample of the test set for original climbs
+    file_data["original"].climbs = x_test[:500]
+
+    # Train the models
+    trained_models = map(train_model, model_setups((x_train, y_train)))
 
     # Format the data for the website
     data = website_json_structure(file_data)
@@ -88,7 +99,7 @@ def main(year):
         add_grades(data["original"], config, file_data["original"].climbs)
         add_grades(data["lstm"], config, file_data["lstm"].climbs)
 
-    # Save to file'
+    # Save to file
     repo_base_directory = Path(__file__).resolve().parent.parent.parent
     website_climb_directory = repo_base_directory.joinpath("website-moon", "moon", "climbs")
 

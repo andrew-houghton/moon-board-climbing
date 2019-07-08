@@ -36,10 +36,6 @@ class Configuration:
     y_test: List[Grade] = None
     split_function: Any = partial(train_test_split, test_size=0.2, random_state=42)
 
-    def __post_init__(self):
-        self.climbset_climbs = self.climbset.climbs
-        self.climbset_grades = np.asarray([i.grade.grade_number for i in self.climbset.climbs])
-
     @staticmethod
     def report_headings():
         print(
@@ -54,6 +50,9 @@ class Configuration:
         )
 
     def run(self):
+        self.climbset_climbs = self.climbset.climbs
+        self.climbset_grades = np.asarray([i.grade.grade_number for i in self.climbset.climbs])
+
         print(f"Training {str(self)}", end="", flush=True)
         start = time.time()
 
@@ -98,12 +97,19 @@ class Configuration:
         )
 
     def __repr__(self):
-        return (
-            f"Configuration: {self.model.name():<15} "
-            f"Climbset={self.climbset.year} "
-            f"X={type(self.y_preprocessing).__name__[:-12]:<13} "
-            f"Y={type(self.y_preprocessing).__name__[:-12]:<13} "
-        )
+        if hasattr(self.climbset, "year"):
+            return (
+                f"Configuration: {self.model.name():<15} "
+                f"Climbset={self.climbset.year} "
+                f"X={type(self.y_preprocessing).__name__[:-12]:<13} "
+                f"Y={type(self.y_preprocessing).__name__[:-12]:<13} "
+            )
+        else:
+            return (
+                f"Configuration: {self.model.name():<15} "
+                f"X={type(self.y_preprocessing).__name__[:-12]:<13} "
+                f"Y={type(self.y_preprocessing).__name__[:-12]:<13} "
+            )
 
     def sample(self, climbs):
         new_climbs = self.x_preprocessing.preprocess(climbs)
