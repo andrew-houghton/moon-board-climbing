@@ -75,7 +75,9 @@ def main(year):
 
     # Only keep test set for original climbs
     original_climbs = file_data["original"].climbs
-    _, test_climbs, _, _ = train_test_split(original_climbs, range(len(original_climbs)), test_size=0.2, random_state=42)
+    _, test_climbs, _, _ = train_test_split(
+        original_climbs, range(len(original_climbs)), test_size=0.2, random_state=42
+    )
     file_data["original"].climbs = test_climbs[:500]
 
     # Format the data for the website

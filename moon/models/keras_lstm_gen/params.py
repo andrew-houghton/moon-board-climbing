@@ -54,9 +54,7 @@ def train_model(parameters, climbset):
 
 def search():
     parameter_args = ParameterSpace().product()
-    hyper_parameter_combinations = [
-        Parameters(*args) for args in parameter_args
-    ]
+    hyper_parameter_combinations = [Parameters(*args) for args in parameter_args]
 
     print(f"Generated {len(hyper_parameter_combinations)} sets of parameters")
     train_func = partial(train_model, climbset=load_climbset("2016"))

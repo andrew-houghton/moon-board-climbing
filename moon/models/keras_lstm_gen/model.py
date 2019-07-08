@@ -23,9 +23,7 @@ class Model:
 
     def train(self, training_climbset, params):
         maxlen = params.max_climb_length
-        text, chars, char_indices, indices_char = self.prep_data(
-            training_climbset
-        )
+        text, chars, char_indices, indices_char = self.prep_data(training_climbset)
         # cut the text in semi-redundant sequences of maxlen characters
         step = 3
         sentences = []
@@ -44,14 +42,10 @@ class Model:
         print("Build model...")
         self.model = Sequential()
         assert len(params.num_lstm_cells) == 1
-        self.model.add(
-            LSTM(params.num_lstm_cells[0], input_shape=(maxlen, len(chars)))
-        )
+        self.model.add(LSTM(params.num_lstm_cells[0], input_shape=(maxlen, len(chars))))
         self.model.add(Dense(len(chars), activation="softmax"))
 
-        self.model.compile(
-            loss="categorical_crossentropy", optimizer=params.optimizer
-        )
+        self.model.compile(loss="categorical_crossentropy", optimizer=params.optimizer)
         return self.model.fit(
             x, y, batch_size=params.batch_size, epochs=params.epochs, validation_split=0.1
         )
@@ -71,16 +65,10 @@ class Model:
             return np.argmax(probas)
 
         def _generate_text():
-            text, chars, char_indices, indices_char = self.prep_data(
-                training_climbset
-            )
+            text, chars, char_indices, indices_char = self.prep_data(training_climbset)
 
-            start_index = random.randint(
-                0, len(text) - params.max_climb_length - 1
-            )
-            sentence = text[
-                start_index : start_index + params.max_climb_length
-            ]
+            start_index = random.randint(0, len(text) - params.max_climb_length - 1)
+            sentence = text[start_index : start_index + params.max_climb_length]
 
             while True:
                 x_pred = np.zeros((1, params.max_climb_length, len(chars)))

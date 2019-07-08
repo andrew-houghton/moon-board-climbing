@@ -6,10 +6,7 @@ from functools import partial
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-from moon.analytics.climb_preprocessor import (
-    HoldListPreprocessor,
-    OneHotPreprocessor,
-)
+from moon.analytics.climb_preprocessor import HoldListPreprocessor, OneHotPreprocessor
 from moon.analytics.grade_preprocessor import (
     CategoricalPreprocessor,
     FlandersPreprocessor,
@@ -17,12 +14,7 @@ from moon.analytics.grade_preprocessor import (
     SplitPreprocessor,
 )
 from moon.analytics.metrics import Metrics
-from moon.models import (
-    keras_lstm_grade,
-    keras_mlp,
-    random_forest,
-    xgboost_model,
-)
+from moon.models import keras_lstm_grade, keras_mlp, random_forest, xgboost_model
 from moon.types.climbset import Climbset
 from moon.utils.load_data import load_climbset
 
@@ -42,15 +34,11 @@ class Configuration:
     x_test: List[Climb] = None
     y_train: List[Grade] = None
     y_test: List[Grade] = None
-    split_function: Any = partial(
-        train_test_split, test_size=0.2, random_state=42
-    )
+    split_function: Any = partial(train_test_split, test_size=0.2, random_state=42)
 
     def __post_init__(self):
         self.climbset_climbs = self.climbset.climbs
-        self.climbset_grades = np.asarray(
-            [i.grade.grade_number for i in self.climbset.climbs]
-        )
+        self.climbset_grades = np.asarray([i.grade.grade_number for i in self.climbset.climbs])
 
     @staticmethod
     def report_headings():
@@ -128,11 +116,7 @@ class Configuration:
 
 def run_custom_model():
     for year in ("2016", "2017"):
-        cfg = Configuration(
-            random_forest.Model(),
-            load_climbset(year),
-            CategoricalPreprocessor(),
-        )
+        cfg = Configuration(random_forest.Model(), load_climbset(year), CategoricalPreprocessor())
         cfg.run()
         Configuration.report_headings()
         print(cfg.report())
@@ -143,19 +127,11 @@ def generate_all_valid_configurations():
     for year in ("2016", "2017"):
         # XGBoost
         configs.append(
-            Configuration(
-                xgboost_model.Model(),
-                load_climbset(year),
-                FlandersPreprocessor(),
-            )
+            Configuration(xgboost_model.Model(), load_climbset(year), FlandersPreprocessor())
         )
         # Random forest flanders proprocessor
         configs.append(
-            Configuration(
-                random_forest.Model(),
-                load_climbset(year),
-                FlandersPreprocessor(),
-            )
+            Configuration(random_forest.Model(), load_climbset(year), FlandersPreprocessor())
         )
 
         # Loop through categorical grade preprocessors
@@ -174,17 +150,9 @@ def generate_all_valid_configurations():
                 )
             )
             # MLP
-            configs.append(
-                Configuration(
-                    keras_mlp.Model(), load_climbset(year), preprocessor
-                )
-            )
+            configs.append(Configuration(keras_mlp.Model(), load_climbset(year), preprocessor))
             # Random forest
-            configs.append(
-                Configuration(
-                    random_forest.Model(), load_climbset(year), preprocessor
-                )
-            )
+            configs.append(Configuration(random_forest.Model(), load_climbset(year), preprocessor))
 
     print(f"Generated {len(configs)} configruations.")
     return configs
@@ -200,8 +168,6 @@ if __name__ == "__main__":
         cfg.run()
         reports.append(cfg.report())
 
-    print(
-        f"Completed training and sampling in {time.time() - program_start:.2f}s"
-    )
+    print(f"Completed training and sampling in {time.time() - program_start:.2f}s")
     Configuration.report_headings()
     print("\n".join(reports))
