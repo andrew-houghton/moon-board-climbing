@@ -20,9 +20,7 @@ def main(year):
     file_data = {"original": climbset, "lstm": sample}
 
     print(f"Saving {len(file_data)} climbsets")
-    pickle.dump(
-        file_data, open(local_file_path(__file__, f"{year}.pickle"), "wb")
-    )
+    pickle.dump(file_data, open(local_file_path(__file__, f"{year}.pickle"), "wb"))
 
 
 if __name__ == "__main__":
